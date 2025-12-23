@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Pinohub Landing Page Deployment Script (Integrated)
+# Liebre Landing Page Deployment Script (Integrated)
 # This script orchestrates the build and deployment phases into a single call
 # Usage: ./deploy.sh [stage] [region]
 # 
@@ -16,12 +16,9 @@ set -e  # Exit on any error
 
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_NAME="pinohub-landing"
+PROJECT_NAME="liebre-landing"
 DEFAULT_STAGE="dev"
 DEFAULT_REGION="us-east-1"
-
-# Set AWS Profile
-export AWS_PROFILE=pinohub
 
 # Parse command line arguments
 STAGE=${1:-$DEFAULT_STAGE}

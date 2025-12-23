@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Pinohub Landing Page Deployment Script (Post-Build)
+# Liebre Landing Page Deployment Script (Post-Build)
 # This script deploys the prepared artifacts to AWS
 # Usage: ./deploy-after-build.sh [stage] [region]
 # Prerequisites: Run ./build.sh first
@@ -10,12 +10,9 @@ set -e  # Exit on any error
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_DIR="$(dirname "$SCRIPT_DIR")/src"
-PROJECT_NAME="pinohub-landing"
+PROJECT_NAME="liebre-landing"
 DEFAULT_STAGE="dev"
 DEFAULT_REGION="us-east-1"
-
-# Set AWS Profile
-export AWS_PROFILE=pinohub
 
 # Parse command line arguments
 STAGE=${1:-$DEFAULT_STAGE}
@@ -91,30 +88,25 @@ check_build_artifacts() {
     log_success "=========================================="
 }
 
-# Check if AWS profile exists and is valid
-check_aws_profile() {
-    log_info "Checking AWS profile configuration..."
+# Check if AWS credentials are configured
+check_aws_credentials_config() {
+    log_info "Checking AWS credentials configuration..."
     
-    # Check if AWS_PROFILE is set
-    if [ -z "$AWS_PROFILE" ]; then
-        log_error "AWS_PROFILE is not set"
-        log_error "Please set AWS_PROFILE environment variable or configure it in the script"
-        return 1
-    fi
-    
-    log_info "AWS_PROFILE is set to: $AWS_PROFILE"
-    
-    # Test if the profile actually works by trying to get caller identity
-    log_info "Testing profile '$AWS_PROFILE' with AWS CLI..."
-    local test_output=$(aws sts get-caller-identity --profile "$AWS_PROFILE" 2>&1)
+    # Test if default credentials work by trying to get caller identity
+    log_info "Testing AWS credentials..."
+    local test_output=$(aws sts get-caller-identity 2>&1)
     local test_exit_code=$?
     
     if [ $test_exit_code -eq 0 ]; then
-        log_success "Profile '$AWS_PROFILE' is valid and working"
+        log_success "AWS credentials are valid and working"
         return 0
     else
-        log_error "Profile '$AWS_PROFILE' is not working"
+        log_error "AWS credentials are not configured or invalid"
         log_error "AWS CLI error output: $test_output"
+        log_error ""
+        log_error "Troubleshooting steps:"
+        log_error "1. Configure AWS credentials: aws configure"
+        log_error "2. Test credentials: aws sts get-caller-identity"
         return 1
     fi
 }
@@ -417,9 +409,9 @@ main() {
     # Run deployment steps
     check_build_artifacts
     
-    # Check AWS profile first (before credentials check)
-    if ! check_aws_profile; then
-        log_error "AWS profile validation failed"
+    # Check AWS credentials
+    if ! check_aws_credentials_config; then
+        log_error "AWS credentials validation failed"
         exit 1
     fi
     

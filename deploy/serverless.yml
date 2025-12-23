@@ -1,4 +1,4 @@
-service: pinohub-landing
+service: liebre-landing
 
 frameworkVersion: '4'
 
@@ -10,7 +10,7 @@ provider:
   runtime: provided.al2  # Not used, but required by Serverless Framework
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
-  stackName: pinohub-landing-${self:provider.stage}
+  stackName: liebre-landing-${self:provider.stage}
 
 # Custom configuration
 custom:
@@ -20,15 +20,15 @@ custom:
     handler: false
     mode: merge
   
-  # Pinohub domain configuration - values from main-infra SSM parameters
+  # Liebre domain configuration - values from main-infra SSM parameters
   # These are stage-agnostic since the hosted zone and certificate are shared across all environments
-  pinohubDomain: ${ssm:/pinohub/domain-name}
-  pinohubHostedZoneId: ${ssm:/pinohub/hosted-zone-id}
-  pinohubCertificateArn: ${ssm:/pinohub/certificate-arn}
+  liebreDomain: ${ssm:/liebre/domain-name}
+  liebreHostedZoneId: ${ssm:/liebre/hosted-zone-id}
+  liebreCertificateArn: ${ssm:/liebre/certificate-arn}
   
   # Subdomain configuration
   frontendSubdomain: landing-${self:provider.stage}
-  frontendDomain: ${self:custom.frontendSubdomain}.${self:custom.pinohubDomain}
+  frontendDomain: ${self:custom.frontendSubdomain}.${self:custom.liebreDomain}
   
   # S3 Bucket name with account ID
   websiteBucketName: ${self:service}-${self:provider.stage}-website-${aws:accountId}
@@ -143,16 +143,16 @@ resources:
               ResponsePagePath: /index.html
               ErrorCachingMinTTL: 0
           # Custom domain configuration using the ACM certificate from main-infra
-          # For production stage, also add root domain (pinohub.com)
+          # For production stage, also add root domain
           Aliases:
             Fn::If:
               - IsProduction
               - - ${self:custom.frontendDomain}
-                - ${self:custom.pinohubDomain}
+                - ${self:custom.liebreDomain}
               - - ${self:custom.frontendDomain}
           ViewerCertificate:
             # Certificate ARN is obtained from main-infra via SSM parameter
-            AcmCertificateArn: ${self:custom.pinohubCertificateArn}
+            AcmCertificateArn: ${self:custom.liebreCertificateArn}
             SslSupportMethod: sni-only
             MinimumProtocolVersion: TLSv1.2_2021
           Restrictions:
@@ -199,21 +199,21 @@ resources:
       Export:
         Name: ${self:service}-${self:provider.stage}-cloudfront-url
 
-    # Pinohub.com Frontend Domain URL (HTTPS)
-    PinohubFrontendUrl:
-      Description: "Full HTTPS URL for Pinohub.com frontend domain"
+    # Liebre Frontend Domain URL (HTTPS)
+    LiebreFrontendUrl:
+      Description: "Full HTTPS URL for Liebre frontend domain"
       Value:
         Fn::Join:
           - ""
           - - "https://"
             - ${self:custom.frontendDomain}
       Export:
-        Name: ${self:service}-${self:provider.stage}-pinohub-frontend-url
+        Name: ${self:service}-${self:provider.stage}-liebre-frontend-url
 
-    # Pinohub.com Frontend Domain Name
-    PinohubFrontendDomain:
-      Description: "Pinohub.com frontend domain name"
+    # Liebre Frontend Domain Name
+    LiebreFrontendDomain:
+      Description: "Liebre frontend domain name"
       Value: ${self:custom.frontendDomain}
       Export:
-        Name: ${self:service}-${self:provider.stage}-pinohub-frontend-domain
+        Name: ${self:service}-${self:provider.stage}-liebre-frontend-domain
 

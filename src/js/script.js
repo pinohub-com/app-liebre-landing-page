@@ -23,6 +23,7 @@ function initializeApp() {
     initFAQ();
     initExpandableCards();
     initVideoSlider();
+    initGaleria();
     updateFooterYear();
     logWelcomeMessage();
 }
@@ -574,6 +575,25 @@ function initServiceCards() {
 // ===================================
 // Dynamic Year in Footer
 // ===================================
+// ===================================
+// Galería de Proyectos
+// ===================================
+function initGaleria() {
+    const galeriaTrack = document.getElementById('galeria-track');
+    if (!galeriaTrack) return;
+
+    // El carrusel se mueve automáticamente con CSS animation
+    // Esta función puede usarse para agregar funcionalidad adicional si es necesario
+    const items = galeriaTrack.querySelectorAll('.galeria-item');
+    
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            // Aquí puedes agregar funcionalidad para abrir un modal o lightbox
+            console.log('Imagen clickeada');
+        });
+    });
+}
+
 function updateFooterYear() {
     const footerYear = document.querySelector('.footer-bottom p');
     if (footerYear) {
