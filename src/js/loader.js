@@ -15,18 +15,8 @@ const Loader = {
     sections: [
         { id: 'navbar-container', file: 'navbar.html' },
         { id: 'hero-container', file: 'hero.html' },
-        { id: 'quienes-somos-container', file: 'quienes-somos.html' },
-        { id: 'servicios-container', file: 'servicios.html' },
-        { id: 'soluciones-container', file: 'soluciones.html' },
-        { id: 'proceso-container', file: 'proceso.html' },
-        { id: 'estadisticas-container', file: 'estadisticas.html' },
-        { id: 'proyectos-container', file: 'proyectos.html' },
-        { id: 'oferta-container', file: 'oferta.html' },
-        { id: 'sobre-nosotros-container', file: 'sobre-nosotros.html' },
-        { id: 'faq-container', file: 'faq.html' },
-        { id: 'contacto-container', file: 'contacto.html' },
-        { id: 'footer-container', file: 'footer.html' },
-        { id: 'social-floating-container', file: 'social-floating.html' }
+        { id: 'features-container', file: 'features.html' },
+        { id: 'cta-container', file: 'cta.html' }
     ],
 
     /**
