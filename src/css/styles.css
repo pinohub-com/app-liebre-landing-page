@@ -92,11 +92,72 @@ body {
     font-weight: 500;
 }
 
+/* =================================
+   Paper Texture Background Utilities
+   ================================= */
+
+/* General paper texture for sections (repeatable tile) */
+.bg-paper {
+    background-color: #FBF7F4;
+    background-image: 
+        /* Subtle radial gradient to brighten center */
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 60%),
+        /* Subtle vignette/darken edges (very light) */
+        radial-gradient(ellipse at center, transparent 0%, rgba(229, 222, 210, 0.08) 100%),
+        /* Tile texture image repeated */
+        url('/artifacts/textures/paper-tile-1024.webp');
+    background-size: 
+        100% 100%,
+        100% 100%,
+        1024px 1024px;
+    background-position: center, center, 0 0;
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-attachment: scroll;
+    background-origin: border-box;
+    background-clip: border-box;
+    position: relative;
+    width: 100%;
+}
+
+/* Hero paper texture (single cover image) */
+.bg-paper-hero {
+    background-color: #FBF7F4;
+    background-image: 
+        /* Subtle overlay gradient for readability */
+        linear-gradient(135deg, rgba(251, 247, 244, 0.3) 0%, rgba(251, 247, 244, 0.1) 50%, rgba(229, 222, 210, 0.2) 100%),
+        /* Hero paper texture as cover */
+        url('/artifacts/textures/paper-hero-1920x1080.webp');
+    background-size: 
+        100% 100%,
+        cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: scroll;
+    position: relative;
+}
+
+/* Ensure no fixed attachment on mobile for performance */
+@media (max-width: 768px) {
+    .bg-paper,
+    .bg-paper-hero {
+        background-attachment: scroll;
+    }
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    position: relative;
 }
+
+/* Ensure containers in sections with paper texture are above the texture */
+.bg-paper .container,
+.bg-paper-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
 
 /* =================================
    Navigation
@@ -133,6 +194,23 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    position: relative;
+}
+
+/* Logo centered */
+.nav-container .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+/* Nav menu on the right */
+.nav-container .nav-menu {
+    margin-left: auto;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
 }
 
 .logo {
@@ -286,6 +364,18 @@ body {
     align-items: center;
 }
 
+/* Apply paper texture to hero wrapper */
+.hero-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
 .hero-wrapper {
     position: absolute;
     top: 0;
@@ -306,7 +396,7 @@ body {
     bottom: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: 1;
 }
 
 .hero-image {
@@ -784,7 +874,7 @@ body {
     text-align: center;
     margin-bottom: 4rem;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 /* Section Badge - Same style as Hero badge */
@@ -852,28 +942,22 @@ body {
    ================================= */
 .services {
     padding: 6rem 0;
-    background: #FBF7F4;
     position: relative;
     overflow: hidden;
+    z-index: 0;
 }
 
-/* Subtle background texture - matching Hero's softness */
-.services::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 30% 10%, rgba(251, 247, 244, 0.8) 0%, transparent 40%),
-        radial-gradient(circle at 70% 30%, rgba(229, 222, 210, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 50% 80%, rgba(245, 240, 235, 0.3) 0%, transparent 40%);
-    z-index: 0;
-    pointer-events: none;
+/* Ensure container and content are above paper texture */
+.services .container {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
 }
+
+/* Paper texture is now handled by .bg-paper class */
 
 /* Smooth smoky transition from Hero - matching the image's ethereal effect */
+/* This overlay blends the paper texture transition smoothly */
 .services-transition-overlay {
     position: absolute;
     top: -150px;
@@ -925,7 +1009,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 /* Desktop (>1024px): 4 columns */
@@ -1001,8 +1085,12 @@ body {
    ================================= */
 .tatuadores {
     padding: 6rem 0;
-    background: linear-gradient(180deg, #FBF7F4 0%, #E5DED2 50%, #FBF7F4 100%);
     position: relative;
+}
+
+/* If bg-paper is not applied, use gradient fallback */
+.tatuadores:not(.bg-paper):not(.bg-paper-hero) {
+    background: linear-gradient(180deg, #FBF7F4 0%, #E5DED2 50%, #FBF7F4 100%);
 }
 
 .tatuadores-grid {
@@ -1132,9 +1220,13 @@ body {
    ================================= */
 .galeria {
     padding: 6rem 0;
-    background: linear-gradient(180deg, #FBF7F4 0%, #E5DED2 50%, #FBF7F4 100%);
     position: relative;
     overflow: hidden;
+}
+
+/* If bg-paper is not applied, use gradient fallback */
+.galeria:not(.bg-paper):not(.bg-paper-hero) {
+    background: linear-gradient(180deg, #FBF7F4 0%, #E5DED2 50%, #FBF7F4 100%);
 }
 
 .galeria-container {
@@ -1431,7 +1523,7 @@ body {
     font-style: italic;
     font-size: 0.9375rem;
     position: relative;
-    z-index: 2;
+    z-index: 3;
     opacity: 0.85;
     font-weight: 400;
 }
@@ -1457,7 +1549,17 @@ body {
    ================================= */
 .technologies {
     padding: 6rem 0;
+}
+
+/* Technologies section has dark gradient - only apply if no bg-paper */
+.technologies:not(.bg-paper):not(.bg-paper-hero) {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+}
+
+/* If technologies has paper texture, override text colors */
+.technologies.bg-paper .section-title,
+.technologies.bg-paper .section-subtitle {
+    color: #232323;
 }
 
 .technologies .section-title,
@@ -1513,6 +1615,9 @@ body {
    ================================= */
 .projects {
     padding: 6rem 0;
+}
+
+.projects:not(.bg-paper):not(.bg-paper-hero) {
     background-color: var(--color-white);
 }
 
@@ -1624,6 +1729,9 @@ body {
    ================================= */
 .stats {
     padding: 4rem 0;
+}
+
+.stats:not(.bg-paper):not(.bg-paper-hero) {
     background-color: var(--color-light);
 }
 
@@ -1742,6 +1850,9 @@ body {
    ================================= */
 .contact {
     padding: 6rem 0;
+}
+
+.contact:not(.bg-paper):not(.bg-paper-hero) {
     background-color: var(--color-white);
 }
 
@@ -2072,6 +2183,9 @@ body {
    ================================= */
 .target-audience {
     padding: 6rem 0;
+}
+
+.target-audience:not(.bg-paper):not(.bg-paper-hero) {
     background-color: var(--color-white);
 }
 
@@ -2140,6 +2254,9 @@ body {
    ================================= */
 .solutions {
     padding: 6rem 0;
+}
+
+.solutions:not(.bg-paper):not(.bg-paper-hero) {
     background-color: var(--color-light);
 }
 
@@ -2273,6 +2390,9 @@ body {
    ================================= */
 .process {
     padding: 6rem 0;
+}
+
+.process:not(.bg-paper):not(.bg-paper-hero) {
     background-color: var(--color-white);
 }
 
@@ -2345,7 +2465,227 @@ body {
    Offer Section
    ================================= */
 .offer {
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* CTA Section with background image (similar to hero) */
+.cta-section {
+    min-height: 500px;
+    display: flex;
+    align-items: center;
     padding: 6rem 0;
+    position: relative;
+}
+
+.cta-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* Full-width Image Container */
+.cta-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.cta-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right center;
+    display: block;
+}
+
+/* Overlay para legibilidad - protege izquierda, mantiene derecha visible */
+.cta-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Gradiente que protege el lado izquierdo (donde va el texto) y mantiene derecha visible */
+    background: linear-gradient(
+        90deg,
+        rgba(251, 247, 244, 0.9) 0%,
+        rgba(251, 247, 244, 0.85) 25%,
+        rgba(251, 247, 244, 0.7) 40%,
+        rgba(251, 247, 244, 0.5) 55%,
+        rgba(251, 247, 244, 0.3) 70%,
+        rgba(251, 247, 244, 0.15) 85%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+}
+
+.cta-container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.cta-content {
+    max-width: 600px;
+    width: 100%;
+    text-align: left;
+    position: relative;
+    z-index: 4;
+    padding-left: 2rem;
+}
+
+.cta-title {
+    font-family: 'Bebas Neue', 'Oswald', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #232323;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    font-weight: 400;
+    margin: 0 0 1.5rem 0;
+    text-transform: uppercase;
+}
+
+.cta-subtitle {
+    font-family: 'Oswald', 'Montserrat', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: #2D2820;
+    line-height: 1.6;
+    font-weight: 500;
+    margin: 0 0 2rem 0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.cta-button-wrapper {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.cta-button {
+    font-size: 1.1rem;
+    padding: 1.2rem 2.5rem;
+}
+
+.cta-microcopy {
+    text-align: center;
+    color: #685D54;
+    font-size: 0.95rem;
+    margin: 0;
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* CTA Section Responsive */
+@media (max-width: 1024px) {
+    .cta-content {
+        max-width: 550px;
+        padding-left: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cta-section {
+        min-height: 450px;
+        padding: 4rem 0;
+    }
+
+    .cta-image {
+        object-position: right center;
+    }
+
+    .cta-container {
+        justify-content: center;
+        padding: 0 1.5rem;
+    }
+
+    .cta-content {
+        max-width: 100%;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .cta-image-overlay {
+        background: linear-gradient(
+            90deg,
+            rgba(251, 247, 244, 0.95) 0%,
+            rgba(251, 247, 244, 0.9) 30%,
+            rgba(251, 247, 244, 0.75) 50%,
+            rgba(251, 247, 244, 0.5) 65%,
+            rgba(251, 247, 244, 0.3) 80%,
+            transparent 100%
+        );
+    }
+}
+
+@media (max-width: 640px) {
+    .cta-section {
+        min-height: 400px;
+        padding: 3rem 0;
+    }
+
+    .cta-image {
+        object-position: right center;
+    }
+
+    .cta-container {
+        padding: 0 1rem;
+    }
+
+    .cta-content {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .cta-title {
+        font-size: clamp(1.75rem, 6vw, 2.25rem);
+    }
+
+    .cta-subtitle {
+        font-size: clamp(0.95rem, 3vw, 1.1rem);
+    }
+
+    .cta-button {
+        font-size: 1rem;
+        padding: 1rem 1.5rem;
+        width: 100%;
+    }
+
+    .cta-image-overlay {
+        background: linear-gradient(
+            90deg,
+            rgba(251, 247, 244, 0.98) 0%,
+            rgba(251, 247, 244, 0.95) 25%,
+            rgba(251, 247, 244, 0.85) 45%,
+            rgba(251, 247, 244, 0.7) 60%,
+            rgba(251, 247, 244, 0.5) 75%,
+            rgba(251, 247, 244, 0.3) 90%,
+            transparent 100%
+        );
+    }
+}
+
+.offer:not(.cta-section):not(.bg-paper):not(.bg-paper-hero) {
     background-color: var(--color-milk);
 }
 
@@ -2467,6 +2807,9 @@ body {
    ================================= */
 .about {
     padding: 6rem 0;
+}
+
+.about:not(.bg-paper):not(.bg-paper-hero) {
     background-color: var(--color-white);
 }
 
@@ -2741,6 +3084,9 @@ body {
    ================================= */
 .faq {
     padding: 6rem 0;
+}
+
+.faq:not(.bg-paper):not(.bg-paper-hero) {
     background-color: var(--color-light);
 }
 
@@ -3071,6 +3417,17 @@ body {
 
     .hamburger {
         display: flex;
+        position: absolute;
+        right: 20px;
+        z-index: 1001;
+    }
+
+    /* Logo stays centered on mobile */
+    .nav-container .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
     }
 
     .hamburger.active span:nth-child(1) {
