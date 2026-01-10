@@ -1,26 +1,32 @@
 <!-- Navigation -->
-<nav class="navbar" id="navbar">
+<nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
     <div class="container nav-container">
-        <div class="logo">
-            <img src="/artifacts/logo.svg" alt="Liebre">
-            <div class="logo-divider"></div>
-            <div class="logo-text">
-                <span>Liebre</span>
-            </div>
-        </div>
-        <ul class="nav-menu" id="nav-menu">
-            <li><a href="#inicio" class="nav-link">Para Artistas</a></li>
-            <li><a href="#clientes" class="nav-link">Para Clientes</a></li>
-            <li><a href="#cotizar" class="nav-link">Cotizar</a></li>
-            <li><a href="#ubicaciones" class="nav-link">Ubicaciones</a></li>
-            <li>
-                <a href="#ingresar" class="btn btn-secondary" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">Ingresar</a>
+        <a href="#inicio" class="logo" aria-label="Liebre - Inicio">
+            <img src="/artifacts/logo.svg" alt="Liebre Logo">
+        </a>
+        <ul class="nav-menu" id="nav-menu" role="menubar">
+            <li role="none">
+                <a href="#inicio" class="nav-link" role="menuitem">Para Artistas</a>
+            </li>
+            <li role="none">
+                <a href="#clientes" class="nav-link" role="menuitem">Para Clientes</a>
+            </li>
+            <li role="none">
+                <a href="#cotizar" class="nav-link" role="menuitem">Cotizar</a>
+            </li>
+            <li role="none">
+                <a href="#ubicaciones" class="nav-link" role="menuitem">Ubicaciones</a>
+            </li>
+            <li role="none" class="nav-cta-wrapper">
+                <a href="#ingresar" class="btn btn-nav-login" role="menuitem">
+                    Ingresar
+                </a>
             </li>
         </ul>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </button>
     </div>
 </nav>

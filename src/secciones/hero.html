@@ -1,21 +1,87 @@
 <!-- Hero Section -->
 <section class="hero" id="inicio">
-    <div class="container hero-content">
-        <div class="hero-text">
-            <h1 class="hero-title">Automatiza tus cotizaciones y gestiona tus citas sin perder tiempo</h1>
-            <p class="hero-subtitle">Centraliza cotizaciones, agenda, pagos y seguimiento de clientes en un solo lugar. Diseñado por y para tatuadores.</p>
-            <div class="hero-buttons">
-                <a href="#registro" class="btn btn-primary">Crear cuenta como tatuador</a>
-                <a href="#como-funciona" class="btn btn-secondary">Ver cómo funciona</a>
-            </div>
+    <div class="hero-wrapper">
+        <!-- Full-width Image Background -->
+        <div class="hero-image-container">
+            <img 
+                src="/artifacts/hero-background.png" 
+                alt="Tatuador trabajando con Liebre, herramienta de gestión para estudios de tatuajes" 
+                class="hero-image"
+                loading="eager"
+            >
+            <!-- Overlay solo en la parte derecha donde hay contenido visual -->
+            <div class="hero-image-overlay"></div>
         </div>
-        <div class="hero-image">
-            <div class="hero-image-placeholder" style="width: 100%; height: 400px; background: linear-gradient(135deg, #E5DED2 0%, #A39382 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #685D54; font-size: 4rem; box-shadow: 0 10px 40px rgba(104, 93, 84, 0.2);">
-                <i class="fas fa-paint-brush"></i>
+
+        <!-- Content overlay en la parte izquierda -->
+        <div class="container hero-container">
+            <div class="hero-content">
+                <!-- Badge -->
+                <div class="hero-badge">
+                    <span class="badge-text">Hecho para tatuadores</span>
+                </div>
+
+                <!-- Title with highlight -->
+                <h1 class="hero-title">
+                    Automatiza tus cotizaciones y gestiona tus citas <span class="highlight-text">sin perder tiempo</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="hero-subtitle">
+                    Centraliza cotizaciones, agenda, pagos y seguimiento de clientes en un solo lugar. Sin perder WhatsApps. Diseñado por y para tatuadores.
+                </p>
+
+                <!-- CTAs -->
+                <div class="hero-ctas">
+                    <a href="#registro" class="btn btn-primary">
+                        Crear cuenta como tatuador
+                    </a>
+                    <a href="#como-funciona" class="btn btn-secondary">
+                        Ver cómo funciona
+                    </a>
+                </div>
+
+                <!-- Microcopy -->
+                <p class="hero-microcopy">
+                    Gratis para empezar • Configuración en 3 minutos
+                </p>
+
+                <!-- Bullets -->
+                <ul class="hero-bullets" role="list">
+                    <li>
+                        <svg class="bullet-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Cotiza en minutos</span>
+                    </li>
+                    <li>
+                        <svg class="bullet-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Agenda + recordatorios</span>
+                    </li>
+                    <li>
+                        <svg class="bullet-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 1V3M12 21V23M23 12H21M3 12H1M19.7782 4.22183L18.364 5.63605M5.63604 18.364L4.22182 19.7782M19.7782 19.7782L18.364 18.364M5.63604 5.63605L4.22182 4.22183" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Pagos/anticipos por link</span>
+                    </li>
+                </ul>
+
+                <!-- Social Proof -->
+                <div class="hero-social-proof">
+                    <p class="social-proof-text">Usado por estudios y artistas independientes</p>
+                    <div class="social-proof-avatars" aria-label="Usuarios que confían en Liebre">
+                        <div class="avatar-placeholder" aria-hidden="true"></div>
+                        <div class="avatar-placeholder" aria-hidden="true"></div>
+                        <div class="avatar-placeholder" aria-hidden="true"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="scroll-indicator">
-        <i class="fas fa-chevron-down"></i>
-    </div>
+    <a href="#features" class="scroll-indicator" aria-label="Desplazarse hacia abajo">
+        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+    </a>
 </section>

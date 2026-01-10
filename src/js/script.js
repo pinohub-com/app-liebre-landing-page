@@ -35,20 +35,23 @@ function initNavigation() {
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
+    const navButtons = document.querySelectorAll('.nav-cta-wrapper .btn');
     
     if (!hamburger || !navMenu) return;
 
     // Toggle mobile menu
     hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
+        const isActive = hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
     });
 
     // Close mobile menu when clicking on a link
-    navLinks.forEach(link => {
+    [...navLinks, ...navButtons].forEach(link => {
         link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
         });
     });
 }
@@ -529,9 +532,9 @@ function initActiveNavigation() {
 function initParallax() {
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
-        const hero = document.querySelector('.hero-content');
-        if (hero) {
-            hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+        const heroImageContainer = document.querySelector('.hero-image-container');
+        if (heroImageContainer && scrolled < window.innerHeight) {
+            heroImageContainer.style.transform = `translateY(${scrolled * 0.2}px)`;
         }
     });
 }
