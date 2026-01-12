@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Liebre Landing Page Deployment Script (Post-Build)
+# Flou Info Landing Page Deployment Script (Post-Build)
 # This script deploys the prepared artifacts to AWS
 # Usage: ./deploy-after-build.sh [stage] [region]
 # Prerequisites: Run ./build.sh first
@@ -10,7 +10,7 @@ set -e  # Exit on any error
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_DIR="$(dirname "$SCRIPT_DIR")/src"
-PROJECT_NAME="liebre-landing"
+PROJECT_NAME="flou-info"
 DEFAULT_STAGE="dev"
 DEFAULT_REGION="us-east-1"
 

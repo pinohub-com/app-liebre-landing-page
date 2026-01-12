@@ -1,0 +1,6 @@
+{
+  "projectName": "flou",
+  "domain": "flou.ink",
+  "stackNamePrefix": "flou-main-infrastructure",
+  "ssmPrefix": "flou"
+}

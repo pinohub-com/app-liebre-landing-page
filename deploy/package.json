@@ -1,7 +1,7 @@
 {
-  "name": "liebre-landing-infrastructure",
+  "name": "flou-info-infrastructure",
   "version": "1.0.0",
-  "description": "Infrastructure for Liebre landing page - S3, CloudFront, and Route53",
+  "description": "Infrastructure for Flou info landing page - S3, CloudFront",
   "scripts": {
     "deploy": "serverless deploy",
     "deploy:dev": "serverless deploy --verbose --stage dev",

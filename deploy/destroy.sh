@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Liebre Landing Page Destruction Script
+# Flou Info Landing Page Destruction Script
 # This script removes all AWS resources created by the deployment
 # Usage: ./destroy.sh [stage] [region]
 
@@ -8,7 +8,7 @@ set -e  # Exit on any error
 
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_NAME="liebre-landing"
+PROJECT_NAME="flou-info"
 DEFAULT_STAGE="dev"
 DEFAULT_REGION="us-east-1"
 
@@ -265,7 +265,7 @@ cleanup_on_error() {
 
 # Main function
 main() {
-    log_header "LIEBRE LANDING PAGE DESTRUCTION"
+    log_header "FLOU INFO LANDING PAGE DESTRUCTION"
     
     # Change to script directory
     cd "$SCRIPT_DIR"

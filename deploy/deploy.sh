@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Liebre Landing Page Deployment Script (Integrated)
+# Flou Info Landing Page Deployment Script (Integrated)
 # This script orchestrates the build and deployment phases into a single call
 # Usage: ./deploy.sh [stage] [region]
 # 
@@ -16,7 +16,7 @@ set -e  # Exit on any error
 
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_NAME="liebre-landing"
+PROJECT_NAME="flou-info"
 DEFAULT_STAGE="dev"
 DEFAULT_REGION="us-east-1"
 

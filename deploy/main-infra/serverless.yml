@@ -1,0 +1,219 @@
+service: ${file(config.json):stackNamePrefix}
+
+frameworkVersion: '4'
+
+plugins:
+  - serverless-stack-output
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1  # Must be us-east-1 for CloudFront certificates
+  runtime: provided.al2  # Not used, but required by Serverless Framework
+  # Stack name is stage-agnostic since hosted zone and certificate are shared across all environments
+  stackName: ${file(config.json):stackNamePrefix}
+
+# Custom configuration
+custom:
+  # Load configuration from JSON file
+  config: ${file(config.json)}
+  domain: ${self:custom.config.domain}
+  ssmPrefix: ${self:custom.config.ssmPrefix}
+  projectName: ${self:custom.config.projectName}
+  # Serverless stack output plugin configuration
+  output:
+    file: .serverless/stack-output-${self:provider.stage}.json
+
+# No functions needed - CloudFormation automatically creates validation records
+# in Route 53 when HostedZoneId is specified in DomainValidationOptions
+functions: {}
+
+# Resources for shared domain infrastructure
+resources:
+  Resources:
+    # Route 53 Hosted Zone
+    # This is created ONCE and shared across all applications
+    HostedZone:
+      Type: AWS::Route53::HostedZone
+      Properties:
+        Name: ${self:custom.domain}
+        HostedZoneConfig:
+          Comment: Shared hosted zone for ${self:custom.domain} - used by all applications
+        Tags:
+          - Key: ManagedBy
+            Value: ServerlessFramework
+          - Key: Purpose
+            Value: SharedDomainInfrastructure
+
+    # ACM Certificate (must be in us-east-1 for CloudFront)
+    # Includes both root domain and wildcard (*.domain) to cover all subdomains
+    #
+    # IMPORTANT: DomainValidationOptions with HostedZoneId is NOT specified to avoid conflicts
+    # with existing validation records. If the certificate is already validated (via Porkbun),
+    # CloudFormation will use the existing certificate. If creating a new certificate, you'll need
+    # to create the validation CNAME records manually in Porkbun (not Route53).
+    #
+    # This approach prevents the "invalid set of changes" error when validation records already exist.
+    Certificate:
+      Type: AWS::CertificateManager::Certificate
+      DependsOn:
+        - HostedZone
+      Properties:
+        DomainName: ${self:custom.domain}
+        SubjectAlternativeNames:
+          - "*.${self:custom.domain}"
+        ValidationMethod: DNS
+        # DomainValidationOptions NOT specified - validation records must be created manually
+        # in Porkbun (or wherever DNS is managed) to avoid conflicts with existing records
+        Tags:
+          - Key: ManagedBy
+            Value: ServerlessFramework
+          - Key: Purpose
+            Value: SharedDomainInfrastructure
+
+    # SSM Parameters for domain configuration
+    # These are stage-agnostic since the hosted zone and certificate are shared across all environments
+    HostedZoneIdParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:custom.ssmPrefix}/hosted-zone-id
+        Type: String
+        Value: !Ref HostedZone
+        Description: Route 53 Hosted Zone ID for ${self:custom.domain} (shared across all stages)
+        Tags:
+          ManagedBy: ServerlessFramework
+          Purpose: SharedDomainInfrastructure
+
+    HostedZoneNameServersParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:custom.ssmPrefix}/hosted-zone-name-servers
+        Type: String
+        Value: !Join
+          - ', '
+          - !GetAtt HostedZone.NameServers
+        Description: Route 53 Name Servers for ${self:custom.domain} - Update these at domain registrar (comma-separated, shared across all stages)
+        Tags:
+          ManagedBy: ServerlessFramework
+          Purpose: SharedDomainInfrastructure
+
+    CertificateArnParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:custom.ssmPrefix}/certificate-arn
+        Type: String
+        Value: !Ref Certificate
+        Description: ACM Certificate ARN for ${self:custom.domain} (us-east-1) - Use in CloudFront (shared across all stages)
+        Tags:
+          ManagedBy: ServerlessFramework
+          Purpose: SharedDomainInfrastructure
+
+    DomainNameParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:custom.ssmPrefix}/domain-name
+        Type: String
+        Value: ${self:custom.domain}
+        Description: Domain name (${self:custom.domain}, shared across all stages)
+        Tags:
+          ManagedBy: ServerlessFramework
+          Purpose: SharedDomainInfrastructure
+
+    # SES Email Identity
+    # This allows sending emails from any address @domain (e.g., noreply@domain, support@domain)
+    # DKIM signing will be enabled automatically, and DKIM records can be added to Route 53 for better deliverability
+    SESIdentity:
+      Type: AWS::SES::EmailIdentity
+      DependsOn:
+        - HostedZone
+      Properties:
+        EmailIdentity: ${self:custom.domain}
+        DkimSigningAttributes:
+          # Use 2048-bit RSA keys for DKIM signing
+          NextSigningKeyLength: RSA_2048_BIT
+        Tags:
+          - Key: ManagedBy
+            Value: ServerlessFramework
+          - Key: Purpose
+            Value: SharedDomainInfrastructure
+
+    # SES Configuration Set for email tracking and reputation management
+    # Optional: Can be associated with the identity for better email analytics
+    SESConfigurationSet:
+      Type: AWS::SES::ConfigurationSet
+      Properties:
+        Name: ${self:custom.projectName}-domain-config-set
+        ReputationOptions:
+          ReputationMetricsEnabled: true
+        SendingOptions:
+          SendingEnabled: true
+        Tags:
+          - Key: ManagedBy
+            Value: ServerlessFramework
+          - Key: Purpose
+            Value: SharedDomainInfrastructure
+
+    # SSM Parameter for SES Identity ARN
+    SESIdentityArnParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:custom.ssmPrefix}/ses-identity-arn
+        Type: String
+        Value: !Ref SESIdentity
+        Description: SES Email Identity ARN for ${self:custom.domain} (shared across all stages)
+        Tags:
+          ManagedBy: ServerlessFramework
+          Purpose: SharedDomainInfrastructure
+
+    # SSM Parameter for SES Identity Name
+    SESIdentityNameParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:custom.ssmPrefix}/ses-identity-name
+        Type: String
+        Value: ${self:custom.domain}
+        Description: SES Email Identity name (${self:custom.domain}, shared across all stages)
+        Tags:
+          ManagedBy: ServerlessFramework
+          Purpose: SharedDomainInfrastructure
+
+  Outputs:
+    # Domain Outputs (stage-agnostic - shared across all environments)
+    HostedZoneId:
+      Description: "Route 53 Hosted Zone ID for ${self:custom.domain} (shared across all stages)"
+      Value: !Ref HostedZone
+      Export:
+        Name: ${self:service}-hosted-zone-id
+
+    HostedZoneNameServers:
+      Description: "Route 53 Name Servers for ${self:custom.domain} - Update these at domain registrar (shared across all stages)"
+      Value: !Join
+        - ', '
+        - !GetAtt HostedZone.NameServers
+      Export:
+        Name: ${self:service}-name-servers
+
+    CertificateArn:
+      Description: "ACM Certificate ARN for ${self:custom.domain} (us-east-1) - Use in CloudFront (shared across all stages)"
+      Value: !Ref Certificate
+      Export:
+        Name: ${self:service}-certificate-arn
+
+    DomainName:
+      Description: "Domain name (${self:custom.domain}, shared across all stages)"
+      Value: ${self:custom.domain}
+      Export:
+        Name: ${self:service}-domain-name
+
+    SESIdentityArn:
+      Description: "SES Email Identity ARN for ${self:custom.domain} (shared across all stages)"
+      Value: !Ref SESIdentity
+      Export:
+        Name: ${self:service}-ses-identity-arn
+
+    SESIdentityName:
+      Description: "SES Email Identity name (${self:custom.domain}, shared across all stages)"
+      Value: ${self:custom.domain}
+      Export:
+        Name: ${self:service}-ses-identity-name
+

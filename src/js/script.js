@@ -24,6 +24,7 @@ function initializeApp() {
     initExpandableCards();
     initVideoSlider();
     initGaleria();
+    initTatuadores();
     updateFooterYear();
     logWelcomeMessage();
 }
