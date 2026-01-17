@@ -19,6 +19,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_NAME="flou-info"
 DEFAULT_STAGE="dev"
 DEFAULT_REGION="us-east-1"
+AWS_PROFILE="pinohub"
 
 # Parse command line arguments
 STAGE=${1:-$DEFAULT_STAGE}
@@ -89,6 +90,7 @@ run_build_phase() {
     # Ensure environment variables are passed to build script
     export STAGE
     export REGION
+    export AWS_PROFILE
     
     if "$SCRIPT_DIR/build.sh" "$STAGE" "$REGION"; then
         log_success "✅ BUILD phase completed successfully"
@@ -107,6 +109,7 @@ run_deployment_phase() {
     # Ensure environment variables are passed to deploy script
     export STAGE
     export REGION
+    export AWS_PROFILE
     
     if "$SCRIPT_DIR/deploy-after-build.sh" "$STAGE" "$REGION"; then
         log_success "✅ DEPLOYMENT phase completed successfully"
@@ -135,7 +138,11 @@ main() {
     log_info "Starting integrated deployment of $PROJECT_NAME"
     log_info "Stage: $STAGE"
     log_info "Region: $REGION"
+    log_info "AWS Profile: $AWS_PROFILE"
     log_info "Working directory: $SCRIPT_DIR"
+    
+    # Set AWS profile for all AWS CLI commands
+    export AWS_PROFILE="$AWS_PROFILE"
     
     # Change to script directory
     cd "$SCRIPT_DIR"
@@ -222,8 +229,12 @@ show_help() {
     echo ""
     echo "Prerequisites:"
     echo "  - Node.js (>=18.0.0)"
-    echo "  - AWS CLI configured"
+    echo "  - AWS CLI configured with 'pinohub' profile"
     echo "  - Internet connection for dependency installation"
+    echo ""
+    echo "AWS Configuration:"
+    echo "  This script uses AWS profile 'pinohub' by default"
+    echo "  Configure it with: aws configure --profile pinohub"
 }
 
 # Handle command line arguments

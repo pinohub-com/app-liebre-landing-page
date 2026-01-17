@@ -20,15 +20,17 @@ custom:
     handler: false
     mode: merge
   
-  # Flou domain configuration - values from main-infra SSM parameters
+  # Liebre domain configuration - values from main-infra SSM parameters
   # These are stage-agnostic since the hosted zone and certificate are shared across all environments
-  flouDomain: ${ssm:/flou/domain-name}
-  flouHostedZoneId: ${ssm:/flou/hosted-zone-id}
-  flouCertificateArn: ${ssm:/flou/certificate-arn}
+  liebreDomain: ${ssm:/liebre/domain-name}
+  liebreHostedZoneId: ${ssm:/liebre/hosted-zone-id}
+  liebreCertificateArn: ${ssm:/liebre/certificate-arn}
   
   # Subdomain configuration - using fixed 'info' subdomain
   frontendSubdomain: info
-  frontendDomain: ${self:custom.frontendSubdomain}.${self:custom.flouDomain}
+  frontendDomain: ${self:custom.frontendSubdomain}.${self:custom.liebreDomain}
+  # Base domain (liebre.ink) - also available as alias
+  baseDomain: ${self:custom.liebreDomain}
   
   # S3 Bucket name with account ID
   websiteBucketName: ${self:service}-${self:provider.stage}-website-${aws:accountId}
@@ -143,12 +145,13 @@ resources:
               ResponsePagePath: /index.html
               ErrorCachingMinTTL: 0
           # Custom domain configuration using the ACM certificate from main-infra
-          # Using fixed 'info' subdomain (info.flou.ink)
+          # Using both base domain (liebre.ink) and subdomain (info.liebre.ink)
           Aliases:
+            - ${self:custom.baseDomain}
             - ${self:custom.frontendDomain}
           ViewerCertificate:
             # Certificate ARN is obtained from main-infra via SSM parameter
-            AcmCertificateArn: ${self:custom.flouCertificateArn}
+            AcmCertificateArn: ${self:custom.liebreCertificateArn}
             SslSupportMethod: sni-only
             MinimumProtocolVersion: TLSv1.2_2021
           Restrictions:
@@ -195,21 +198,21 @@ resources:
       Export:
         Name: ${self:service}-${self:provider.stage}-cloudfront-url
 
-    # Flou Frontend Domain URL (HTTPS)
-    FlouFrontendUrl:
-      Description: "Full HTTPS URL for Flou frontend domain"
+    # Liebre Frontend Domain URL (HTTPS)
+    LiebreFrontendUrl:
+      Description: "Full HTTPS URL for Liebre frontend domain"
       Value:
         Fn::Join:
           - ""
           - - "https://"
             - ${self:custom.frontendDomain}
       Export:
-        Name: ${self:service}-${self:provider.stage}-flou-frontend-url
+        Name: ${self:service}-${self:provider.stage}-liebre-frontend-url
 
-    # Flou Frontend Domain Name
-    FlouFrontendDomain:
-      Description: "Flou frontend domain name"
+    # Liebre Frontend Domain Name
+    LiebreFrontendDomain:
+      Description: "Liebre frontend domain name"
       Value: ${self:custom.frontendDomain}
       Export:
-        Name: ${self:service}-${self:provider.stage}-flou-frontend-domain
+        Name: ${self:service}-${self:provider.stage}-liebre-frontend-domain
 

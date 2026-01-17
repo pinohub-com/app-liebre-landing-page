@@ -1,2 +1,5 @@
 ./tattooers/
 src/tattooers/*/posts
+.serverless/
+build-artifacts/
+node_modules/

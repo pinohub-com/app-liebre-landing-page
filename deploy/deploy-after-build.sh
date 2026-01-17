@@ -92,29 +92,36 @@ check_build_artifacts() {
 check_aws_credentials_config() {
     log_info "Checking AWS credentials configuration..."
     
-    # Test if default credentials work by trying to get caller identity
+    # Use AWS profile from environment or default to pinohub
+    local aws_profile="${AWS_PROFILE:-pinohub}"
+    log_info "Using AWS profile: $aws_profile"
+    
+    # Test if credentials work by trying to get caller identity
     log_info "Testing AWS credentials..."
-    local test_output=$(aws sts get-caller-identity 2>&1)
+    local test_output=$(aws sts get-caller-identity --profile "$aws_profile" 2>&1)
     local test_exit_code=$?
     
     if [ $test_exit_code -eq 0 ]; then
         log_success "AWS credentials are valid and working"
         return 0
     else
-        log_error "AWS credentials are not configured or invalid"
+        log_error "AWS credentials are not configured or invalid for profile: $aws_profile"
         log_error "AWS CLI error output: $test_output"
         log_error ""
         log_error "Troubleshooting steps:"
-        log_error "1. Configure AWS credentials: aws configure"
-        log_error "2. Test credentials: aws sts get-caller-identity"
+        log_error "1. Configure AWS credentials: aws configure --profile $aws_profile"
+        log_error "2. Test credentials: aws sts get-caller-identity --profile $aws_profile"
         return 1
     fi
 }
 
 # Get AWS Account ID
 get_aws_account_id() {
+    # Use AWS profile from environment or default to pinohub
+    local aws_profile="${AWS_PROFILE:-pinohub}"
+    
     # Suppress stderr to avoid error messages in output
-    local caller_identity=$(aws sts get-caller-identity 2>/dev/null)
+    local caller_identity=$(aws sts get-caller-identity --profile "$aws_profile" 2>/dev/null)
     local exit_code=$?
     
     if [ $exit_code -ne 0 ] || [ -z "$caller_identity" ]; then
@@ -148,14 +155,18 @@ get_aws_account_id() {
 check_aws_credentials() {
     log_info "Checking AWS credentials..."
     
-    if ! aws sts get-caller-identity &> /dev/null; then
-        log_error "AWS credentials not configured or invalid"
+    # Use AWS profile from environment or default to pinohub
+    local aws_profile="${AWS_PROFILE:-pinohub}"
+    log_info "Using AWS profile: $aws_profile"
+    
+    if ! aws sts get-caller-identity --profile "$aws_profile" &> /dev/null; then
+        log_error "AWS credentials not configured or invalid for profile: $aws_profile"
         log_error "Please configure AWS credentials using:"
-        log_error "aws configure"
+        log_error "aws configure --profile $aws_profile"
         exit 1
     fi
     
-    local caller_identity=$(aws sts get-caller-identity)
+    local caller_identity=$(aws sts get-caller-identity --profile "$aws_profile")
     
     if command -v jq &> /dev/null; then
         local account_id=$(echo $caller_identity | jq -r '.Account')
@@ -183,11 +194,13 @@ deploy_service() {
     
     # Set environment variables for deployment
     export AWS_REGION="$REGION"
+    export AWS_PROFILE="${AWS_PROFILE:-pinohub}"
     
     # Deploy with error handling
     if serverless deploy \
         --stage "$STAGE" \
         --region "$REGION" \
+        --aws-profile "$AWS_PROFILE" \
         --verbose; then
         log_success "Deployment completed successfully"
     else
@@ -204,12 +217,13 @@ sync_website_to_s3() {
     
     # Try to get the S3 bucket name from serverless outputs first
     local bucket_name=""
+    local aws_profile="${AWS_PROFILE:-pinohub}"
     
     log_info "Step 1: Finding S3 bucket name..."
     
     # Method 1: Try serverless info command
     log_info "Method 1: Checking serverless info output..."
-    local serverless_output=$(serverless info --stage "$STAGE" --region "$REGION" 2>&1)
+    local serverless_output=$(serverless info --stage "$STAGE" --region "$REGION" --aws-profile "$aws_profile" 2>&1)
     bucket_name=$(echo "$serverless_output" | grep -o 'WebsiteBucketName: [^[:space:]]*' | cut -d' ' -f2)
     if [ -n "$bucket_name" ]; then
         log_success "Found bucket name from serverless info: $bucket_name"
@@ -220,9 +234,10 @@ sync_website_to_s3() {
     # Method 2: Try to find bucket in AWS
     if [ -z "$bucket_name" ]; then
         log_info "Method 2: Searching AWS for existing buckets..."
+        local aws_profile="${AWS_PROFILE:-pinohub}"
         local account_id=$(get_aws_account_id)
         if [ -n "$account_id" ]; then
-            local aws_buckets=$(aws s3api list-buckets --region "$REGION" --query "Buckets[?contains(Name, '${PROJECT_NAME}-${STAGE}-website-${account_id}')].Name" --output text 2>&1)
+            local aws_buckets=$(aws s3api list-buckets --region "$REGION" --profile "$aws_profile" --query "Buckets[?contains(Name, '${PROJECT_NAME}-${STAGE}-website-${account_id}')].Name" --output text 2>&1)
             bucket_name=$(echo "$aws_buckets" | head -1)
             if [ -n "$bucket_name" ] && [ "$bucket_name" != "None" ]; then
                 log_success "Found bucket name from AWS search: $bucket_name"
@@ -246,7 +261,8 @@ sync_website_to_s3() {
     
     # Check if bucket exists
     log_info "Step 2: Verifying bucket exists..."
-    if aws s3 ls "s3://$bucket_name" --region "$REGION" > /dev/null 2>&1; then
+    local aws_profile="${AWS_PROFILE:-pinohub}"
+    if aws s3 ls "s3://$bucket_name" --region "$REGION" --profile "$aws_profile" > /dev/null 2>&1; then
         log_success "Bucket exists and is accessible"
     else
         log_error "S3 bucket does not exist or is not accessible: $bucket_name"
@@ -280,8 +296,10 @@ sync_website_to_s3() {
     
     # Use s3 sync to upload all files
     # Set appropriate cache headers for different file types
+    local aws_profile="${AWS_PROFILE:-pinohub}"
     local sync_result=$(aws s3 sync "$source_dir" "s3://$bucket_name/" \
         --region "$REGION" \
+        --profile "$aws_profile" \
         --cache-control "public, max-age=31536000, immutable" \
         --exclude "*.html" \
         --exclude "build-info.json" \
@@ -299,6 +317,7 @@ sync_website_to_s3() {
                 --content-type "text/html; charset=utf-8" \
                 --cache-control "no-store, no-cache, must-revalidate, max-age=0" \
                 --region "$REGION" \
+                --profile "$aws_profile" \
                 >/dev/null 2>&1 || log_warning "Failed to upload HTML file: $relative_path"
         done
         
@@ -313,15 +332,17 @@ sync_website_to_s3() {
     # Get CloudFront distribution ID
     log_info "Step 5: Getting CloudFront distribution ID..."
     local distribution_id=""
+    local aws_profile="${AWS_PROFILE:-pinohub}"
     
     # Try to get from serverless outputs
-    local serverless_output=$(serverless info --stage "$STAGE" --region "$REGION" 2>&1)
+    local serverless_output=$(serverless info --stage "$STAGE" --region "$REGION" --aws-profile "$aws_profile" 2>&1)
     distribution_id=$(echo "$serverless_output" | grep -o 'CloudFrontDistributionId: [^[:space:]]*' | cut -d' ' -f2)
     
     if [ -z "$distribution_id" ]; then
         # Try to find distribution by tags or name pattern
         log_info "Searching for CloudFront distribution..."
-        local distributions=$(aws cloudfront list-distributions --query "DistributionList.Items[?Comment==\`CloudFront distribution for ${PROJECT_NAME}-${STAGE} static website\`].Id" --output text 2>&1)
+        local aws_profile="${AWS_PROFILE:-pinohub}"
+        local distributions=$(aws cloudfront list-distributions --profile "$aws_profile" --query "DistributionList.Items[?Comment==\`CloudFront distribution for ${PROJECT_NAME}-${STAGE} static website\`].Id" --output text 2>&1)
         distribution_id=$(echo "$distributions" | head -1)
     fi
     
@@ -330,10 +351,11 @@ sync_website_to_s3() {
         
         # Create CloudFront invalidation
         log_info "Step 6: Creating CloudFront invalidation..."
+        local aws_profile="${AWS_PROFILE:-pinohub}"
         local invalidation_result=$(aws cloudfront create-invalidation \
             --distribution-id "$distribution_id" \
             --paths "/*" \
-            --region "$REGION" \
+            --profile "$aws_profile" \
             2>&1)
         local invalidation_exit_code=$?
         
@@ -350,12 +372,13 @@ sync_website_to_s3() {
     
     # Get the CloudFront URL
     log_info "Step 7: Getting CloudFront URL..."
-    local cloudfront_url=$(serverless info --stage "$STAGE" --region "$REGION" 2>/dev/null | grep -o 'CloudFrontDistributionUrl: [^[:space:]]*' | cut -d' ' -f2)
+    local aws_profile="${AWS_PROFILE:-pinohub}"
+    local cloudfront_url=$(serverless info --stage "$STAGE" --region "$REGION" --aws-profile "$aws_profile" 2>/dev/null | grep -o 'CloudFrontDistributionUrl: [^[:space:]]*' | cut -d' ' -f2)
     if [ -n "$cloudfront_url" ]; then
         log_success "CloudFront URL: $cloudfront_url"
         log_info "✅ Your website is accessible via HTTPS at: $cloudfront_url"
     else
-        local cloudfront_domain=$(serverless info --stage "$STAGE" --region "$REGION" 2>/dev/null | grep -o 'CloudFrontDistributionDomain: [^[:space:]]*' | cut -d' ' -f2)
+        local cloudfront_domain=$(serverless info --stage "$STAGE" --region "$REGION" --aws-profile "$aws_profile" 2>/dev/null | grep -o 'CloudFrontDistributionDomain: [^[:space:]]*' | cut -d' ' -f2)
         if [ -n "$cloudfront_domain" ]; then
             cloudfront_url="https://$cloudfront_domain"
             log_success "CloudFront URL: $cloudfront_url"
@@ -374,10 +397,11 @@ sync_website_to_s3() {
 get_deployment_info() {
     log_info "Retrieving deployment information..."
     
+    local aws_profile="${AWS_PROFILE:-pinohub}"
     # Get CloudFront URL
-    local cloudfront_url=$(serverless info --stage "$STAGE" --region "$REGION" 2>/dev/null | grep -o 'CloudFrontDistributionUrl: [^[:space:]]*' | cut -d' ' -f2)
+    local cloudfront_url=$(serverless info --stage "$STAGE" --region "$REGION" --aws-profile "$aws_profile" 2>/dev/null | grep -o 'CloudFrontDistributionUrl: [^[:space:]]*' | cut -d' ' -f2)
     if [ -z "$cloudfront_url" ]; then
-        local cloudfront_domain=$(serverless info --stage "$STAGE" --region "$REGION" 2>/dev/null | grep -o 'CloudFrontDistributionDomain: [^[:space:]]*' | cut -d' ' -f2)
+        local cloudfront_domain=$(serverless info --stage "$STAGE" --region "$REGION" --aws-profile "$aws_profile" 2>/dev/null | grep -o 'CloudFrontDistributionDomain: [^[:space:]]*' | cut -d' ' -f2)
         if [ -n "$cloudfront_domain" ]; then
             cloudfront_url="https://$cloudfront_domain"
         fi
@@ -390,7 +414,7 @@ get_deployment_info() {
     fi
     
     # Get S3 bucket name
-    local bucket_name=$(serverless info --stage "$STAGE" --region "$REGION" 2>/dev/null | grep -o 'WebsiteBucketName: [^[:space:]]*' | cut -d' ' -f2)
+    local bucket_name=$(serverless info --stage "$STAGE" --region "$REGION" --aws-profile "$aws_profile" 2>/dev/null | grep -o 'WebsiteBucketName: [^[:space:]]*' | cut -d' ' -f2)
     if [ -n "$bucket_name" ]; then
         log_success "S3 Bucket: $bucket_name"
     fi

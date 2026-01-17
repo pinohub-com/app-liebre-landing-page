@@ -126,22 +126,26 @@ install_dependencies() {
 check_aws_credentials() {
     log_info "Checking AWS credentials configuration..."
     
-    # Test if default credentials work by trying to get caller identity
+    # Use AWS profile from environment or default to pinohub
+    local aws_profile="${AWS_PROFILE:-pinohub}"
+    log_info "Using AWS profile: $aws_profile"
+    
+    # Test if credentials work by trying to get caller identity
     log_info "Testing AWS credentials..."
-    local test_output=$(aws sts get-caller-identity 2>&1)
+    local test_output=$(aws sts get-caller-identity --profile "$aws_profile" 2>&1)
     local test_exit_code=$?
     
     if [ $test_exit_code -eq 0 ]; then
         log_success "AWS credentials are valid and working"
         return 0
     else
-        log_error "AWS credentials are not configured or invalid"
+        log_error "AWS credentials are not configured or invalid for profile: $aws_profile"
         log_error "AWS CLI error output: $test_output"
         log_error ""
         log_error "Troubleshooting steps:"
-        log_error "1. Configure AWS credentials: aws configure"
-        log_error "2. Test credentials: aws sts get-caller-identity"
-        log_error "3. Verify credentials: aws configure list"
+        log_error "1. Configure AWS credentials: aws configure --profile $aws_profile"
+        log_error "2. Test credentials: aws sts get-caller-identity --profile $aws_profile"
+        log_error "3. Verify credentials: aws configure list --profile $aws_profile"
         return 1
     fi
 }
