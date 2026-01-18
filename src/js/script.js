@@ -209,14 +209,42 @@ function initVideoSlider() {
 // ===================================
 function initScrollEffects() {
     const navbar = document.getElementById('navbar');
+    const hero = document.querySelector('.hero');
     
-    window.addEventListener('scroll', () => {
-        if (navbar && window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-        } else if (navbar) {
-            navbar.classList.remove('scrolled');
+    function handleScroll() {
+        const scrollY = window.scrollY;
+        const isAtTop = scrollY <= 50;
+        
+        // Manejar clase scrolled del navbar
+        if (navbar) {
+            if (scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         }
-    });
+        
+        // Ajustar padding-top del hero dinámicamente
+        if (hero && navbar) {
+            const navbarHeight = navbar.offsetHeight;
+            // Cuando estamos en el top, dar más espacio para evitar que se oculte el contenido
+            if (isAtTop) {
+                // Altura del navbar + espacio adicional
+                hero.style.paddingTop = `${navbarHeight + 40}px`;
+            } else {
+                // Cuando hay scroll, podemos reducir un poco pero mantener espacio seguro
+                const scrolledNavbarHeight = navbar.classList.contains('scrolled') ? 
+                    (navbar.offsetHeight + 20) : navbarHeight + 20;
+                hero.style.paddingTop = `${scrolledNavbarHeight}px`;
+            }
+        }
+    }
+    
+    // Ejecutar al cargar para establecer el valor inicial
+    handleScroll();
+    
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
 
     // Smooth Scrolling for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

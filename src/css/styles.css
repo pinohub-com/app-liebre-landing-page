@@ -170,7 +170,8 @@ body {
     background: rgba(251, 247, 244, 0.3);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    padding: 0.25rem 0;
+    padding: 0.5rem 0;
+    min-height: 66px;
     z-index: 1000;
     transition: var(--transition);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.02);
@@ -178,7 +179,8 @@ body {
 }
 
 .navbar.scrolled {
-    padding: 0.2rem 0;
+    padding: 0.4rem 0;
+    min-height: 60px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     background: rgba(251, 247, 244, 0.4);
     backdrop-filter: blur(24px) saturate(180%);
@@ -194,7 +196,9 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    min-height: 56px;
     position: relative;
+    padding: 0 20px;
 }
 
 /* Logo centered */
@@ -357,25 +361,15 @@ body {
 .hero {
     position: relative;
     min-height: 100vh;
-    padding-top: 100px;
+    padding-top: 120px;
     padding-bottom: 6rem;
     overflow: hidden;
     display: flex;
     align-items: center;
+    transition: padding-top 0.3s ease;
 }
 
 /* Apply paper texture to hero wrapper */
-.hero-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
 .hero-wrapper {
     position: absolute;
     top: 0;
@@ -440,7 +434,7 @@ body {
     height: 100%;
     display: flex;
     align-items: flex-start;
-    padding-top: 2rem;
+    padding-top: 1rem;
 }
 
 /* Content positioned on the left side (where the image has white space) */
@@ -453,7 +447,7 @@ body {
     position: relative;
     z-index: 3;
     padding: 0;
-    margin-top: 1rem;
+    margin-top: 0;
 }
 
 /* Mobile: reorder to text → CTAs → bullets → image */
@@ -514,7 +508,7 @@ body {
     display: inline-flex;
     align-items: center;
     width: fit-content;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
@@ -1007,7 +1001,7 @@ body {
     }
 }
 
-/* Mobile (<640px): 1 column, icon+title in row */
+/* Mobile (<640px): 1 column, icon+title centered */
 @media (max-width: 640px) {
     .services-grid {
         grid-template-columns: 1fr;
@@ -1016,8 +1010,9 @@ body {
     
     .service-card {
         padding: 1.5rem;
-        flex-direction: row;
-        align-items: flex-start;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
         gap: 1rem;
         height: auto;
     }
@@ -1025,6 +1020,9 @@ body {
     .service-icon-wrapper {
         margin-bottom: 0;
         flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        width: 100%;
     }
     
     .service-image-container {
@@ -1039,12 +1037,15 @@ body {
         margin-bottom: 0.5rem;
         min-height: auto;
         -webkit-line-clamp: 2;
+        text-align: center;
+        width: 100%;
     }
     
     .service-card p {
         font-size: 0.875rem;
         line-height: 1.5;
         -webkit-line-clamp: 2;
+        text-align: center;
     }
     
     .section-header {
@@ -3516,6 +3517,21 @@ body {
    Responsive Design
    ================================= */
 @media (max-width: 968px) {
+    .navbar {
+        padding: 0.5rem 0;
+        min-height: 66px;
+    }
+
+    .navbar.scrolled {
+        padding: 0.4rem 0;
+        min-height: 60px;
+    }
+
+    .nav-container {
+        padding: 0 16px;
+        min-height: 56px;
+    }
+
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -3539,7 +3555,7 @@ body {
     .hamburger {
         display: flex;
         position: absolute;
-        right: 20px;
+        right: 16px;
         z-index: 1001;
     }
 
@@ -3549,6 +3565,14 @@ body {
         left: 50%;
         transform: translateX(-50%);
         z-index: 1;
+    }
+
+    .logo img {
+        height: 48px;
+    }
+
+    .navbar.scrolled .logo img {
+        height: 44px;
     }
 
     .hamburger.active span:nth-child(1) {
@@ -3563,11 +3587,63 @@ body {
         transform: rotate(45deg) translate(-5px, -6px);
     }
 
+    /* Hero section maintains overlay structure on mobile */
+    .hero {
+        padding-top: 100px;
+        min-height: 650px;
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .hero-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .hero-image-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .hero-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center right;
+        display: block;
+    }
+
+    .hero-image-overlay {
+        z-index: 1;
+        opacity: 0.85;
+        visibility: visible;
+        pointer-events: none;
+    }
+
+    .hero-container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+    }
+
     /* Hero Content responsive */
     .hero-content {
         max-width: 100%;
         text-align: left;
         padding: 1rem 0;
+        position: relative;
+        z-index: 3;
     }
 
     .hero-title {
@@ -3590,16 +3666,34 @@ body {
         text-align: center;
     }
 
-    /* Overlay más fuerte en mobile para legibilidad */
+    /* Overlay ajustado en mobile - gradiente horizontal más sutil para ver la imagen */
     .hero-image-overlay {
         background: linear-gradient(
-            180deg,
-            rgba(251, 247, 244, 0.85) 0%,
-            rgba(251, 247, 244, 0.75) 30%,
-            rgba(251, 247, 244, 0.65) 50%,
-            rgba(229, 222, 210, 0.7) 70%,
-            rgba(229, 222, 210, 0.75) 100%
+            90deg,
+            rgba(251, 247, 244, 0) 0%,
+            rgba(251, 247, 244, 0) 40%,
+            rgba(251, 247, 244, 0.1) 50%,
+            rgba(251, 247, 244, 0.25) 60%,
+            rgba(251, 247, 244, 0.4) 70%,
+            rgba(229, 222, 210, 0.5) 85%,
+            rgba(229, 222, 210, 0.6) 100%
         );
+        opacity: 0.85;
+    }
+
+    /* Botón secundario con mejor contraste en mobile */
+    .hero-ctas .btn-secondary {
+        background-color: rgba(251, 247, 244, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: #685D54;
+        border-color: #685D54;
+        box-shadow: 0 2px 8px rgba(104, 93, 84, 0.2);
+    }
+
+    .hero-ctas .btn-secondary:hover {
+        background-color: rgba(104, 93, 84, 0.9);
+        color: var(--color-white);
     }
 
     .contact-content {
@@ -3658,8 +3752,14 @@ body {
 
 @media (max-width: 1024px) and (min-width: 641px) {
     /* Tablet: 60/40 layout */
+    .hero {
+        min-height: 100vh;
+        overflow: visible;
+    }
+
     .hero-container {
         padding: 0 2rem;
+        height: 100%;
     }
 
     .hero-content {
@@ -3678,28 +3778,112 @@ body {
         flex-wrap: nowrap;
     }
 
+    .hero-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+    }
+
     .hero-image-container {
         position: absolute;
+        top: 0;
+        left: 0;
         right: 0;
-        width: 40%;
+        bottom: 0;
+        width: 100%;
         height: 100%;
     }
 
     .hero-image {
-        object-position: center right;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: right center;
+    }
+
+    .hero-image-overlay {
+        z-index: 1;
     }
 }
 
 @media (max-width: 768px) {
+    .navbar {
+        padding: 0.5rem 0;
+        min-height: 66px;
+    }
+
+    .navbar.scrolled {
+        padding: 0.4rem 0;
+        min-height: 60px;
+    }
+
+    .nav-container {
+        padding: 0 16px;
+        min-height: 56px;
+    }
+
+    .logo img {
+        height: 48px;
+    }
+
+    .navbar.scrolled .logo img {
+        height: 44px;
+    }
+
     .hero {
-        padding-top: 100px;
+        padding-top: 110px;
         padding-bottom: 4rem;
+        min-height: 750px;
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .hero-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .hero-image-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .hero-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center right;
+        display: block;
+    }
+
+    .hero-image-overlay {
+        z-index: 1;
     }
 
     .hero-container {
         padding: 0 1.5rem;
         padding-top: 1.5rem;
         align-items: flex-start;
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
     }
 
     .hero-content {
@@ -3707,6 +3891,8 @@ body {
         padding: 0;
         max-width: 100%;
         margin-top: 0.5rem;
+        position: relative;
+        z-index: 3;
     }
 
     .hero-title {
@@ -3746,9 +3932,27 @@ body {
         font-size: 0.8125rem;
     }
 
-    /* Activar glass effect en mobile si es necesario */
+    /* Glass effect más transparente en mobile para ver mejor la imagen */
     .hero-content::before {
-        opacity: 0.9;
+        opacity: 0.45;
+        background: rgba(251, 247, 244, 0.45);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+
+    /* Botón secundario con mejor contraste en mobile */
+    .hero-ctas .btn-secondary {
+        background-color: rgba(251, 247, 244, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: #685D54;
+        border-color: #685D54;
+        box-shadow: 0 2px 8px rgba(104, 93, 84, 0.2);
+    }
+
+    .hero-ctas .btn-secondary:hover {
+        background-color: rgba(104, 93, 84, 0.9);
+        color: var(--color-white);
     }
 
     .stats-grid {
@@ -3769,23 +3973,75 @@ body {
 }
 
 @media (max-width: 640px) {
+    .navbar {
+        padding: 0.5rem 0;
+        min-height: 66px;
+    }
+
+    .navbar.scrolled {
+        padding: 0.4rem 0;
+        min-height: 60px;
+    }
+
+    .nav-container {
+        padding: 0 12px;
+        min-height: 56px;
+    }
+
+    .logo img {
+        height: 44px;
+    }
+
+    .navbar.scrolled .logo img {
+        height: 40px;
+    }
+
     .hero {
         padding-top: 100px;
         padding-bottom: 3rem;
-        min-height: auto;
+        min-height: 800px;
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .hero-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .hero-image-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
     }
 
     .hero-container {
         padding: 0 1rem;
-        padding-top: 1rem;
+        padding-top: 0.5rem;
         align-items: flex-start;
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
     }
 
     .hero-content {
         gap: 1rem;
         padding: 0;
         max-width: 100%;
-        margin-top: 0.5rem;
+        margin-top: 0.25rem;
+        position: relative;
+        z-index: 3;
         /* Order: text → CTAs → bullets → image (image handled by wrapper) */
     }
 
@@ -3871,38 +4127,108 @@ body {
         border-width: 2px;
     }
 
-    /* Image wrapper order and fixed height */
+    /* Image wrapper stays absolute to maintain overlay */
     .hero-wrapper {
-        position: relative;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
     }
 
     .hero-image-container {
-        position: relative;
-        height: 280px;
-        min-height: 280px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
     }
 
     .hero-image {
-        height: 280px;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         object-position: center right;
+        display: block;
+        opacity: 1;
+        visibility: visible;
     }
 
-    /* Overlay más fuerte en mobile pequeño para mejor legibilidad */
+    .hero-image-overlay {
+        z-index: 1;
+        opacity: 0.9;
+        visibility: visible;
+        pointer-events: none;
+    }
+
+    /* Hero section needs minimum height in mobile to show content over image */
+    .hero {
+        padding-top: 85px;
+        min-height: 800px;
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    /* Ensure hero-container stays positioned over image */
+    .hero-container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-top: 0.5rem;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 3;
+        margin-top: 0.25rem;
+    }
+
+    /* Overlay ajustado en mobile - gradiente horizontal más sutil para ver la imagen */
     .hero-image-overlay {
         background: linear-gradient(
-            180deg,
-            rgba(251, 247, 244, 0.85) 0%,
-            rgba(251, 247, 244, 0.75) 30%,
-            rgba(251, 247, 244, 0.7) 50%,
-            rgba(229, 222, 210, 0.7) 70%,
-            rgba(229, 222, 210, 0.65) 100%
+            90deg,
+            rgba(251, 247, 244, 0) 0%,
+            rgba(251, 247, 244, 0) 40%,
+            rgba(251, 247, 244, 0.1) 50%,
+            rgba(251, 247, 244, 0.25) 60%,
+            rgba(251, 247, 244, 0.4) 70%,
+            rgba(229, 222, 210, 0.5) 85%,
+            rgba(229, 222, 210, 0.6) 100%
         );
+        opacity: 0.85;
     }
 
-    /* Activar glass effect en mobile pequeño */
+    /* Glass effect más transparente en mobile para ver mejor la imagen */
     .hero-content::before {
-        opacity: 0.95;
+        opacity: 0.75;
+        background: rgba(251, 247, 244, 0.4);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+
+    /* Botón secundario con mejor contraste en mobile */
+    .hero-ctas .btn-secondary {
+        background-color: rgba(251, 247, 244, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: #685D54;
+        border-color: #685D54;
+        box-shadow: 0 2px 8px rgba(104, 93, 84, 0.2);
+    }
+
+    .hero-ctas .btn-secondary:hover {
+        background-color: rgba(104, 93, 84, 0.9);
+        color: var(--color-white);
     }
 
     .scroll-indicator {
