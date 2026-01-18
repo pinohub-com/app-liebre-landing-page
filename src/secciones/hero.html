@@ -3,12 +3,15 @@
     <div class="hero-wrapper">
         <!-- Full-width Image Background -->
         <div class="hero-image-container">
-            <img 
-                src="/artifacts/hero-background.png" 
-                alt="Tatuador trabajando con Liebre, herramienta de gestión para estudios de tatuajes" 
-                class="hero-image"
-                loading="eager"
-            >
+            <picture>
+                <source media="(max-width: 968px)" srcset="/artifacts/mobile_background.PNG">
+                <img 
+                    src="/artifacts/hero-background.png" 
+                    alt="Tatuador trabajando con Liebre, herramienta de gestión para estudios de tatuajes" 
+                    class="hero-image"
+                    loading="eager"
+                >
+            </picture>
             <!-- Overlay solo en la parte derecha donde hay contenido visual -->
             <div class="hero-image-overlay"></div>
         </div>

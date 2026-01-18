@@ -105,7 +105,7 @@ body {
         /* Subtle vignette/darken edges (very light) */
         radial-gradient(ellipse at center, transparent 0%, rgba(229, 222, 210, 0.08) 100%),
         /* Tile texture image repeated */
-        url('/artifacts/textures/paper-tile-1024.webp');
+        url('/artifacts/textures/width.jpeg');
     background-size: 
         100% 100%,
         100% 100%,
@@ -126,7 +126,7 @@ body {
         /* Subtle overlay gradient for readability */
         linear-gradient(135deg, rgba(251, 247, 244, 0.3) 0%, rgba(251, 247, 244, 0.1) 50%, rgba(229, 222, 210, 0.2) 100%),
         /* Hero paper texture as cover */
-        url('/artifacts/textures/paper-hero-1920x1080.webp');
+        url('/artifacts/textures/width.jpeg');
     background-size: 
         100% 100%,
         cover;
@@ -171,7 +171,7 @@ body {
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     padding: 0.5rem 0;
-    min-height: 66px;
+    min-height: 56px;
     z-index: 1000;
     transition: var(--transition);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.02);
@@ -180,7 +180,7 @@ body {
 
 .navbar.scrolled {
     padding: 0.4rem 0;
-    min-height: 60px;
+    min-height: 50px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     background: rgba(251, 247, 244, 0.4);
     backdrop-filter: blur(24px) saturate(180%);
@@ -196,7 +196,7 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    min-height: 56px;
+    min-height: 40px;
     position: relative;
     padding: 0 20px;
 }
@@ -366,7 +366,6 @@ body {
     overflow: hidden;
     display: flex;
     align-items: center;
-    transition: padding-top 0.3s ease;
 }
 
 /* Apply paper texture to hero wrapper */
@@ -434,7 +433,7 @@ body {
     height: 100%;
     display: flex;
     align-items: flex-start;
-    padding-top: 1rem;
+    padding-top: 0;
 }
 
 /* Content positioned on the left side (where the image has white space) */
@@ -508,6 +507,7 @@ body {
     display: inline-flex;
     align-items: center;
     width: fit-content;
+    max-width: 50%;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
@@ -540,6 +540,7 @@ body {
     margin: 0;
     max-width: 580px;
     text-transform: uppercase;
+    padding-top: 96px;
 }
 
 .highlight-text {
@@ -654,7 +655,7 @@ body {
 
 .btn {
     font-family: 'Oswald', 'Montserrat', sans-serif;
-    padding: 1rem 2rem;
+    padding: 0.64rem 2rem;
     border: none;
     border-radius: var(--border-radius);
     font-size: 1rem;
@@ -671,7 +672,7 @@ body {
     background: var(--gradient-accent);
     color: var(--color-white);
     font-weight: 600;
-    padding: 1.125rem 2rem;
+    padding: 0.72rem 2rem;
     box-shadow: 0 4px 15px rgba(104, 93, 84, 0.25), 0 2px 8px rgba(104, 93, 84, 0.15);
     position: relative;
     overflow: hidden;
@@ -712,7 +713,7 @@ body {
     background-color: transparent;
     color: #685D54;
     border: 2px solid #685D54;
-    padding: 1.125rem 2rem;
+    padding: 0.72rem 2rem;
     position: relative;
     overflow: hidden;
 }
@@ -1001,19 +1002,19 @@ body {
     }
 }
 
-/* Mobile (<640px): 1 column, icon+title centered */
+/* Mobile (<640px): 2 columns, icon+title centered */
 @media (max-width: 640px) {
     .services-grid {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
     
     .service-card {
-        padding: 1.5rem;
+        padding: 1rem;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 1rem;
+        gap: 0.75rem;
         height: auto;
     }
     
@@ -1381,7 +1382,7 @@ body {
         /* Subtle radial gradient */
         radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
         /* Paper texture tile */
-        url('/artifacts/textures/paper-tile-1024.webp');
+        url('/artifacts/textures/width.jpeg');
     background-size: 
         100% 100%,
         512px 512px;
@@ -3519,17 +3520,17 @@ body {
 @media (max-width: 968px) {
     .navbar {
         padding: 0.5rem 0;
-        min-height: 66px;
+        min-height: 56px;
     }
 
     .navbar.scrolled {
         padding: 0.4rem 0;
-        min-height: 60px;
+        min-height: 50px;
     }
 
     .nav-container {
         padding: 0 16px;
-        min-height: 56px;
+        min-height: 40px;
     }
 
     .nav-menu {
@@ -3618,15 +3619,15 @@ body {
     .hero-image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        object-position: center right;
+        object-fit: contain;
+        object-position: center center;
         display: block;
     }
 
     .hero-image-overlay {
         z-index: 1;
-        opacity: 0.85;
-        visibility: visible;
+        opacity: 0;
+        visibility: hidden;
         pointer-events: none;
     }
 
@@ -3648,37 +3649,31 @@ body {
 
     .hero-title {
         max-width: 100%;
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 
     .hero-subtitle {
-        max-width: 100%;
+        max-width: 50%;
+        font-size: clamp(0.8rem, 2.4vw, 1rem);
     }
 
     .hero-ctas {
         flex-direction: column;
-        width: 100%;
+        width: 50%;
     }
 
     .hero-ctas .btn {
         width: 100%;
         justify-content: center;
         text-align: center;
+        font-size: 0.8rem;
     }
 
-    /* Overlay ajustado en mobile - gradiente horizontal más sutil para ver la imagen */
+    /* Overlay desactivado en mobile para ver la imagen al 100% */
     .hero-image-overlay {
-        background: linear-gradient(
-            90deg,
-            rgba(251, 247, 244, 0) 0%,
-            rgba(251, 247, 244, 0) 40%,
-            rgba(251, 247, 244, 0.1) 50%,
-            rgba(251, 247, 244, 0.25) 60%,
-            rgba(251, 247, 244, 0.4) 70%,
-            rgba(229, 222, 210, 0.5) 85%,
-            rgba(229, 222, 210, 0.6) 100%
-        );
-        opacity: 0.85;
+        background: none;
+        opacity: 0;
+        visibility: hidden;
     }
 
     /* Botón secundario con mejor contraste en mobile */
@@ -3700,7 +3695,6 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .services-grid,
     .projects-grid,
     .projects-grid-three,
     .solutions-grid,
@@ -3767,15 +3761,16 @@ body {
     }
 
     .hero-title {
-        max-width: 100%;
+        max-width: 50%;
     }
 
     .hero-subtitle {
-        max-width: 100%;
+        max-width: 50%;
     }
 
     .hero-ctas {
         flex-wrap: nowrap;
+        width: 50%;
     }
 
     .hero-wrapper {
@@ -3813,17 +3808,17 @@ body {
 @media (max-width: 768px) {
     .navbar {
         padding: 0.5rem 0;
-        min-height: 66px;
+        min-height: 56px;
     }
 
     .navbar.scrolled {
         padding: 0.4rem 0;
-        min-height: 60px;
+        min-height: 50px;
     }
 
     .nav-container {
         padding: 0 16px;
-        min-height: 56px;
+        min-height: 40px;
     }
 
     .logo img {
@@ -3867,13 +3862,15 @@ body {
     .hero-image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        object-position: center right;
+        object-fit: contain;
+        object-position: center center;
         display: block;
     }
 
     .hero-image-overlay {
         z-index: 1;
+        opacity: 0;
+        visibility: hidden;
     }
 
     .hero-container {
@@ -3896,22 +3893,23 @@ body {
     }
 
     .hero-title {
-        font-size: clamp(1.75rem, 6vw, 2.25rem);
+        font-size: clamp(1.4rem, 4.8vw, 1.8rem);
         max-width: 100%;
     }
 
     .hero-subtitle {
-        font-size: clamp(0.95rem, 3vw, 1.1rem);
-        max-width: 100%;
+        font-size: clamp(0.76rem, 2.4vw, 0.88rem);
+        max-width: 50%;
     }
 
     .hero-bullets li {
-        font-size: 0.9375rem;
+        font-size: 0.75rem;
     }
 
     .hero-bullets {
         gap: 0.75rem;
         margin: 1rem 0 0.5rem;
+        max-width: 50%;
     }
 
     .hero-ctas {
@@ -3920,24 +3918,24 @@ body {
     }
 
     .hero-microcopy {
-        font-size: 0.8125rem;
+        font-size: 0.65rem;
+        max-width: 50%;
     }
 
     .hero-social-proof {
         gap: 0.5rem;
         padding-top: 1rem;
+        max-width: 50%;
     }
 
     .social-proof-text {
-        font-size: 0.8125rem;
+        font-size: 0.65rem;
     }
 
-    /* Glass effect más transparente en mobile para ver mejor la imagen */
+    /* Glass effect desactivado en mobile - la imagen mobile ya tiene fade incorporado */
     .hero-content::before {
-        opacity: 0.45;
-        background: rgba(251, 247, 244, 0.45);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
+        opacity: 0;
+        display: none;
     }
 
     /* Botón secundario con mejor contraste en mobile */
@@ -3975,17 +3973,17 @@ body {
 @media (max-width: 640px) {
     .navbar {
         padding: 0.5rem 0;
-        min-height: 66px;
+        min-height: 56px;
     }
 
     .navbar.scrolled {
         padding: 0.4rem 0;
-        min-height: 60px;
+        min-height: 50px;
     }
 
     .nav-container {
         padding: 0 12px;
-        min-height: 56px;
+        min-height: 40px;
     }
 
     .logo img {
@@ -4046,7 +4044,7 @@ body {
     }
 
     .hero-title {
-        font-size: clamp(1.75rem, 7vw, 2.25rem);
+        font-size: clamp(1.4rem, 5.6vw, 1.8rem);
         line-height: 1.2;
         max-width: 100%;
     }
@@ -4056,9 +4054,9 @@ body {
     }
 
     .hero-subtitle {
-        font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+        font-size: clamp(0.76rem, 2.8vw, 0.88rem);
         line-height: 1.6;
-        max-width: 100%;
+        max-width: 50%;
     }
 
     .hero-badge {
@@ -4067,14 +4065,14 @@ body {
     }
 
     .badge-text {
-        font-size: 0.75rem;
+        font-size: 0.6rem;
         padding: 0.4rem 0.85rem;
     }
 
     /* CTAs come before bullets on mobile */
     .hero-ctas {
         flex-direction: column;
-        width: 100%;
+        width: 50%;
         gap: 0.75rem;
         margin: 1.25rem 0 0.75rem;
         order: 1;
@@ -4082,15 +4080,16 @@ body {
 
     .hero-ctas .btn {
         width: 100%;
-        padding: 1.125rem 1.5rem;
-        font-size: 0.9375rem;
+        padding: 0.72rem 1.5rem;
+        font-size: 0.6rem;
         justify-content: center;
         text-align: center;
     }
 
     .hero-microcopy {
-        font-size: 0.75rem;
+        font-size: 0.6rem;
         margin: -0.25rem 0 1rem;
+        max-width: 50%;
     }
 
     /* Bullets come after CTAs */
@@ -4098,16 +4097,17 @@ body {
         gap: 0.65rem;
         margin: 1rem 0;
         order: 2;
+        max-width: 50%;
     }
 
     .hero-bullets li {
-        font-size: 0.875rem;
+        font-size: 0.7rem;
         gap: 0.625rem;
     }
 
     .bullet-icon {
-        width: 18px;
-        height: 18px;
+        width: 14px;
+        height: 14px;
     }
 
     .hero-social-proof {
@@ -4115,10 +4115,11 @@ body {
         padding-top: 1rem;
         margin-top: 1rem;
         order: 3;
+        max-width: 50%;
     }
 
     .social-proof-text {
-        font-size: 0.75rem;
+        font-size: 0.6rem;
     }
 
     .avatar-placeholder {
@@ -4152,8 +4153,8 @@ body {
     .hero-image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        object-position: center right;
+        object-fit: contain;
+        object-position: center center;
         display: block;
         opacity: 1;
         visibility: visible;
@@ -4161,8 +4162,8 @@ body {
 
     .hero-image-overlay {
         z-index: 1;
-        opacity: 0.9;
-        visibility: visible;
+        opacity: 0;
+        visibility: hidden;
         pointer-events: none;
     }
 
@@ -4193,27 +4194,17 @@ body {
         margin-top: 0.25rem;
     }
 
-    /* Overlay ajustado en mobile - gradiente horizontal más sutil para ver la imagen */
+    /* Overlay desactivado en mobile para ver la imagen al 100% */
     .hero-image-overlay {
-        background: linear-gradient(
-            90deg,
-            rgba(251, 247, 244, 0) 0%,
-            rgba(251, 247, 244, 0) 40%,
-            rgba(251, 247, 244, 0.1) 50%,
-            rgba(251, 247, 244, 0.25) 60%,
-            rgba(251, 247, 244, 0.4) 70%,
-            rgba(229, 222, 210, 0.5) 85%,
-            rgba(229, 222, 210, 0.6) 100%
-        );
-        opacity: 0.85;
+        background: none;
+        opacity: 0;
+        visibility: hidden;
     }
 
-    /* Glass effect más transparente en mobile para ver mejor la imagen */
+    /* Glass effect desactivado en mobile - la imagen mobile ya tiene fade incorporado */
     .hero-content::before {
-        opacity: 0.75;
-        background: rgba(251, 247, 244, 0.4);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
+        opacity: 0;
+        display: none;
     }
 
     /* Botón secundario con mejor contraste en mobile */
@@ -4241,21 +4232,22 @@ body {
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 1.75rem;
+        font-size: 1.4rem;
+        max-width: 100%;
     }
 
     .hero-subtitle {
-        font-size: 0.95rem;
+        font-size: 0.76rem;
     }
 
     .btn {
-        padding: 0.9rem 1.5rem;
+        padding: 0.58rem 1.5rem;
         font-size: 0.9rem;
     }
 
     .hero-ctas .btn {
-        padding: 0.9rem 1.25rem;
-        font-size: 0.9rem;
+        padding: 0.58rem 1.25rem;
+        font-size: 0.72rem;
     }
 
     .floating-card {
