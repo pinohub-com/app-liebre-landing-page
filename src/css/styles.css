@@ -638,7 +638,8 @@ body {
     gap: -0.5rem;
 }
 
-.avatar-placeholder {
+.avatar-placeholder,
+.avatar-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -648,7 +649,13 @@ body {
     position: relative;
 }
 
-.avatar-placeholder:first-child {
+.avatar-image {
+    object-fit: cover;
+    display: block;
+}
+
+.avatar-placeholder:first-child,
+.avatar-image:first-child {
     margin-left: 0;
 }
 
@@ -4122,7 +4129,8 @@ body {
         font-size: 0.6rem;
     }
 
-    .avatar-placeholder {
+    .avatar-placeholder,
+    .avatar-image {
         width: 32px;
         height: 32px;
         border-width: 2px;
