@@ -1,0 +1,152 @@
+<!-- Pricing Section -->
+<section class="pricing bg-paper" id="pricing" data-billing="monthly">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                Planes que crecen con <span class="section-title-highlight">tu estudio</span>
+            </h2>
+            <p class="section-subtitle">
+                Empieza gratis y escala cuando tus cotizaciones aumenten.
+            </p>
+        </div>
+
+        <div class="pricing-billing-wrap" aria-label="Selector de tipo de suscripcion">
+            <div class="pricing-billing-toggle" role="group" aria-label="Facturacion mensual o anual">
+                <span class="billing-label billing-label-monthly">Mensual</span>
+                <button
+                    type="button"
+                    id="billing-switch"
+                    class="billing-switch"
+                    aria-label="Cambiar a facturacion anual"
+                    aria-pressed="false"
+                >
+                    <span class="billing-switch-thumb" aria-hidden="true"></span>
+                </button>
+                <span class="billing-label billing-label-annual">Anual</span>
+            </div>
+            <p class="pricing-billing-helper" id="billing-helper">
+                Paga mes a mes segun el plan que elijas.
+            </p>
+        </div>
+
+        <div class="pricing-grid">
+            <article
+                class="pricing-card"
+                aria-label="Plan Basic"
+                data-monthly="0"
+                data-annual="0"
+                data-annual-total="0"
+                data-annual-savings="0"
+                data-max-quotes="20"
+                data-plan="basic"
+            >
+                <div class="pricing-card-header">
+                    <h3 class="pricing-plan-name">Basic</h3>
+                    <p class="pricing-range">0 - 20 cotizaciones</p>
+                    <div class="pricing-price-row">
+                        <span class="pricing-currency">$</span>
+                        <span class="pricing-price" data-price>0</span>
+                        <span class="pricing-period">/mes</span>
+                    </div>
+                    <p class="pricing-note" data-note>Free</p>
+                    <p class="pricing-cost-per-quote" data-cost-line>Tus primeras 20 cotizaciones gratis.</p>
+                </div>
+
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Recibe tus cotizaciones.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Personaliza tu perfil.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Crear tu pagina.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Crear estilos.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Gestiona las cotizaciones.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Agenda tus citas.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Seguimiento a cotizaciones.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Integra mensajes automaticos en instagram.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Analiza tus datos.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Lista tus clientes.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Define precios.</li>
+                </ul>
+
+                <a href="https://flou.ink/login" class="btn btn-secondary pricing-btn">Unirme ahora</a>
+            </article>
+
+            <article
+                class="pricing-card pricing-card-recommended"
+                aria-label="Plan Pro recomendado"
+                data-monthly="10"
+                data-annual="8.33"
+                data-annual-total="100"
+                data-annual-savings="20"
+                data-max-quotes="200"
+                data-plan="pro"
+            >
+                <div class="pricing-badge-recommended">Recomendado</div>
+                <div class="pricing-card-header">
+                    <h3 class="pricing-plan-name">Pro</h3>
+                    <p class="pricing-range">21 - 200 cotizaciones</p>
+                    <div class="pricing-price-row">
+                        <span class="pricing-currency">$</span>
+                        <span class="pricing-price" data-price>10</span>
+                        <span class="pricing-period">/mes</span>
+                    </div>
+                    <p class="pricing-note" data-note>Facturacion mensual: $10/mes <span>Total anual pagando mensual: $120</span></p>
+                    <p class="pricing-cost-per-quote" data-cost-line>Costo estimado por cotizacion: $0.05 (sobre 200 cotizaciones).</p>
+                </div>
+
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Recibe tus cotizaciones.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Personaliza tu perfil.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Crear tu pagina.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Crear estilos.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Gestiona las cotizaciones.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Agenda tus citas.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Seguimiento a cotizaciones.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Integra mensajes automaticos en instagram.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Analiza tus datos.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Lista tus clientes.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Define precios.</li>
+                </ul>
+
+                <a href="https://flou.ink/login" class="btn btn-primary pricing-btn">Unirme ahora</a>
+            </article>
+
+            <article
+                class="pricing-card"
+                aria-label="Plan Elite"
+                data-monthly="20"
+                data-annual="16.67"
+                data-annual-total="200"
+                data-annual-savings="40"
+                data-max-quotes="400"
+                data-plan="elite"
+            >
+                <div class="pricing-card-header">
+                    <h3 class="pricing-plan-name">Elite</h3>
+                    <p class="pricing-range">200+ cotizaciones</p>
+                    <div class="pricing-price-row">
+                        <span class="pricing-currency">$</span>
+                        <span class="pricing-price" data-price>20</span>
+                        <span class="pricing-period">/mes</span>
+                    </div>
+                    <p class="pricing-note" data-note>Facturacion mensual: $20/mes <span>Total anual pagando mensual: $240</span></p>
+                    <p class="pricing-cost-per-quote" data-cost-line>Costo estimado por cotizacion: $0.05 (asumiendo 400 cotizaciones).</p>
+                </div>
+
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Recibe tus cotizaciones.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Personaliza tu perfil.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Crear tu pagina.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Crear estilos.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Gestiona las cotizaciones.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Agenda tus citas.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Seguimiento a cotizaciones.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Integra mensajes automaticos en instagram.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Analiza tus datos.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Lista tus clientes.</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i>Define precios.</li>
+                </ul>
+
+                <a href="https://flou.ink/login" class="btn btn-secondary pricing-btn">Unirme ahora</a>
+            </article>
+        </div>
+    </div>
+</section>

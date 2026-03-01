@@ -13,6 +13,7 @@ function initializeApp() {
     initNavigation();
     initScrollEffects();
     initAnimations();
+    initPricingToggle();
     initContactForm();
     initNewsletterForm();
     initScrollToTop();
@@ -27,6 +28,107 @@ function initializeApp() {
     initTatuadores();
     updateFooterYear();
     logWelcomeMessage();
+}
+
+// ===================================
+// Pricing Billing Toggle (Mensual / Anual)
+// ===================================
+function initPricingToggle() {
+    const pricingSection = document.getElementById('pricing');
+    if (!pricingSection) return;
+
+    const switchBtn = document.getElementById('billing-switch');
+    const helper = document.getElementById('billing-helper');
+    const cards = pricingSection.querySelectorAll('.pricing-card');
+    if (!switchBtn || cards.length === 0) return;
+
+    let isAnnual = false;
+
+    const formatPrice = (value) => {
+        const num = Number(value);
+        if (Number.isNaN(num)) return '0';
+        return Number.isInteger(num) ? String(num) : num.toFixed(2);
+    };
+
+    const updatePricing = () => {
+        pricingSection.setAttribute('data-billing', isAnnual ? 'annual' : 'monthly');
+        switchBtn.classList.toggle('is-annual', isAnnual);
+        switchBtn.setAttribute('aria-pressed', String(isAnnual));
+        switchBtn.setAttribute(
+            'aria-label',
+            isAnnual ? 'Cambiar a facturacion mensual' : 'Cambiar a facturacion anual'
+        );
+
+        if (helper) {
+            helper.textContent = isAnnual
+                ? 'La facturacion anual aplica precio mensual reducido y mayor ahorro.'
+                : 'Paga mes a mes segun el plan que elijas.';
+        }
+
+        cards.forEach((card) => {
+            const monthly = Number(card.dataset.monthly || 0);
+            const annualMonthly = Number(card.dataset.annual || monthly);
+            const annualTotal = Number(card.dataset.annualTotal || 0);
+            const annualSavings = Number(card.dataset.annualSavings || 0);
+            const maxQuotes = Number(card.dataset.maxQuotes || 0);
+            const plan = card.dataset.plan || '';
+
+            const priceEl = card.querySelector('[data-price]');
+            const noteEl = card.querySelector('[data-note]');
+            const costLineEl = card.querySelector('[data-cost-line]');
+
+            if (priceEl) {
+                priceEl.textContent = isAnnual ? formatPrice(annualMonthly) : formatPrice(monthly);
+            }
+
+            if (!noteEl) return;
+
+            if (isAnnual) {
+                if (annualTotal === 0) {
+                    noteEl.textContent = 'Plan anual: Free';
+                } else {
+                    noteEl.innerHTML = `Plan anual: $${formatPrice(annualTotal)}/año <span>Ahorro vs mensual: $${formatPrice(annualSavings)} al año</span>`;
+                }
+            } else if (monthly === 0) {
+                noteEl.textContent = 'Free';
+            } else {
+                noteEl.innerHTML = `Facturacion mensual: $${formatPrice(monthly)}/mes <span>Total anual pagando mensual: $${formatPrice(monthly * 12)}</span>`;
+            }
+
+            if (!costLineEl) return;
+
+            if (plan === 'basic') {
+                costLineEl.textContent = 'Tus primeras 20 cotizaciones gratis.';
+                return;
+            }
+
+            const monthlyCostPerQuote = maxQuotes > 0 ? monthly / maxQuotes : 0;
+            const annualCostPerQuote = maxQuotes > 0 ? annualMonthly / maxQuotes : 0;
+            const baseText =
+                plan === 'elite'
+                    ? 'asumiendo 400 cotizaciones'
+                    : `sobre ${maxQuotes} cotizaciones`;
+
+            costLineEl.textContent = isAnnual
+                ? `Costo estimado por cotizacion: $${formatPrice(annualCostPerQuote)} (${baseText}).`
+                : `Costo estimado por cotizacion: $${formatPrice(monthlyCostPerQuote)} (${baseText}).`;
+        });
+    };
+
+    switchBtn.addEventListener('click', () => {
+        isAnnual = !isAnnual;
+        updatePricing();
+    });
+
+    switchBtn.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            isAnnual = !isAnnual;
+            updatePricing();
+        }
+    });
+
+    updatePricing();
 }
 
 // ===================================

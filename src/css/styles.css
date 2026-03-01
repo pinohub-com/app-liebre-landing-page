@@ -363,7 +363,7 @@ body {
     min-height: 100vh;
     padding-top: 120px;
     padding-bottom: 6rem;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     align-items: center;
 }
@@ -430,7 +430,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     align-items: flex-start;
     padding-top: 0;
@@ -445,7 +445,7 @@ body {
     gap: 1.5rem;
     position: relative;
     z-index: 3;
-    padding: 0;
+    padding: 0 0 2rem 0;
     margin-top: 0;
 }
 
@@ -1113,6 +1113,13 @@ body {
     }
 }
 
+.tatuador-card-link {
+    text-decoration: none;
+    display: block;
+    color: inherit;
+    transition: var(--transition);
+}
+
 .tatuador-card {
     background-color: rgba(104, 93, 84, 0.5);
     border-radius: var(--border-radius-lg);
@@ -1148,7 +1155,7 @@ body {
     z-index: 0;
 }
 
-.tatuador-card:hover {
+.tatuador-card-link:hover .tatuador-card {
     transform: translateY(-4px);
     box-shadow: 
         0 8px 24px rgba(0, 0, 0, 0.25),
@@ -1157,7 +1164,7 @@ body {
     border-color: rgba(163, 147, 130, 0.3);
 }
 
-.tatuador-card:hover::after {
+.tatuador-card-link:hover .tatuador-card::after {
     opacity: 1;
 }
 
@@ -1183,12 +1190,12 @@ body {
     border-radius: 50%;
 }
 
-.tatuador-card:hover .tatuador-image {
+.tatuador-card-link:hover .tatuador-image {
     border-color: rgba(104, 93, 84, 0.3);
     box-shadow: 0 6px 20px rgba(104, 93, 84, 0.15);
 }
 
-.tatuador-card:hover .tatuador-image img {
+.tatuador-card-link:hover .tatuador-image img {
     transform: scale(1.05);
 }
 
@@ -1214,7 +1221,7 @@ body {
     text-align: center;
 }
 
-.instagram-link {
+.instagram-icon {
     width: 24px;
     height: 24px;
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
@@ -1224,13 +1231,12 @@ body {
     justify-content: center;
     color: var(--color-white);
     font-size: 0.75rem;
-    text-decoration: none;
     transition: var(--transition);
     box-shadow: 0 2px 6px rgba(220, 39, 67, 0.3);
     flex-shrink: 0;
 }
 
-.instagram-link:hover {
+.tatuador-card-link:hover .instagram-icon {
     transform: scale(1.15);
     box-shadow: 0 3px 10px rgba(220, 39, 67, 0.5);
 }
@@ -1288,7 +1294,7 @@ body {
         margin-bottom: 0.5rem;
     }
     
-    .instagram-link {
+    .instagram-icon {
         width: 22px;
         height: 22px;
         font-size: 0.7rem;
@@ -3930,6 +3936,7 @@ body {
     }
 
     .hero-social-proof {
+        display: flex;
         gap: 0.5rem;
         padding-top: 1rem;
         max-width: 50%;
@@ -4118,6 +4125,7 @@ body {
     }
 
     .hero-social-proof {
+        display: flex;
         gap: 0.5rem;
         padding-top: 1rem;
         margin-top: 1rem;
@@ -4436,6 +4444,357 @@ body {
         height: 50px;
         font-size: 24px;
         border-radius: 50%;
+    }
+}
+
+/* =================================
+   Pricing Section
+   ================================= */
+.pricing {
+    padding: 6rem 0;
+    position: relative;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.pricing-billing-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin: -1rem 0 2rem;
+}
+
+.pricing-billing-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid rgba(163, 147, 130, 0.25);
+    border-radius: 999px;
+    background: rgba(251, 247, 244, 0.9);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.billing-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #A39382;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    transition: var(--transition-fast);
+}
+
+.pricing[data-billing="monthly"] .billing-label-monthly,
+.pricing[data-billing="annual"] .billing-label-annual {
+    color: #232323;
+}
+
+.billing-switch {
+    width: 58px;
+    height: 32px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(163, 147, 130, 0.35);
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition);
+    outline: none;
+}
+
+.billing-switch:hover {
+    background: rgba(163, 147, 130, 0.45);
+}
+
+.billing-switch:focus-visible {
+    box-shadow: 0 0 0 3px rgba(104, 93, 84, 0.28);
+}
+
+.billing-switch-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    transition: transform 0.25s ease;
+}
+
+.billing-switch.is-annual {
+    background: rgba(104, 93, 84, 0.7);
+}
+
+.billing-switch.is-annual .billing-switch-thumb {
+    transform: translateX(26px);
+}
+
+.pricing-billing-helper {
+    color: #685D54;
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.pricing-card {
+    position: relative;
+    background: rgba(251, 247, 244, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(163, 147, 130, 0.22);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+    padding: 2rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+}
+
+.pricing-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.12);
+}
+
+.pricing-card-header {
+    margin-bottom: 1.25rem;
+}
+
+.pricing-plan-name {
+    font-family: 'Bebas Neue', 'Oswald', sans-serif;
+    font-size: 2rem;
+    line-height: 1;
+    color: #232323;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.pricing-range {
+    color: #685D54;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.pricing-price-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.3rem;
+    margin-bottom: 0.2rem;
+}
+
+.pricing-currency {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #685D54;
+    margin-bottom: 0.55rem;
+}
+
+.pricing-price {
+    font-size: 3rem;
+    line-height: 0.9;
+    font-weight: 800;
+    color: #232323;
+}
+
+.pricing-period {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #685D54;
+    margin-bottom: 0.35rem;
+}
+
+.pricing-note {
+    font-size: 0.88rem;
+    color: #685D54;
+    margin-top: 0.5rem;
+}
+
+.pricing-note span {
+    display: block;
+    color: #A39382;
+    font-size: 0.82rem;
+    margin-top: 0.15rem;
+}
+
+.pricing-cost-per-quote {
+    margin-top: 0.45rem;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #685D54;
+    line-height: 1.4;
+}
+
+.pricing-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin: 0 0 1.5rem 0;
+    padding: 0;
+    flex: 1;
+}
+
+.pricing-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    color: #2D2820;
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.pricing-features li i {
+    color: #685D54;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+}
+
+.pricing-btn {
+    width: 100%;
+    text-align: center;
+    margin-top: auto;
+}
+
+.pricing-card-recommended {
+    border: 2px solid #685D54;
+    box-shadow: 0 18px 44px rgba(104, 93, 84, 0.24);
+    transform: translateY(-8px);
+}
+
+.pricing-card-recommended:hover {
+    transform: translateY(-12px);
+}
+
+.pricing-badge-recommended {
+    position: absolute;
+    top: -12px;
+    right: 16px;
+    background: var(--gradient-primary);
+    color: #fff;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(104, 93, 84, 0.26);
+}
+
+/* =================================
+   Coming Soon Section
+   ================================= */
+.coming-soon {
+    padding: 2rem 0 6rem;
+    position: relative;
+}
+
+.coming-soon-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.coming-soon-card {
+    background: rgba(251, 247, 244, 0.9);
+    border: 1px solid rgba(163, 147, 130, 0.22);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    transition: var(--transition);
+}
+
+.coming-soon-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+}
+
+.coming-soon-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: var(--gradient-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+}
+
+.coming-soon-card h3 {
+    font-family: 'Bebas Neue', 'Oswald', sans-serif;
+    font-size: 1.3rem;
+    color: #232323;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.coming-soon-card p {
+    color: #685D54;
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 1100px) {
+    .pricing-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .pricing-card-recommended {
+        transform: translateY(0);
+    }
+
+    .coming-soon-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .pricing {
+        padding: 4rem 0;
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .pricing-card {
+        padding: 1.5rem 1rem 1rem;
+    }
+
+    .pricing-billing-toggle {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pricing-plan-name {
+        font-size: 1.7rem;
+    }
+
+    .pricing-price {
+        font-size: 2.5rem;
+    }
+
+    .pricing-card-recommended {
+        transform: none;
+    }
+
+    .coming-soon {
+        padding: 1rem 0 4rem;
+    }
+
+    .coming-soon-grid {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
     }
 }
 

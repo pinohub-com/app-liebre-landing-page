@@ -16,6 +16,8 @@ const Loader = {
         { id: 'navbar-container', file: 'navbar.html' },
         { id: 'hero-container', file: 'hero.html' },
         { id: 'features-container', file: 'features.html' },
+        { id: 'pricing-container', file: 'pricing.html' },
+        { id: 'coming-soon-container', file: 'coming-soon.html' },
         { id: 'tatuadores-container', file: 'tatuadores.html' },
         { id: 'galeria-container', file: 'galeria.html' },
         { id: 'cta-container', file: 'cta.html' }

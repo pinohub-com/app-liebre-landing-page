@@ -43,25 +43,27 @@ function createTattooerCard(tattooer, rating = 4.5) {
     const displayName = tattooer.name || tattooer.username;
     
     return `
-        <div class="tatuador-card">
-            <div class="tatuador-image">
-                <img src="${imagePath}" alt="${displayName}" onerror="this.src='https://via.placeholder.com/300x300?text=${encodeURIComponent(displayName)}'">
-            </div>
-            <div class="tatuador-info">
-                <div class="tatuador-name-wrapper">
-                    <h3 class="tatuador-name">${displayName}</h3>
-                    <a href="${tattooer.url}" target="_blank" rel="noopener noreferrer" class="instagram-link">
-                        <i class="fab fa-instagram"></i>
-                    </a>
+        <a href="${tattooer.url}" target="_blank" rel="noopener noreferrer" class="tatuador-card-link">
+            <div class="tatuador-card">
+                <div class="tatuador-image">
+                    <img src="${imagePath}" alt="${displayName}" onerror="this.src='https://via.placeholder.com/300x300?text=${encodeURIComponent(displayName)}'">
                 </div>
-                <div class="tatuador-rating">
-                    <div class="stars">
-                        ${generateStars(rating)}
+                <div class="tatuador-info">
+                    <div class="tatuador-name-wrapper">
+                        <h3 class="tatuador-name">${displayName}</h3>
+                        <div class="instagram-icon">
+                            <i class="fab fa-instagram"></i>
+                        </div>
                     </div>
-                    <span class="rating-number">${rating.toFixed(1)}</span>
+                    <div class="tatuador-rating">
+                        <div class="stars">
+                            ${generateStars(rating)}
+                        </div>
+                        <span class="rating-number">${rating.toFixed(1)}</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     `;
 }
 
