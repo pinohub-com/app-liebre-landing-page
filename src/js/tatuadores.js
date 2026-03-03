@@ -39,7 +39,7 @@ function generateStars(rating) {
  * @returns {string} HTML de la tarjeta
  */
 function createTattooerCard(tattooer, rating = 4.5) {
-    const imagePath = `tattooers/${tattooer.username}/profile.jpg`;
+    const imagePath = `/artifacts/tattooers/${tattooer.username}/profile.jpg`;
     const displayName = tattooer.name || tattooer.username;
     
     return `
@@ -79,7 +79,7 @@ async function initTatuadores() {
     
     try {
         // Cargar datos de tatuadores
-        const response = await fetch('tattooers_data.json');
+        const response = await fetch('/artifacts/tattooers_data.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

@@ -40,7 +40,7 @@ const Loader = {
             container.innerHTML = '<div class="loading-spinner"></div>';
 
             // Cargar el archivo HTML
-            const response = await fetch(`secciones/${fileName}`);
+            const response = await fetch(`/secciones/${fileName}`);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

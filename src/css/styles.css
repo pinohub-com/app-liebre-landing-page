@@ -4655,6 +4655,14 @@ body {
     flex-shrink: 0;
 }
 
+.pricing-features li.pricing-feature-disabled {
+    color: #9a8f85;
+}
+
+.pricing-features li.pricing-feature-disabled i {
+    color: #b5a99e;
+}
+
 .pricing-btn {
     width: 100%;
     text-align: center;
