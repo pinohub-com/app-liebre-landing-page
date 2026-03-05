@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide Creator — Parrilla Flou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <header>
+      <div>
+        <span class="title">Slide Creator</span>
+        <span class="subtitle">Flou — Parrilla 30 días</span>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <div id="day-list"></div>
+      <div class="sidebar-section">
+        <h4>Fondo global</h4>
+        <label class="upload-btn">
+          <input type="file" id="bg-input" accept="image/*" hidden>
+          <span>+ Imagen de fondo</span>
+        </label>
+        <button type="button" class="btn-clear-bg" id="btn-clear-bg">Quitar fondo</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="preview-wrapper">
+        <p class="preview-label">Vista previa (1080×1350 — Instagram carrusel 4:5)</p>
+        <div class="preview-container" id="preview-container">
+          <div id="export-slide" class="export-slide">
+            <div class="slide-bg">
+              <div class="slide-bg-texture" id="slide-bg-texture"></div>
+              <div class="slide-bg-custom" id="slide-bg-custom"></div>
+              <div class="slide-bg-photo" id="slide-bg-photo"></div>
+            </div>
+            <div class="slide-content" id="slide-content">
+              <div class="slide-logo"><img src="logo.svg" alt="Flou" /></div>
+              <span class="slide-type-badge" id="slide-type-badge"></span>
+              <div class="slide-spacer-top" id="slide-spacer-top"></div>
+              <div class="slide-text-block">
+                <div class="slide-title" id="preview-title"></div>
+                <div class="slide-spacer-body" id="slide-spacer-body"></div>
+                <div class="slide-body" id="preview-body"></div>
+                <div class="slide-cta-box" id="slide-cta-box">
+                  <span class="cta-icon">💬</span>
+                  <span class="cta-text" id="preview-cta"></span>
+                </div>
+              </div>
+              <div class="slide-spacer-bottom" id="slide-spacer-bottom"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-slides" id="nav-slides"></div>
+      <div class="nav-arrows">
+        <button type="button" id="btn-prev">← Anterior</button>
+        <button type="button" id="btn-next">Siguiente →</button>
+      </div>
+      <div class="export-actions">
+        <button type="button" class="btn-export-jpg" id="btn-export-one">Descargar slide actual (JPG 1080×1350)</button>
+        <button type="button" class="btn-export-all" id="btn-export-all">Descargar los 8 slides (JPG 1080×1350)</button>
+      </div>
+    </main>
+
+    <aside class="editor">
+      <div class="day-meta" id="day-meta">
+        <div class="day-title" id="day-title"></div>
+        <div class="day-objetivo" id="day-objetivo"></div>
+      </div>
+      <h3>Slide <span id="slide-num">1</span> de 8</h3>
+      <div class="editor-group">
+        <label>Imagen para este slide (opcional)</label>
+        <label class="upload-btn small">
+          <input type="file" id="slide-img-input" accept="image/*" hidden>
+          <span id="slide-img-label">+ Foto del slide</span>
+        </label>
+        <div class="opacity-slider-wrap">
+          <label for="slide-img-opacity">Opacidad imagen <span id="slide-opacity-value">30</span>%</label>
+          <input type="range" id="slide-img-opacity" min="5" max="80" value="30" step="5">
+        </div>
+      </div>
+      <div class="editor-group">
+        <label>Tipo</label>
+        <select id="edit-type"></select>
+      </div>
+      <div class="editor-group">
+        <label>Título</label>
+        <input type="text" id="edit-title" placeholder="Texto principal">
+        <div class="title-style-wrap">
+          <div class="slider-row">
+            <label for="edit-title-size">Tamaño <span id="title-size-value">1.35</span>rem</label>
+            <input type="range" id="edit-title-size" min="0.9" max="2.2" value="1.35" step="0.05">
+          </div>
+          <div class="slider-row">
+            <label for="edit-text-vertical">Posición vertical <span id="text-vertical-value">50</span>%</label>
+            <input type="range" id="edit-text-vertical" min="0" max="100" value="50" step="5">
+          </div>
+        </div>
+      </div>
+      <div class="editor-group">
+        <label>Cuerpo / Descripción</label>
+        <textarea id="edit-body" placeholder="Subtítulo o descripción"></textarea>
+        <div class="body-style-wrap">
+          <div class="slider-row">
+            <label for="edit-body-size">Tamaño <span id="body-size-value">0.9</span>rem</label>
+            <input type="range" id="edit-body-size" min="0.65" max="1.4" value="0.9" step="0.05">
+          </div>
+          <div class="slider-row">
+            <label for="edit-body-vertical">Posición vertical <span id="body-vertical-value">50</span>%</label>
+            <input type="range" id="edit-body-vertical" min="0" max="100" value="50" step="5">
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn-copy" id="btn-copy-slide">Copiar slide al portapapeles</button>
+      <button type="button" class="btn-export" id="btn-export-day">Exportar día como JSON</button>
+    </aside>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

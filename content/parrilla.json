@@ -1,0 +1,456 @@
+{
+  "title": "Parrilla de contenido — 30 días",
+  "subtitle": "Flou | Cuidado y cicatrización de tatuajes",
+  "days": [
+    {
+      "id": 1,
+      "title": "¿Qué le pasa a tu piel cuando te tatuas?",
+      "objetivo": "Explicar el proceso biológico de forma clara y memorable.",
+      "slides": [
+        { "type": "Portada", "title": "¿Qué le pasa a tu piel cuando te tatuas?", "body": "Hoy te explico qué pasa en las primeras horas y por qué el cuidado importa." },
+        { "type": "Título + afirmación", "title": "Tu piel no \"solo se pinta\"", "body": "Vive un proceso biológico real." },
+        { "type": "Pregunta + respuesta", "title": "¿Dónde entra la tinta?", "body": "La aguja deposita pigmento en una capa específica: la dermis. Ahí el pigmento queda estable y se ve definido con el tiempo." },
+        { "type": "Concepto clave", "title": "Microlesión controlada", "body": "El cuerpo reconoce el proceso como una microlesión. Microcanales → proteger → limpiar y cerrar." },
+        { "type": "Tranquilizar", "title": "Lo que ves y sientes es normal", "body": "Inflamación, enrojecimiento y sensibilidad. El flujo sanguíneo aumenta; puede sentirse caliente y arder como una quemadura leve." },
+        { "type": "Explicar líquido", "title": "Plasma y \"sudor\" de tinta", "body": "Tu piel expulsa plasma para defenderse. Es transparente/amarillento mezclado con un poco de tinta. Es parte de la limpieza y protección." },
+        { "type": "Proceso inmunológico", "title": "El sistema inmune entra en acción", "body": "Defensas llegan, parte del pigmento se elimina, parte queda fijada en la dermis." },
+        { "type": "CTA", "title": "Entender esto explica por qué el cuidado posterior importa tanto", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Mitos y verdades sobre la cicatrización",
+      "objetivo": "Derribar creencias comunes con datos claros.",
+      "slides": [
+        { "type": "Portada", "title": "Mitos y verdades sobre cicatrizar un tatuaje", "body": "Separamos lo que crees de lo que realmente pasa." },
+        { "type": "Mito", "title": "Entre más crema, mejor", "body": "Mito. El exceso tapa los poros y dificulta la respiración de la piel." },
+        { "type": "Verdad", "title": "Es normal que pique un poco", "body": "Verdad. La descamación y la regeneración generan esa sensación." },
+        { "type": "Mito", "title": "Arrancar costras ayuda a sanar más rápido", "body": "Mito. Puede dañar el resultado y abrir vías de infección." },
+        { "type": "Mito", "title": "No te duches los primeros días", "body": "Mito. Sí debes lavar; lo que no debes es sumergir o frotar fuerte." },
+        { "type": "Verdad", "title": "El sol es enemigo del tatuaje nuevo", "body": "Verdad. Protección solar siempre, incluso cuando ya cicatrizó." },
+        { "type": "Resumen", "title": "3 reglas básicas", "body": "Poca crema, no rascar, no exponer al sol ni al agua larga." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Señales normales vs señales de alerta",
+      "objetivo": "Educar sin alarmar.",
+      "slides": [
+        { "type": "Portada", "title": "¿Qué es normal y qué no después de tatuarte?", "body": "Aprende a diferenciar." },
+        { "type": "Normal", "title": "Enrojecimiento leve", "body": "La zona puede verse roja las primeras 24–48 horas." },
+        { "type": "Normal", "title": "Calor moderado", "body": "La inflamación natural genera calor local." },
+        { "type": "Normal", "title": "Descamación", "body": "La piel se desprende en capas finas; es parte del proceso." },
+        { "type": "Alerta", "title": "Dolor que empeora", "body": "Si duele más con los días, puede haber infección." },
+        { "type": "Alerta", "title": "Pus o mal olor", "body": "Indica infección bacteriana. Consulta ya." },
+        { "type": "Alerta", "title": "Fiebre o inflamación excesiva", "body": "Tu cuerpo está reaccionando de más. Busca ayuda." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "¿Por qué un tatuaje pica cuando está sanando?",
+      "objetivo": "Contenido curioso y útil.",
+      "slides": [
+        { "type": "Portada", "title": "¿Por qué pica tanto cuando cicatriza?", "body": "Te lo explicamos en lenguaje simple." },
+        { "type": "Causa", "title": "La piel se está reparando", "body": "Los nervios y las células activas generan la sensación de picor." },
+        { "type": "Proceso", "title": "La descamación forma parte del proceso", "body": "La piel vieja se va y la nueva llega; eso pica." },
+        { "type": "Riesgo", "title": "Rascarte puede afectar el resultado", "body": "Puedes arrancar costras y mover tinta." },
+        { "type": "Alternativa", "title": "Golpea suavemente", "body": "Un toque suave alrededor alivia sin dañar." },
+        { "type": "Alternativa", "title": "Aplica crema ligera", "body": "Hidratar ayuda a calmar la zona." },
+        { "type": "Alternativa", "title": "Frío local", "body": "Un paño fresco (no hielo directo) puede dar alivio." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Errores comunes en el cuidado posterior",
+      "objetivo": "Contenido muy guardable y práctico.",
+      "slides": [
+        { "type": "Portada", "title": "5 errores que arruinan la cicatrización", "body": "Evítalos desde el día uno." },
+        { "type": "Error", "title": "Tocar el tatuaje con manos sucias", "body": "Bacterias y suciedad van directo a la herida." },
+        { "type": "Error", "title": "Exceso de crema", "body": "La piel necesita respirar; más no es mejor." },
+        { "type": "Error", "title": "Exposición al sol", "body": "Quema, pigmenta mal y envejece el tatuaje." },
+        { "type": "Error", "title": "Piscina, mar o sudor excesivo demasiado pronto", "body": "Humedad prolongada y bacterias retrasan la curación." },
+        { "type": "Error", "title": "Arrancar costras o rascar", "body": "Rompes la barrera de cicatrización." },
+        { "type": "Resumen", "title": "Regla simple", "body": "Limpia suave, hidrata con poco, evita sol y agua." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "¿Cuánto tarda realmente en sanar un tatuaje?",
+      "objetivo": "Aclarar tiempos y expectativas.",
+      "slides": [
+        { "type": "Portada", "title": "¿Cuánto tarda en sanar un tatuaje?", "body": "Lo que nadie te dice con claridad." },
+        { "type": "Idea clave", "title": "Sanación visible ≠ sanación profunda", "body": "Por fuera puede verse bien antes de que por dentro esté curado." },
+        { "type": "Semana 1", "title": "Primera semana", "body": "Inflamación, sensibilidad, posible líquido y costras." },
+        { "type": "Semana 2-3", "title": "Semanas siguientes", "body": "Descamación, picor y asentamiento del color." },
+        { "type": "Mes 1-2", "title": "Hasta dos meses", "body": "La dermis sigue cicatrizando; el color puede seguir estabilizándose." },
+        { "type": "Zonas", "title": "Algunas zonas tardan más", "body": "Rodillas, codos, pies: más roce, más tiempo." },
+        { "type": "Resumen", "title": "Expectativa realista", "body": "2–4 semanas para que \"se vea\" curado; 2–3 meses para estar bien estabilizado." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "¿Por qué no deberías tatuarte si estás enfermo?",
+      "objetivo": "Educación preventiva.",
+      "slides": [
+        { "type": "Portada", "title": "¿Por qué no deberías tatuarte si estás enfermo?", "body": "Tu cuerpo te lo agradecerá." },
+        { "type": "Razón", "title": "Tu cuerpo ya está ocupado recuperándose", "body": "No le sumes estrés extra." },
+        { "type": "Razón", "title": "Puede afectar tu tolerancia al dolor", "body": "Estar mal baja el umbral; la sesión se hace más dura." },
+        { "type": "Razón", "title": "La recuperación será más lenta", "body": "Cicatrizar bien necesita energía y defensas." },
+        { "type": "Razón", "title": "También influye en el resultado", "body": "Menos defensas = mayor riesgo de complicaciones." },
+        { "type": "Cuándo", "title": "Reprograma si", "body": "Tienes fiebre, gripe, infección o estás muy cansado." },
+        { "type": "Resumen", "title": "", "body": "Tatuarte en buen estado = mejor experiencia y mejor resultado." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "¿Se puede infectar un tatuaje?",
+      "objetivo": "Informativo y tranquilizador.",
+      "slides": [
+        { "type": "Portada", "title": "¿Se puede infectar un tatuaje?", "body": "Sí, pero no debería pasar con buenas prácticas." },
+        { "type": "Contexto", "title": "Riesgos durante el procedimiento", "body": "Material no esterilizado, falta de higiene." },
+        { "type": "Contexto", "title": "Riesgos durante el cuidado en casa", "body": "Manos sucias, cremas compartidas, agua contaminada." },
+        { "type": "Prevención", "title": "Estudio", "body": "Limpio, material desechable, protocolo claro." },
+        { "type": "Prevención", "title": "En casa", "body": "Lava suave, hidrata poco, no toques sin lavarte las manos." },
+        { "type": "Señales", "title": "Si ves pus, enrojecimiento que crece o fiebre", "body": "Consulta ya." },
+        { "type": "Mensaje", "title": "", "body": "Con buenos hábitos, la probabilidad de infección baja mucho." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Cómo elegir un estudio seguro",
+      "objetivo": "Posicionarte como referente serio.",
+      "slides": [
+        { "type": "Portada", "title": "Cómo elegir un estudio seguro", "body": "Lo que debes mirar antes de agendar." },
+        { "type": "Checklist", "title": "Limpieza y orden", "body": "Si el espacio está sucio, desconfía." },
+        { "type": "Checklist", "title": "Materiales desechables", "body": "Agujas, tubos, guantes: todo nuevo para ti." },
+        { "type": "Checklist", "title": "Barreras de protección", "body": "Film, cubiertas y superficies protegidas." },
+        { "type": "Checklist", "title": "Buen protocolo antes, durante y después", "body": "Te explican qué hacer y qué evitar." },
+        { "type": "Alerta", "title": "Si no te explican los cuidados, es una señal", "body": "Un buen artista se preocupa por el resultado." },
+        { "type": "Resumen", "title": "", "body": "Tu piel lo vale: elige un estudio que cuide como tú." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "¿Por qué se despelleja un tatuaje?",
+      "objetivo": "Normalizar sin banalizar.",
+      "slides": [
+        { "type": "Portada", "title": "¿Por qué se despelleja mi tatuaje?", "body": "Tranquilo, es normal." },
+        { "type": "Explicación", "title": "La piel elimina células superficiales", "body": "Es renovación natural, no que \"se caiga la tinta\"." },
+        { "type": "Idea clave", "title": "No significa que se esté cayendo la tinta", "body": "La tinta está en capas más profundas." },
+        { "type": "Riesgo", "title": "Arrancar la piel puede abrir huecos", "body": "Y afectar el resultado final." },
+        { "type": "Qué hacer", "title": "Deja que se desprenda sola", "body": "Solo lava suave e hidrata." },
+        { "type": "Qué hacer", "title": "No frotes ni rasques", "body": "Paciencia es la clave." },
+        { "type": "Resumen", "title": "", "body": "Despellejarse = proceso normal. Lo que no es normal es forzar la piel." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Sol y tatuajes: lo que casi nadie entiende",
+      "objetivo": "Contenido muy compartible sobre protección solar.",
+      "slides": [
+        { "type": "Portada", "title": "Sol y tatuajes: lo que casi nadie entiende", "body": "Nuevo o viejo: el sol no es tu amigo." },
+        { "type": "Idea clave", "title": "El sol afecta un tatuaje nuevo y uno ya cicatrizado", "body": "Quema, decolora y acelera el envejecimiento." },
+        { "type": "Consecuencia", "title": "Puede alterar la apariencia", "body": "Colores que se apagan, líneas que se difuminan." },
+        { "type": "Cuándo sí", "title": "Protector solar", "body": "Cuando la piel ya cicatrizó — No en herida abierta. Sí siempre después." },
+        { "type": "Hábitos", "title": "Usa protector de alto FPS", "body": "Y repite cada 2–3 horas si estás al sol." },
+        { "type": "Hábitos", "title": "Cubre o evita sol directo", "body": "Ropa, sombra: ayuda más de lo que crees." },
+        { "type": "Resumen", "title": "", "body": "Proteger = que tu tattoo dure más y se vea mejor." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Zonas del cuerpo que tardan más en sanar",
+      "objetivo": "Guía práctica por zona.",
+      "slides": [
+        { "type": "Portada", "title": "Zonas que tardan más en sanar", "body": "No todas son iguales." },
+        { "type": "Zona", "title": "Áreas con más roce", "body": "Rodillas, codos: la ropa y el movimiento retardan la curación." },
+        { "type": "Zona", "title": "Áreas con más movimiento", "body": "Hombros, manos: se tensan y estiran más." },
+        { "type": "Zona", "title": "Piel fina o delicada", "body": "Cuello, costillas: más sensibles y lentas." },
+        { "type": "Adaptar", "title": "Más cuidado en zonas de roce", "body": "Evita ropa ajustada y protege con film si hace falta." },
+        { "type": "Adaptar", "title": "En zonas móviles, evita estirar de más", "body": "Descansa y cuida la postura." },
+        { "type": "Resumen", "title": "", "body": "La zona define el tiempo: adapta tu cuidado." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "¿Por qué algunos tatuajes envejecen mejor que otros?",
+      "objetivo": "Autoridad técnica y educación.",
+      "slides": [
+        { "type": "Portada", "title": "¿Por qué unos tatuajes envejecen mejor?", "body": "No es solo suerte." },
+        { "type": "Factor", "title": "Técnica y aplicación", "body": "Una buena mano hace líneas limpias y color homogéneo." },
+        { "type": "Factor", "title": "Diseño y nivel de detalle", "body": "Los detalles muy finos se difuminan antes." },
+        { "type": "Factor", "title": "Ubicación", "body": "Zonas de mucho sol o roce envejecen más rápido." },
+        { "type": "Factor", "title": "Cuidado a largo plazo", "body": "Protector, hidratación y hábitos marcan la diferencia." },
+        { "type": "Mensaje", "title": "", "body": "Un buen tattoo + buenos cuidados = resultado que dura." },
+        { "type": "Resumen", "title": "", "body": "Inversión en cuidado = inversión en tu tattoo." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Qué comer y hacer antes de tatuarte",
+      "objetivo": "Contenido práctico y fácil de aplicar.",
+      "slides": [
+        { "type": "Portada", "title": "Qué hacer antes de tu cita", "body": "Pequeños gestos, gran diferencia." },
+        { "type": "Acción", "title": "Dormir bien", "body": "Descansado aguantas más y sangras menos." },
+        { "type": "Acción", "title": "Comer antes", "body": "Evita mareos y bajadas de azúcar." },
+        { "type": "Acción", "title": "Llegar hidratado", "body": "Agua, no solo café." },
+        { "type": "Evitar", "title": "Alcohol y drogas", "body": "Aumentan sangrado y empeoran la experiencia." },
+        { "type": "Extra", "title": "Llegar relajado y con tiempo", "body": "Sin prisas, sin estrés." },
+        { "type": "Resumen", "title": "", "body": "Prepararte bien = mejor sesión y mejor resultado." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "¿Por qué un tatuaje puede perder intensidad?",
+      "objetivo": "Educar sin culpar.",
+      "slides": [
+        { "type": "Portada", "title": "¿Por qué mi tattoo perdió intensidad?", "body": "Razones claras, sin drama." },
+        { "type": "Causa", "title": "Cicatrización deficiente", "body": "Mal cuidado en las primeras semanas." },
+        { "type": "Causa", "title": "Ubicación", "body": "Algunas zonas retienen peor el pigmento." },
+        { "type": "Causa", "title": "Sol y hábitos", "body": "Exposición sin protección acelera el desgaste." },
+        { "type": "Normal", "title": "Un retoque es parte del proceso", "body": "No siempre significa error." },
+        { "type": "Acción", "title": "Consulta con tu artista", "body": "Un retoque puede devolver definición." },
+        { "type": "Resumen", "title": "", "body": "Pérdida de intensidad tiene causas; muchas tienen solución." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Tatuajes y ejercicio: ¿cuándo volver al gym?",
+      "objetivo": "Tema popular y muy guardable.",
+      "slides": [
+        { "type": "Portada", "title": "¿Cuándo volver al gym después de tatuarme?", "body": "Lo que debes saber." },
+        { "type": "Riesgo", "title": "Sudor, fricción y bacterias", "body": "El gym junta todo lo que la piel nueva no necesita." },
+        { "type": "Riesgo", "title": "Volver muy pronto", "body": "Puede abrir la herida o contaminarla." },
+        { "type": "Variable", "title": "Depende de la zona", "body": "Brazo vs pierna vs espalda: tiempos distintos." },
+        { "type": "General", "title": "Espera 2–4 semanas", "body": "Y pregunta a tu artista según el tamaño." },
+        { "type": "Tip", "title": "Empieza suave", "body": "Evita roce directo y ropa que apriete." },
+        { "type": "Resumen", "title": "", "body": "Paciencia: tu tattoo te lo agradecerá." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "¿Qué pasa si me mojo el tatuaje?",
+      "objetivo": "Resolver una duda frecuente.",
+      "slides": [
+        { "type": "Portada", "title": "¿Qué pasa si me mojo el tattoo?", "body": "Lavar no es lo mismo que sumergir." },
+        { "type": "Diferencia", "title": "Ducharse sí", "body": "Breve, con jabón suave, sin frotar." },
+        { "type": "Diferencia", "title": "Piscina, mar, jacuzzi no", "body": "Agua cargada de bacterias y químicos." },
+        { "type": "Riesgo", "title": "Exceso de humedad", "body": "Ablanda la piel y dificulta la cicatrización." },
+        { "type": "Cómo", "title": "Sécate con toalla limpia", "body": "Golpe suave, sin arrastrar." },
+        { "type": "Regla", "title": "No sumergir hasta que esté bien cicatrizado", "body": "Semanas, no días." },
+        { "type": "Resumen", "title": "", "body": "Lavar = sí. Remojar = no." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 18,
+      "title": "¿Por qué no debes rasurarte mal antes de tatuarte?",
+      "objetivo": "Dato útil y poco obvio.",
+      "slides": [
+        { "type": "Portada", "title": "Por qué no debes rasurarte mal antes", "body": "Un detalle que marca la diferencia." },
+        { "type": "Razón", "title": "Microcortes irritan la piel", "body": "Rasurar mal = heridas que no ves." },
+        { "type": "Efecto", "title": "La piel comprometida reacciona distinto", "body": "Más sensible, más riesgo." },
+        { "type": "Quién", "title": "El estudio debe controlar el proceso", "body": "O rasurar ellos, o guiarte bien." },
+        { "type": "Qué hacer", "title": "No rasurar el día anterior", "body": "Mejor unas horas antes o dejar que lo hagan en el estudio." },
+        { "type": "Qué hacer", "title": "Usar rasuradora limpia y nueva", "body": "Evita irritación extra." },
+        { "type": "Resumen", "title": "", "body": "Rasurar bien = piel en mejor estado para tatuar." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Tatuajes en verano: precauciones extra",
+      "objetivo": "Contenido estacional y útil.",
+      "slides": [
+        { "type": "Portada", "title": "Tatuajes en verano", "body": "Más retos, pero con cuidado se puede." },
+        { "type": "Factor", "title": "Más sol", "body": "Protector alto, cubrir, evitar exposición directa." },
+        { "type": "Factor", "title": "Más sudor", "body": "Ducha suave después del ejercicio, ropa fresca." },
+        { "type": "Factor", "title": "Más agua y roce", "body": "Piscina, playa, ropa ajustada." },
+        { "type": "Consejo", "title": "Elige zonas fáciles de proteger", "body": "Espalda alta, muslo, etc." },
+        { "type": "Consejo", "title": "Cuida la hidratación", "body": "Bebe agua, hidrata la piel con poco producto." },
+        { "type": "Resumen", "title": "", "body": "Verano + tattoo = más cuidado, no imposible." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "Cosas que tu tatuador quisiera que supieras",
+      "objetivo": "Humanizar y educar.",
+      "slides": [
+        { "type": "Portada", "title": "Lo que tu tatuador quisiera que supieras", "body": "Una buena sesión depende de ambos." },
+        { "type": "Punto", "title": "Descansa y llega bien alimentado", "body": "Te beneficia a ti y al resultado." },
+        { "type": "Punto", "title": "Sé honesto con tu estado de salud", "body": "Medicación, alergias, embarazo." },
+        { "type": "Punto", "title": "Sigue las instrucciones del artista", "body": "No los consejos random de internet." },
+        { "type": "Punto", "title": "Comunica cómo te sientes", "body": "Si necesitas pausa, dilo." },
+        { "type": "Mensaje", "title": "", "body": "Respetar el proceso hace que la experiencia sea mejor." },
+        { "type": "Resumen", "title": "", "body": "Tú + artista + cuidado = tattoo que te encanta." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 21,
+      "title": "¿Todos los tipos de piel cicatrizan igual?",
+      "objetivo": "Contenido técnico pero accesible.",
+      "slides": [
+        { "type": "Portada", "title": "¿Todos cicatrizamos igual?", "body": "No. Y está bien." },
+        { "type": "Idea", "title": "Cada piel responde distinto", "body": "Grasa, resequedad, sensibilidad." },
+        { "type": "Variable", "title": "La cicatrización no se ve igual", "body": "Algunos descaman más, otros menos." },
+        { "type": "Variable", "title": "Zona y tipo de piel", "body": "Combinación que define tiempos y aspecto." },
+        { "type": "Mensaje", "title": "Por eso el cuidado debe ser consciente", "body": "No copies ciegamente a otros." },
+        { "type": "Acción", "title": "Sigue las indicaciones de tu artista", "body": "Conoce tu piel y tu tattoo." },
+        { "type": "Resumen", "title": "", "body": "Tu piel es única: cuídala como tal." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "¿Qué es un blowout?",
+      "objetivo": "Educar a clientes y curiosos.",
+      "slides": [
+        { "type": "Portada", "title": "¿Qué es un blowout?", "body": "Explicado en simple." },
+        { "type": "Definición", "title": "La tinta se expande más de lo previsto", "body": "Se ve un halo difuso alrededor del trazo." },
+        { "type": "Causa", "title": "Aguja muy profunda o zona delicada", "body": "La tinta sale de la dermis." },
+        { "type": "Zonas", "title": "Más común en piel fina", "body": "Cuello, costillas, muñecas." },
+        { "type": "Prevención", "title": "Elegir artista con experiencia", "body": "La técnica reduce el riesgo." },
+        { "type": "Si pasa", "title": "A veces se atenúa con el tiempo", "body": "Un retoque puede mejorar el aspecto." },
+        { "type": "Resumen", "title": "", "body": "Blowout = expansión de tinta. Buena técnica = menos probabilidad." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 23,
+      "title": "Por qué copiar cuidados de otra persona no siempre funciona",
+      "objetivo": "Desmontar consejos genéricos.",
+      "slides": [
+        { "type": "Portada", "title": "Por qué los cuidados de otro no siempre te sirven", "body": "No todas las pieles son iguales." },
+        { "type": "Razón", "title": "Pieles distintas", "body": "Lo que funciona a uno puede irritar a otro." },
+        { "type": "Razón", "title": "Tatuajes distintos", "body": "Tamaño, zona, estilo cambian el proceso." },
+        { "type": "Razón", "title": "Zona y tamaño influyen", "body": "Un pequeño en el brazo ≠ un grande en la espalda." },
+        { "type": "Regla", "title": "Sigue las instrucciones de tu artista", "body": "Ellos conocen tu caso." },
+        { "type": "Mensaje", "title": "Personaliza tu cuidado", "body": "Escucha tu cuerpo y a tu tatuador." },
+        { "type": "Resumen", "title": "", "body": "Tu tattoo, tus cuidados." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 24,
+      "title": "¿Qué pasa si duermes mal la noche anterior?",
+      "objetivo": "Curioso y práctico.",
+      "slides": [
+        { "type": "Portada", "title": "¿Qué pasa si no dormiste bien antes de tatuarte?", "body": "Más de lo que crees." },
+        { "type": "Efecto", "title": "Afecta la tolerancia al dolor", "body": "Menos descanso = más sensibilidad." },
+        { "type": "Efecto", "title": "Afecta tu energía y paciencia", "body": "Sesiones largas se hacen más duras." },
+        { "type": "Efecto", "title": "Tu cuerpo maneja peor el estrés", "body": "Menos defensas, peor recuperación." },
+        { "type": "Consejo", "title": "Si dormiste fatal, valora reprogramar", "body": "No es drama, es cuidarte." },
+        { "type": "Hábito", "title": "Dormir bien es parte de prepararte", "body": "Como comer e hidratarte." },
+        { "type": "Resumen", "title": "", "body": "Un buen descanso = mejor experiencia." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 25,
+      "title": "Tatuajes pequeños vs grandes: diferencias",
+      "objetivo": "Comparativo sencillo.",
+      "slides": [
+        { "type": "Portada", "title": "Pequeños vs grandes: qué cambia", "body": "Tiempo, molestias y expectativas." },
+        { "type": "Diferencia", "title": "Tiempo de sesión", "body": "Minutos vs horas." },
+        { "type": "Diferencia", "title": "Superficie afectada", "body": "Menos piel = menos proceso de curación." },
+        { "type": "Diferencia", "title": "Mantenimiento y molestias", "body": "Un pequeño suele ser más llevadero." },
+        { "type": "Expectativa", "title": "Pequeños", "body": "Suelen cicatrizar antes y con menos incomodidad." },
+        { "type": "Expectativa", "title": "Grandes", "body": "Más tiempo, más cuidado, más paciencia." },
+        { "type": "Resumen", "title": "", "body": "Tamaño define ritmo: ambos pueden quedar perfectos con buen cuidado." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 26,
+      "title": "¿Cuándo es buena idea hacer un retoque?",
+      "objetivo": "Quitar estigmas y educar.",
+      "slides": [
+        { "type": "Portada", "title": "¿Cuándo hacer un retoque?", "body": "No es señal de mal trabajo." },
+        { "type": "Mensaje", "title": "Un retoque no siempre significa error", "body": "Es parte del proceso en muchas zonas." },
+        { "type": "Causa", "title": "Algunas zonas pierden definición", "body": "Manos, pies, cuello." },
+        { "type": "Causa", "title": "El cuerpo cicatriza distinto", "body": "A veces la tinta no queda perfecta a la primera." },
+        { "type": "Cuándo", "title": "Después de que cicatrice por completo", "body": "Semanas o meses, según el caso." },
+        { "type": "Acción", "title": "Consulta con tu artista", "body": "Ellos saben si y cuándo conviene." },
+        { "type": "Resumen", "title": "", "body": "Retocar es normal. Lo raro sería no planteárselo cuando hace falta." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 27,
+      "title": "Tatuajes y exposición al agua",
+      "objetivo": "Muy compartible y útil.",
+      "slides": [
+        { "type": "Portada", "title": "Piscina, mar, jacuzzi", "body": "Por qué no al principio y cuándo sí." },
+        { "type": "Razón", "title": "Riesgo de irritación y contaminación", "body": "Bacterias, cloro, sal." },
+        { "type": "Idea", "title": "No son \"terapia\" para la herida", "body": "Son riesgo en fase de cicatrización." },
+        { "type": "Tiempo", "title": "Espera hasta que cicatrice bien", "body": "Semanas, no días." },
+        { "type": "Regla", "title": "Cuando ya no haya costras ni descamación", "body": "Y la piel se vea cerrada." },
+        { "type": "Después", "title": "Protector solar siempre", "body": "Especialmente en agua." },
+        { "type": "Resumen", "title": "", "body": "Paciencia con el agua = tattoo sano." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 28,
+      "title": "Lo que nadie te dice de la primera semana",
+      "objetivo": "Cercanía y realismo.",
+      "slides": [
+        { "type": "Portada", "title": "Lo que nadie te dice de la primera semana", "body": "Sin filtros." },
+        { "type": "Realidad", "title": "Puede sentirse raro, tenso o caliente", "body": "Es normal." },
+        { "type": "Realidad", "title": "La apariencia cambia cada día", "body": "Un día se ve bien, al siguiente no tanto." },
+        { "type": "Realidad", "title": "Vas a querer tocarlo", "body": "No lo hagas." },
+        { "type": "Realidad", "title": "El picor llega", "body": "Y hay que aguantar." },
+        { "type": "Mensaje", "title": "La primera semana no define el resultado final", "body": "Paciencia." },
+        { "type": "Resumen", "title": "", "body": "Es rara, pero pasa. Cuida y espera." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 29,
+      "title": "¿Cómo saber si ya cicatrizó de verdad?",
+      "objetivo": "Resolver una duda común.",
+      "slides": [
+        { "type": "Portada", "title": "¿Cómo saber si ya cicatrizó?", "body": "Que se vea bien no basta." },
+        { "type": "Idea", "title": "Que \"se vea bien\" no siempre significa curado", "body": "La superficie puede engañar." },
+        { "type": "Proceso", "title": "La superficie sana antes que capas profundas", "body": "La dermis tarda más." },
+        { "type": "Señales", "title": "Sin costras, sin descamación activa", "body": "La piel se ve uniforme." },
+        { "type": "Señales", "title": "No duele al tacto", "body": "No hay sensibilidad anormal." },
+        { "type": "Tiempo", "title": "Suele ser entre 2 y 4 semanas", "body": "Grandes o zonas difíciles pueden tardar más." },
+        { "type": "Resumen", "title": "", "body": "Cuando la piel está cerrada y estable, ya puedes tratarlo como curado." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    },
+    {
+      "id": 30,
+      "title": "Guía básica para tu próximo tatuaje",
+      "objetivo": "Cierre recopilatorio y muy guardable.",
+      "slides": [
+        { "type": "Portada", "title": "Guía básica para tu próximo tattoo", "body": "Antes, durante y después." },
+        { "type": "Antes", "title": "Duerme, come, hidrátate", "body": "Llega en buen estado." },
+        { "type": "Durante", "title": "Escucha indicaciones", "body": "Y cuida tu cuerpo durante la sesión." },
+        { "type": "Después", "title": "Limpia suave", "body": "Sin frotar, sin exceso." },
+        { "type": "Después", "title": "Hidrata con criterio", "body": "Poco, varias veces." },
+        { "type": "Después", "title": "Evita sol, agua larga y roce", "body": "Hasta que cicatrice." },
+        { "type": "Cierre", "title": "", "body": "Un buen tattoo depende de un buen cuidado." },
+        { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
+      ]
+    }
+  ]
+}

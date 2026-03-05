@@ -2,3 +2,4 @@
 .serverless/
 build-artifacts/
 node_modules/
+content/examples
