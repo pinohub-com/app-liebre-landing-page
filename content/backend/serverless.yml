@@ -17,14 +17,12 @@ provider:
         - GET
         - OPTIONS
         - POST
-        - PUT
       allowedHeaders:
         - Content-Type
         - Authorization
       allowCredentials: false
   environment:
     BUCKET_NAME: !Ref VideoBucket
-    QUEUE_URL: !Ref VideoConvertQueue
   iam:
     role:
       statements:
@@ -39,16 +37,6 @@ provider:
           Action:
             - s3:ListBucket
           Resource: !Sub 'arn:aws:s3:::${VideoBucket}'
-        - Effect: Allow
-          Action:
-            - sqs:SendMessage
-          Resource: !GetAtt VideoConvertQueue.Arn
-        - Effect: Allow
-          Action:
-            - sqs:ReceiveMessage
-            - sqs:DeleteMessage
-            - sqs:GetQueueAttributes
-          Resource: !GetAtt VideoConvertQueue.Arn
 
 package:
   patterns:
@@ -57,39 +45,17 @@ package:
     - '!*.md'
 
 functions:
-  getUploadUrl:
-    handler: handler.get_upload_url
-    description: Retorna URL firmada para subir el WebM a S3
+  createReel:
+    handler: handler.create_reel_from_slides
+    description: Recibe 8 imágenes base64, crea MP4 en full res, retorna downloadUrl
+    memorySize: 4096
+    timeout: 120
+    layers:
+      - Ref: FfmpegLambdaLayer
     events:
       - httpApi:
-          path: /upload-url
+          path: /create-reel
           method: post
-
-  enqueueConvert:
-    handler: handler.enqueue_convert
-    description: Encola la conversión en SQS
-    events:
-      - httpApi:
-          path: /convert
-          method: post
-
-  getStatus:
-    handler: handler.get_status
-    description: Indica si el MP4 está listo y retorna downloadUrl
-    events:
-      - httpApi:
-          path: /status
-          method: get
-
-  videoConverter:
-    handler: handler.convert_video_worker
-    description: "Procesa mensajes SQS: descarga WebM, convierte a MP4, sube a S3"
-    memorySize: 2048
-    timeout: 900
-    events:
-      - sqs:
-          arn: !GetAtt VideoConvertQueue.Arn
-          batchSize: 1
 
 layers:
   ffmpeg:
@@ -98,20 +64,7 @@ layers:
     description: FFmpeg static binary for video conversion
 
 resources:
-  extensions:
-    VideoConverterLambdaFunction:
-      Properties:
-        Layers:
-          - Ref: FfmpegLambdaLayer
   Resources:
-    VideoConvertQueue:
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: ${self:service}-${self:provider.stage}-convert
-        VisibilityTimeout: 960
-        MessageRetentionPeriod: 86400
-        ReceiveMessageWaitTimeSeconds: 0
-
     VideoBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -124,13 +77,9 @@ resources:
               ExposedHeaders: ['ETag']
         LifecycleConfiguration:
           Rules:
-            - Id: DeleteUploads
+            - Id: DeleteReels
               Status: Enabled
-              Prefix: uploads/
-              ExpirationInDays: 1
-            - Id: DeleteConverted
-              Status: Enabled
-              Prefix: converted/
+              Prefix: reels/
               ExpirationInDays: 1
 
   Outputs:

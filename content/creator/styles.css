@@ -583,6 +583,43 @@ header .subtitle {
   display: none;
 }
 
+.convert-divider {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 1rem 0 0.75rem;
+}
+
+.btn-convert-local {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-bottom: 0.35rem;
+  transition: all 0.15s;
+}
+
+.btn-convert-local:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.btn-convert-local:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.convert-local-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
 .btn-convert-video {
   width: 100%;
   padding: 0.75rem 1.25rem;

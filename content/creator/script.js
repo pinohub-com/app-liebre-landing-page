@@ -31,7 +31,6 @@ const FORMATS = {
 };
 
 const CONVERT_API = 'https://i1hev19kea.execute-api.us-east-1.amazonaws.com';
-let convertSelectedFile = null;
 
 function getFormat() {
   return document.getElementById('export-slide')?.dataset.format || '4:5';
@@ -242,6 +241,27 @@ function bindEvents() {
     }
   });
 
+  document.addEventListener('keydown', (e) => {
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
+    if (e.key === 'ArrowLeft') {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        renderSlide();
+        updateEditor();
+        renderSlideNav();
+        e.preventDefault();
+      }
+    } else if (e.key === 'ArrowRight') {
+      if (currentSlideIndex < 7) {
+        currentSlideIndex++;
+        renderSlide();
+        updateEditor();
+        renderSlideNav();
+        e.preventDefault();
+      }
+    }
+  });
+
   ['edit-type', 'edit-title', 'edit-body'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -370,30 +390,8 @@ function bindEvents() {
   });
   document.getElementById('btn-export-video').addEventListener('click', exportReel);
 
-  // Convertir video a MP4 (backend)
-  document.getElementById('convert-video-input').addEventListener('change', (e) => {
-    const file = e.target.files?.[0];
-    convertSelectedFile = file || null;
-    const label = document.getElementById('convert-video-label');
-    const fn = document.getElementById('convert-filename');
-    const btn = document.getElementById('btn-convert-video');
-    const result = document.getElementById('convert-result');
-    const errEl = document.getElementById('convert-error');
-    result.classList.add('hidden');
-    errEl.classList.add('hidden');
-    if (file) {
-      label.textContent = file.name;
-      fn.textContent = file.name;
-      fn.classList.remove('hidden');
-      btn.disabled = false;
-    } else {
-      label.textContent = '+ Elegir video';
-      fn.classList.add('hidden');
-      btn.disabled = true;
-    }
-    e.target.value = '';
-  });
   document.getElementById('btn-convert-video').addEventListener('click', convertVideoToMp4);
+  document.getElementById('btn-convert-local').addEventListener('click', exportReelMp4Local);
 }
 
 function exportCurrentSlide() {
@@ -654,13 +652,167 @@ async function exportReel() {
   tick();
 }
 
-const POLL_INTERVAL_MS = 2500;
-const POLL_MAX_ATTEMPTS = 240;  // ~10 min
+const XFADE_MAP = {
+  'fade': 'fade',
+  'slide-left': 'slideleft',
+  'slide-right': 'slideright',
+  'slide-up': 'slideup',
+  'slide-down': 'slidedown',
+  'zoom-in': 'fade',
+  'zoom-out': 'fade',
+  'none': 'fade'
+};
+
+async function exportReelMp4Local() {
+  const btn = document.getElementById('btn-convert-local');
+  const progressWrap = document.getElementById('convert-progress');
+  const progressFill = document.getElementById('convert-progress-fill');
+  const progressText = document.getElementById('convert-progress-text');
+  const resultWrap = document.getElementById('convert-result');
+  const downloadLink = document.getElementById('convert-download-link');
+  const errEl = document.getElementById('convert-error');
+
+  if (btn.disabled) return;
+  btn.disabled = true;
+  resultWrap.classList.add('hidden');
+  errEl.classList.add('hidden');
+  progressWrap.classList.remove('hidden');
+  progressFill.style.width = '0%';
+
+    const slideDuration = parseFloat(document.getElementById('video-slide-duration').value) || 3;
+    const transDuration = parseFloat(document.getElementById('video-transition-duration').value) || 0.5;
+    const transition = document.getElementById('video-transition').value;
+    const { w: videoW, h: videoH } = getVideoDimensions();
+    const dayId = currentDayId;
+    const origIdx = currentSlideIndex;
+    const slideEl = document.getElementById('export-slide');
+    const scale = videoW / slideEl.offsetWidth;
+
+    const ffmpegScale = 0.7;
+    const ffW = Math.round(videoW * ffmpegScale);
+    const ffH = Math.round(videoH * ffmpegScale);
+
+    try {
+    progressText.textContent = 'Capturando 8 slides...';
+    progressFill.style.width = '10%';
+
+    const slideCanvases = [];
+    for (let i = 0; i < 8; i++) {
+      currentSlideIndex = i;
+      renderSlide();
+      await new Promise(r => setTimeout(r, 50));
+      const rawCanvas = await html2canvas(slideEl, {
+        scale,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#FBF7F4'
+      });
+      const normalized = document.createElement('canvas');
+      normalized.width = ffW;
+      normalized.height = ffH;
+      normalized.getContext('2d').drawImage(rawCanvas, 0, 0, videoW, videoH, 0, 0, ffW, ffH);
+      slideCanvases.push(normalized);
+    }
+    currentSlideIndex = origIdx;
+    renderSlide();
+    updateEditor();
+    renderSlideNav();
+
+    progressText.textContent = 'Cargando FFmpeg (~25 MB, primera vez)...';
+    progressFill.style.width = '20%';
+
+    const { createFFmpeg, fetchFile } = await new Promise((resolve, reject) => {
+      if (window.FFmpeg && window.FFmpeg.createFFmpeg) {
+        resolve(window.FFmpeg);
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js';
+      s.onload = () => {
+        if (window.FFmpeg) resolve(window.FFmpeg);
+        else reject(new Error('FFmpeg no disponible'));
+      };
+      s.onerror = () => reject(new Error('No se pudo cargar FFmpeg'));
+      document.head.appendChild(s);
+    });
+
+    const ffmpeg = createFFmpeg({
+      log: false,
+      corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
+      wasmPath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.wasm'
+    });
+    if (!ffmpeg.isLoaded()) {
+      await ffmpeg.load();
+    }
+
+    progressText.textContent = 'Escribiendo imágenes...';
+    progressFill.style.width = '35%';
+
+    for (let i = 0; i < 8; i++) {
+      const blob = await new Promise(r => slideCanvases[i].toBlob(r, 'image/jpeg', 0.85));
+      const data = await fetchFile(blob);
+      ffmpeg.FS('writeFile', `img${i}.jpg`, data);
+    }
+
+    progressText.textContent = 'Generando MP4 (esto puede tardar 1-2 min)...';
+    progressFill.style.width = '50%';
+
+    const filterStr = [
+      ...[0, 1, 2, 3, 4, 5, 6, 7].map(i => `[${i}:v]scale=trunc(iw/2)*2:trunc(ih/2)*2,format=yuv420p[v${i}]`),
+      '[v0][v1][v2][v3][v4][v5][v6][v7]concat=n=8:v=1:a=0[out]'
+    ].join(';');
+
+    const args = ['-y'];
+    for (let i = 0; i < 8; i++) {
+      args.push('-loop', '1', '-t', String(slideDuration), '-i', `img${i}.jpg`);
+    }
+    args.push('-filter_complex', filterStr, '-map', '[out]', '-c:v', 'libx264', '-r', '30', '-movflags', '+faststart', 'output.mp4');
+
+    await ffmpeg.run(...args);
+
+    progressFill.style.width = '90%';
+    progressText.textContent = 'Finalizando...';
+
+    const data = ffmpeg.FS('readFile', 'output.mp4');
+    const blob = new Blob([data], { type: 'video/mp4' });
+    const url = URL.createObjectURL(blob);
+    const dayTitle = parrilla.days.find(d => d.id === dayId)?.title || 'dia';
+    const filename = `reel-dia${dayId}-${slugify(dayTitle)}.mp4`;
+
+    downloadLink.textContent = 'Descargar MP4 (abre en nueva pestaña)';
+    downloadLink.onclick = () => {
+      window.open(url, '_blank', 'noopener');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.focus();
+    };
+    resultWrap.classList.remove('hidden');
+    downloadLink.classList.remove('hidden');
+    errEl.classList.add('hidden');
+
+    progressFill.style.width = '100%';
+    progressText.textContent = '¡Listo!';
+  } catch (err) {
+    const msg = (err.message || '').includes('OOM') || (err.message || '').includes('memory')
+      ? 'Memoria insuficiente. Cierra otras pestañas e intenta de nuevo.'
+      : (err.message || 'Error al generar MP4');
+    errEl.textContent = msg;
+    errEl.classList.remove('hidden');
+    resultWrap.classList.remove('hidden');
+    downloadLink.classList.add('hidden');
+    console.error(err);
+  } finally {
+    progressWrap.classList.add('hidden');
+    btn.disabled = false;
+  }
+}
 
 async function convertVideoToMp4() {
-  const file = convertSelectedFile;
-  if (!file) return;
-
   const btn = document.getElementById('btn-convert-video');
   const progressWrap = document.getElementById('convert-progress');
   const progressFill = document.getElementById('convert-progress-fill');
@@ -669,82 +821,95 @@ async function convertVideoToMp4() {
   const downloadLink = document.getElementById('convert-download-link');
   const errEl = document.getElementById('convert-error');
 
+  if (btn.disabled) return;
   btn.disabled = true;
   resultWrap.classList.add('hidden');
   errEl.classList.add('hidden');
   progressWrap.classList.remove('hidden');
   progressFill.style.width = '0%';
 
-  const filename = file.name.toLowerCase().endsWith('.webm') ? file.name : file.name.replace(/\.[^.]+$/, '.webm');
+  const slideDuration = parseFloat(document.getElementById('video-slide-duration').value) || 3;
+  const transDuration = parseFloat(document.getElementById('video-transition-duration').value) || 0.5;
+  const { w: videoW, h: videoH } = getVideoDimensions();
+  const dayId = currentDayId;
+  const origIdx = currentSlideIndex;
+  const slideEl = document.getElementById('export-slide');
+  const scale = videoW / slideEl.offsetWidth;
 
   try {
-    progressText.textContent = 'Obteniendo URL de subida...';
-    const uploadRes = await fetch(`${CONVERT_API}/upload-url`, {
+    progressText.textContent = 'Capturando 8 slides en full res...';
+    progressFill.style.width = '10%';
+
+    const images = [];
+    for (let i = 0; i < 8; i++) {
+      currentSlideIndex = i;
+      renderSlide();
+      await new Promise(r => setTimeout(r, 50));
+      const rawCanvas = await html2canvas(slideEl, {
+        scale,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#FBF7F4'
+      });
+      const normalized = document.createElement('canvas');
+      normalized.width = videoW;
+      normalized.height = videoH;
+      normalized.getContext('2d').drawImage(rawCanvas, 0, 0, videoW, videoH, 0, 0, videoW, videoH);
+      const base64 = normalized.toDataURL('image/jpeg', 0.9).split(',')[1];
+      images.push(base64);
+    }
+    currentSlideIndex = origIdx;
+    renderSlide();
+    updateEditor();
+    renderSlideNav();
+
+    progressText.textContent = 'Enviando al servidor y generando MP4...';
+    progressFill.style.width = '30%';
+
+    const res = await fetch(`${CONVERT_API}/create-reel`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ filename })
+      body: JSON.stringify({
+        images,
+        slideDuration,
+        transDuration,
+        width: videoW,
+        height: videoH
+      })
     });
-    const uploadData = await uploadRes.json();
-    if (!uploadRes.ok || !uploadData.uploadUrl) throw new Error(uploadData.error || 'Error al obtener URL de subida');
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Error al crear el reel');
 
-    progressText.textContent = 'Subiendo video...';
-    progressFill.style.width = '25%';
-    const putRes = await fetch(uploadData.uploadUrl, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'video/webm' },
-      body: file
-    });
-    if (!putRes.ok) throw new Error('Error al subir el archivo');
+    progressFill.style.width = '100%';
+    progressText.textContent = '¡Listo!';
 
-    progressText.textContent = 'Encolando conversión...';
-    progressFill.style.width = '35%';
-    const convertRes = await fetch(`${CONVERT_API}/convert`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ key: uploadData.key })
-    });
-    const convertData = await convertRes.json();
-    if (!convertRes.ok || convertData.status !== 'queued') {
-      throw new Error(convertData.error || 'Error al encolar la conversión');
-    }
-
-    const key = convertData.key;
-    progressText.textContent = 'Convirtiendo a MP4 (esto puede tardar varios minutos)...';
-    progressFill.style.width = '40%';
-
-    let attempts = 0;
-    while (attempts < POLL_MAX_ATTEMPTS) {
-      await new Promise(r => setTimeout(r, POLL_INTERVAL_MS));
-      attempts++;
-      const pct = 40 + Math.min(55, (attempts / POLL_MAX_ATTEMPTS) * 55);
-      progressFill.style.width = pct + '%';
-      progressText.textContent = `Esperando conversión... (${attempts * (POLL_INTERVAL_MS / 1000)} s)`;
-
-      const statusRes = await fetch(`${CONVERT_API}/status?key=${encodeURIComponent(key)}`);
-      const statusData = await statusRes.json();
-      if (!statusRes.ok) throw new Error(statusData.error || 'Error al consultar estado');
-
-      if (statusData.status === 'ready' && statusData.downloadUrl) {
-        progressFill.style.width = '100%';
-        progressText.textContent = '¡Listo!';
-        downloadLink.href = statusData.downloadUrl;
-        downloadLink.download = (file.name.replace(/\.[^.]+$/, '') || 'video') + '.mp4';
-        downloadLink.textContent = 'Descargar MP4';
-        resultWrap.classList.remove('hidden');
-        downloadLink.classList.remove('hidden');
-        errEl.classList.add('hidden');
-        progressWrap.classList.add('hidden');
-        btn.disabled = false;
-        return;
-      }
-    }
-
-    throw new Error('Tiempo de espera agotado. Intenta de nuevo más tarde.');
+    const dayTitle = parrilla.days.find(d => d.id === dayId)?.title || 'dia';
+    const filename = `reel-dia${dayId}-${slugify(dayTitle)}.mp4`;
+    progressText.textContent = 'Obteniendo video...';
+    const vidRes = await fetch(data.downloadUrl);
+    const blob = await vidRes.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    downloadLink.textContent = 'Descargar MP4 (abre en nueva pestaña)';
+    downloadLink.onclick = () => {
+      window.open(blobUrl, '_blank', 'noopener');
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.focus();
+    };
+    resultWrap.classList.remove('hidden');
+    downloadLink.classList.remove('hidden');
+    errEl.classList.add('hidden');
   } catch (err) {
     errEl.textContent = err.message || 'Error desconocido';
     errEl.classList.remove('hidden');
     resultWrap.classList.remove('hidden');
     downloadLink.classList.add('hidden');
+    console.error(err);
   } finally {
     progressWrap.classList.add('hidden');
     btn.disabled = false;

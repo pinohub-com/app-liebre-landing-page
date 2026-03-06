@@ -113,20 +113,18 @@
         </div>
       </div>
       <div class="convert-video-section">
-        <h4 class="export-video-title">🔄 Convertir video a MP4</h4>
-        <p class="convert-hint">Sube un video (WebM, MP4, etc.) y conviértelo a MP4 optimizado para redes.</p>
-        <label class="upload-btn convert-upload">
-          <input type="file" id="convert-video-input" accept="video/*" hidden>
-          <span id="convert-video-label">+ Elegir video</span>
-        </label>
-        <p class="convert-filename hidden" id="convert-filename"></p>
-        <button type="button" class="btn-convert-video" id="btn-convert-video" disabled>Convertir a MP4</button>
+        <h4 class="export-video-title">🔄 Convertir a MP4</h4>
+        <p class="convert-hint">Genera el reel desde los 8 slides actuales en full resolución (1080p).</p>
+        <button type="button" class="btn-convert-video" id="btn-convert-video">Convertir a MP4</button>
+        <p class="convert-divider">— o —</p>
+        <button type="button" class="btn-convert-local" id="btn-convert-local">Convertir localmente</button>
+        <p class="convert-local-hint">Genera MP4 en tu navegador (sin subir a la nube). Resolución 720p.</p>
         <div class="convert-progress hidden" id="convert-progress">
           <div class="progress-bar"><div class="progress-fill" id="convert-progress-fill"></div></div>
           <span class="progress-text" id="convert-progress-text">Subiendo...</span>
         </div>
         <div class="convert-result hidden" id="convert-result">
-          <a id="convert-download-link" class="btn-download-mp4" href="#" target="_blank" rel="noopener">Descargar MP4</a>
+          <button type="button" id="convert-download-link" class="btn-download-mp4">Descargar MP4 (abre en nueva pestaña)</button>
           <span class="convert-error hidden" id="convert-error"></span>
         </div>
       </div>

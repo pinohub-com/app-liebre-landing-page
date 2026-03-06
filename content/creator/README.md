@@ -6,16 +6,21 @@ Herramienta para generar slides en JPG a partir de la parrilla de contenido, con
 
 1. **Servir con un servidor local** (necesario para cargar `parrilla.json`):
    ```bash
-   # Desde la raíz del proyecto
+   # Opción A: Para usar "Convertir localmente" (FFmpeg.wasm)
+   cd content/creator
+   node server.js
+   ```
+   Luego abre: `http://localhost:3000/creator/`
+
+   ```bash
+   # Opción B: Sin FFmpeg local (solo conversión por backend)
    npx serve content
    ```
-   O desde la carpeta content:
-   ```bash
-   cd content
-   npx serve .
-   ```
+   Abre: `http://localhost:3000/creator/`
 
-2. Abre en el navegador: `http://localhost:3000/creator/` (o el puerto que indique `serve`)
+   > **Nota**: "Convertir localmente" necesita los headers COOP/COEP (servidor propio). Usa `node server.js` para ello.
+
+2. Abre en el navegador la URL indicada
 
 3. **Selector de día**: Elige el día (1–30) de la parrilla
 
