@@ -33,9 +33,17 @@
 
     <main class="main">
       <div class="preview-wrapper">
-        <p class="preview-label">Vista previa (1080×1350 — Instagram carrusel 4:5)</p>
+        <div class="preview-label-row">
+          <span class="preview-label">Vista previa</span>
+          <div class="format-selector">
+            <button type="button" class="format-btn" data-format="1:1" title="1:1 Feed">1:1</button>
+            <button type="button" class="format-btn active" data-format="4:5" title="4:5 Carrusel">4:5</button>
+            <button type="button" class="format-btn" data-format="9:16" title="9:16 Reel">9:16</button>
+          </div>
+        </div>
+        <p class="preview-dimensions" id="preview-dimensions">1080×1350</p>
         <div class="preview-container" id="preview-container">
-          <div id="export-slide" class="export-slide">
+          <div id="export-slide" class="export-slide" data-format="4:5">
             <div class="slide-bg">
               <div class="slide-bg-texture" id="slide-bg-texture"></div>
               <div class="slide-bg-custom" id="slide-bg-custom"></div>
@@ -64,8 +72,45 @@
         <button type="button" id="btn-next">Siguiente →</button>
       </div>
       <div class="export-actions">
-        <button type="button" class="btn-export-jpg" id="btn-export-one">Descargar slide actual (JPG 1080×1350)</button>
-        <button type="button" class="btn-export-all" id="btn-export-all">Descargar los 8 slides (JPG 1080×1350)</button>
+        <button type="button" class="btn-export-jpg" id="btn-export-one">Descargar slide actual (JPG)</button>
+        <button type="button" class="btn-export-all" id="btn-export-all">Descargar los 8 slides (JPG)</button>
+      </div>
+      <div class="export-video-section">
+        <h4 class="export-video-title">🎬 Crear Reel (Instagram / TikTok)</h4>
+        <div class="video-presets">
+          <button type="button" class="preset-btn" data-preset="15">Rápido 15s</button>
+          <button type="button" class="preset-btn active" data-preset="30">Estándar 30s</button>
+          <button type="button" class="preset-btn" data-preset="45">Completo 45s</button>
+        </div>
+        <div class="video-controls">
+          <div class="editor-group compact">
+            <label for="video-slide-duration">Seg por slide</label>
+            <input type="number" id="video-slide-duration" min="1.5" max="10" value="3" step="0.5">
+          </div>
+          <div class="editor-group compact">
+            <label for="video-transition">Transición</label>
+            <select id="video-transition">
+              <option value="none">Ninguna</option>
+              <option value="fade" selected>Crossfade</option>
+              <option value="slide-left">← Slide izq</option>
+              <option value="slide-right">Slide der →</option>
+              <option value="slide-up">↑ Slide arriba</option>
+              <option value="slide-down">Slide abajo ↓</option>
+              <option value="zoom-in">Zoom in</option>
+              <option value="zoom-out">Zoom out</option>
+            </select>
+          </div>
+          <div class="editor-group compact">
+            <label for="video-transition-duration">Transición (seg)</label>
+            <input type="number" id="video-transition-duration" min="0" max="2" value="0.5" step="0.1">
+          </div>
+        </div>
+        <p class="video-duration-hint" id="video-duration-hint">~28 s total · WebM 1080×1350</p>
+        <button type="button" class="btn-export-video" id="btn-export-video">Generar reel</button>
+        <div class="video-progress hidden" id="video-progress">
+          <div class="progress-bar"><div class="progress-fill" id="video-progress-fill"></div></div>
+          <span class="progress-text" id="video-progress-text">Preparando slides...</span>
+        </div>
       </div>
     </main>
 

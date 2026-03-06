@@ -1,0 +1,97 @@
+service: flou-video-converter
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: python3.12
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  memorySize: 1024
+  timeout: 29
+  environment:
+    BUCKET_NAME: !Ref VideoBucket
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:DeleteObject
+          Resource: !Sub 'arn:aws:s3:::${VideoBucket}/*'
+        - Effect: Allow
+          Action:
+            - s3:ListBucket
+          Resource: !Sub 'arn:aws:s3:::${VideoBucket}'
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!layer/**'
+    - '!*.md'
+
+functions:
+  getUploadUrl:
+    handler: handler.get_upload_url
+    description: Retorna una URL firmada para subir el video WebM a S3
+    events:
+      - httpApi:
+          path: /upload-url
+          method: post
+
+  convertToMp4:
+    handler: handler.convert_to_mp4
+    description: Convierte WebM a MP4 y retorna URL firmada de descarga
+    memorySize: 2048
+    timeout: 29
+    events:
+      - httpApi:
+          path: /convert
+          method: post
+
+layers:
+  ffmpeg:
+    path: layer
+    name: ${self:service}-${self:provider.stage}-ffmpeg
+    description: FFmpeg static binary for video conversion
+
+resources:
+  extensions:
+    ConvertToMp4LambdaFunction:
+      Properties:
+        Layers:
+          - Ref: FfmpegLambdaLayer
+  Resources:
+    VideoBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:service}-${self:provider.stage}-videos-${aws:accountId}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders: ['*']
+              AllowedMethods: [GET, PUT, POST, HEAD]
+              AllowedOrigins: ['*']
+              ExposedHeaders: ['ETag']
+        LifecycleConfiguration:
+          Rules:
+            - Id: DeleteUploads
+              Status: Enabled
+              Prefix: uploads/
+              ExpirationInDays: 1
+            - Id: DeleteConverted
+              Status: Enabled
+              Prefix: converted/
+              ExpirationInDays: 1
+
+  Outputs:
+    ApiEndpoint:
+      Description: URL base de la API (añade /upload-url o /convert)
+      Value: !Sub 'https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com'
+      Export:
+        Name: ${self:service}-${self:provider.stage}-api-url
+    BucketName:
+      Description: Nombre del bucket de videos
+      Value: !Ref VideoBucket
+      Export:
+        Name: ${self:service}-${self:provider.stage}-bucket
