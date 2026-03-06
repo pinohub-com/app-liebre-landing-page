@@ -21,6 +21,8 @@ let slideTitleFontSize = {}; // { "dayId-slideIndex": 1.35 }
 let slideTextVerticalPos = {}; // { "dayId-slideIndex": 50 } 0-100%
 let slideBodyFontSize = {}; // { "dayId-slideIndex": 0.9 }
 let slideBodyVerticalPos = {}; // { "dayId-slideIndex": 50 } 0-100%
+let slideTitleColor = {}; // { "dayId-slideIndex": "#232323" }
+let slideBodyColor = {}; // { "dayId-slideIndex": "#685D54" }
 
 async function loadParrilla() {
   try {
@@ -118,12 +120,17 @@ function renderSlide() {
   const verticalPos = slideTextVerticalPos[key] ?? 50;
   const bodySize = slideBodyFontSize[key] ?? 0.9;
   const bodyVertical = slideBodyVerticalPos[key] ?? 50;
+  const titleColor = slideTitleColor[key] ?? '#232323';
+  const bodyColor = slideBodyColor[key] ?? '#685D54';
   titleEl.style.fontSize = `${titleSize}rem`;
+  titleEl.style.color = titleColor;
   bodyEl.style.fontSize = `${bodySize}rem`;
+  bodyEl.style.color = bodyColor;
   bodyEl.textContent = isCta ? '' : (slide.body || '');
-  document.getElementById('slide-spacer-top').style.flex = `${verticalPos} 1 0`;
-  document.getElementById('slide-spacer-bottom').style.flex = `${100 - verticalPos} 1 0`;
-  document.getElementById('slide-spacer-body').style.flex = `${bodyVertical} 1 0`;
+  document.getElementById('slide-spacer-title-top').style.flex = `${verticalPos} 1 0`;
+  document.getElementById('slide-spacer-title-bottom').style.flex = `${100 - verticalPos} 1 0`;
+  document.getElementById('slide-spacer-body-top').style.flex = `${bodyVertical} 1 0`;
+  document.getElementById('slide-spacer-body-bottom').style.flex = `${100 - bodyVertical} 1 0`;
   document.getElementById('preview-cta').textContent = ctaText;
   const ctaBox = document.getElementById('slide-cta-box');
   ctaBox.classList.toggle('hidden', !isCta);
@@ -165,6 +172,8 @@ function updateEditor() {
   document.getElementById('text-vertical-value').textContent = verticalPos;
   document.getElementById('body-size-value').textContent = bodySize;
   document.getElementById('body-vertical-value').textContent = bodyVertical;
+  document.getElementById('edit-title-color').value = slideTitleColor[key] ?? '#232323';
+  document.getElementById('edit-body-color').value = slideBodyColor[key] ?? '#685D54';
 }
 
 function saveFromEditor() {
@@ -274,6 +283,14 @@ function bindEvents() {
     const val = parseInt(e.target.value, 10);
     slideBodyVerticalPos[`${currentDayId}-${currentSlideIndex}`] = val;
     document.getElementById('body-vertical-value').textContent = val;
+    renderSlide();
+  });
+  document.getElementById('edit-title-color').addEventListener('input', (e) => {
+    slideTitleColor[`${currentDayId}-${currentSlideIndex}`] = e.target.value;
+    renderSlide();
+  });
+  document.getElementById('edit-body-color').addEventListener('input', (e) => {
+    slideBodyColor[`${currentDayId}-${currentSlideIndex}`] = e.target.value;
     renderSlide();
   });
 

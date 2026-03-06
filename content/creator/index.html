@@ -44,17 +44,16 @@
             <div class="slide-content" id="slide-content">
               <div class="slide-logo"><img src="logo.svg" alt="Flou" /></div>
               <span class="slide-type-badge" id="slide-type-badge"></span>
-              <div class="slide-spacer-top" id="slide-spacer-top"></div>
-              <div class="slide-text-block">
-                <div class="slide-title" id="preview-title"></div>
-                <div class="slide-spacer-body" id="slide-spacer-body"></div>
-                <div class="slide-body" id="preview-body"></div>
-                <div class="slide-cta-box" id="slide-cta-box">
-                  <span class="cta-icon">💬</span>
-                  <span class="cta-text" id="preview-cta"></span>
-                </div>
+              <div class="slide-spacer-title-top" id="slide-spacer-title-top"></div>
+              <div class="slide-title" id="preview-title"></div>
+              <div class="slide-spacer-title-bottom" id="slide-spacer-title-bottom"></div>
+              <div class="slide-spacer-body-top" id="slide-spacer-body-top"></div>
+              <div class="slide-body" id="preview-body"></div>
+              <div class="slide-spacer-body-bottom" id="slide-spacer-body-bottom"></div>
+              <div class="slide-cta-box" id="slide-cta-box">
+                <span class="cta-icon">💬</span>
+                <span class="cta-text" id="preview-cta"></span>
               </div>
-              <div class="slide-spacer-bottom" id="slide-spacer-bottom"></div>
             </div>
           </div>
         </div>
@@ -93,7 +92,10 @@
       </div>
       <div class="editor-group">
         <label>Título</label>
-        <input type="text" id="edit-title" placeholder="Texto principal">
+        <div class="input-with-color">
+          <input type="color" id="edit-title-color" value="#232323" class="color-btn" title="Color del título">
+          <input type="text" id="edit-title" placeholder="Texto principal">
+        </div>
         <div class="title-style-wrap">
           <div class="slider-row">
             <label for="edit-title-size">Tamaño <span id="title-size-value">1.35</span>rem</label>
@@ -107,7 +109,10 @@
       </div>
       <div class="editor-group">
         <label>Cuerpo / Descripción</label>
-        <textarea id="edit-body" placeholder="Subtítulo o descripción"></textarea>
+        <div class="input-with-color">
+          <input type="color" id="edit-body-color" value="#685D54" class="color-btn" title="Color del cuerpo">
+          <textarea id="edit-body" placeholder="Subtítulo o descripción"></textarea>
+        </div>
         <div class="body-style-wrap">
           <div class="slider-row">
             <label for="edit-body-size">Tamaño <span id="body-size-value">0.9</span>rem</label>
