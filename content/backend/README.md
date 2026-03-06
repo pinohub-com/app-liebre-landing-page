@@ -1,6 +1,13 @@
-# Backend: Conversión WebM → MP4
+# Backend: Conversión WebM → MP4 (asíncrono)
 
-Servicio serverless (Serverless Framework v4) que recibe un video WebM, lo convierte a MP4 y retorna una URL firmada de S3 para descargarlo.
+Servicio serverless (Serverless Framework v4) que convierte videos WebM a MP4 mediante una cola SQS y Lambda con timeout de 900 segundos.
+
+## Arquitectura
+
+1. **POST /upload-url** — URL firmada para subir el WebM a S3
+2. **POST /convert** — Encola la conversión en SQS, retorna `{ key, status: "queued" }`
+3. **GET /status?key=...** — Consulta si el MP4 está listo; si sí, retorna `downloadUrl`
+4. **SQS** → **videoConverter Lambda** (timeout 900s) — Descarga WebM, convierte con FFmpeg, sube MP4 a S3
 
 ## Flujo
 
@@ -12,7 +19,11 @@ Servicio serverless (Serverless Framework v4) que recibe un video WebM, lo convi
 
 3. **POST /convert**  
    Body: `{ "key": "uploads/xxx/reel.webm" }`  
-   Response: `{ "downloadUrl": "https://...", "key": "converted/xxx/reel.mp4" }`
+   Response: `{ "key": "uploads/xxx/reel.webm", "status": "queued" }`
+
+4. El frontend hace polling a **GET /status?key=uploads/xxx/reel.webm**
+   - `{ "status": "processing" }` → seguir consultando
+   - `{ "status": "ready", "downloadUrl": "https://..." }` → descargar MP4
 
 ## Requisitos
 
@@ -26,8 +37,6 @@ chmod +x setup-layer.sh
 ./setup-layer.sh
 ```
 
-Esto descarga el binario estático de FFmpeg y lo coloca en `layer/bin/`.
-
 ## Desplegar
 
 ```bash
@@ -35,42 +44,11 @@ cd content/backend
 serverless deploy --stage dev
 ```
 
-(Usa Serverless instalado globalmente: `npm install -g serverless`)
-
 ## Variables de entorno / Outputs
 
-Tras el deploy se obtienen:
-
-- URL base de la API (endpoints: `/upload-url`, `/convert`)
+- URL base de la API (`/upload-url`, `/convert`, `/status`)
 - Nombre del bucket S3
-
-## Uso desde el frontend (creator)
-
-```javascript
-// 1. Obtener URL de subida
-const { uploadUrl, key } = await fetch(API_URL + '/upload-url', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ filename: 'reel.webm' })
-}).then(r => r.json());
-
-// 2. Subir el WebM
-await fetch(uploadUrl, {
-  method: 'PUT',
-  body: webmBlob,
-  headers: { 'Content-Type': 'video/webm' }
-});
-
-// 3. Convertir y obtener URL de descarga
-const { downloadUrl } = await fetch(API_URL + '/convert', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ key })
-}).then(r => r.json());
-
-// 4. Descargar el MP4
-window.open(downloadUrl);
-```
+- Cola SQS para conversiones
 
 ## Limpieza de archivos
 

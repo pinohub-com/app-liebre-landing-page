@@ -30,6 +30,9 @@ const FORMATS = {
   '9:16': { exportW: 1080, exportH: 1920, label: '1080×1920' }
 };
 
+const CONVERT_API = 'https://i1hev19kea.execute-api.us-east-1.amazonaws.com';
+let convertSelectedFile = null;
+
 function getFormat() {
   return document.getElementById('export-slide')?.dataset.format || '4:5';
 }
@@ -366,6 +369,31 @@ function bindEvents() {
     document.getElementById(id).addEventListener('input', updateVideoDurationHint);
   });
   document.getElementById('btn-export-video').addEventListener('click', exportReel);
+
+  // Convertir video a MP4 (backend)
+  document.getElementById('convert-video-input').addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    convertSelectedFile = file || null;
+    const label = document.getElementById('convert-video-label');
+    const fn = document.getElementById('convert-filename');
+    const btn = document.getElementById('btn-convert-video');
+    const result = document.getElementById('convert-result');
+    const errEl = document.getElementById('convert-error');
+    result.classList.add('hidden');
+    errEl.classList.add('hidden');
+    if (file) {
+      label.textContent = file.name;
+      fn.textContent = file.name;
+      fn.classList.remove('hidden');
+      btn.disabled = false;
+    } else {
+      label.textContent = '+ Elegir video';
+      fn.classList.add('hidden');
+      btn.disabled = true;
+    }
+    e.target.value = '';
+  });
+  document.getElementById('btn-convert-video').addEventListener('click', convertVideoToMp4);
 }
 
 function exportCurrentSlide() {
@@ -624,6 +652,103 @@ async function exportReel() {
   };
 
   tick();
+}
+
+const POLL_INTERVAL_MS = 2500;
+const POLL_MAX_ATTEMPTS = 240;  // ~10 min
+
+async function convertVideoToMp4() {
+  const file = convertSelectedFile;
+  if (!file) return;
+
+  const btn = document.getElementById('btn-convert-video');
+  const progressWrap = document.getElementById('convert-progress');
+  const progressFill = document.getElementById('convert-progress-fill');
+  const progressText = document.getElementById('convert-progress-text');
+  const resultWrap = document.getElementById('convert-result');
+  const downloadLink = document.getElementById('convert-download-link');
+  const errEl = document.getElementById('convert-error');
+
+  btn.disabled = true;
+  resultWrap.classList.add('hidden');
+  errEl.classList.add('hidden');
+  progressWrap.classList.remove('hidden');
+  progressFill.style.width = '0%';
+
+  const filename = file.name.toLowerCase().endsWith('.webm') ? file.name : file.name.replace(/\.[^.]+$/, '.webm');
+
+  try {
+    progressText.textContent = 'Obteniendo URL de subida...';
+    const uploadRes = await fetch(`${CONVERT_API}/upload-url`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filename })
+    });
+    const uploadData = await uploadRes.json();
+    if (!uploadRes.ok || !uploadData.uploadUrl) throw new Error(uploadData.error || 'Error al obtener URL de subida');
+
+    progressText.textContent = 'Subiendo video...';
+    progressFill.style.width = '25%';
+    const putRes = await fetch(uploadData.uploadUrl, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'video/webm' },
+      body: file
+    });
+    if (!putRes.ok) throw new Error('Error al subir el archivo');
+
+    progressText.textContent = 'Encolando conversión...';
+    progressFill.style.width = '35%';
+    const convertRes = await fetch(`${CONVERT_API}/convert`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: uploadData.key })
+    });
+    const convertData = await convertRes.json();
+    if (!convertRes.ok || convertData.status !== 'queued') {
+      throw new Error(convertData.error || 'Error al encolar la conversión');
+    }
+
+    const key = convertData.key;
+    progressText.textContent = 'Convirtiendo a MP4 (esto puede tardar varios minutos)...';
+    progressFill.style.width = '40%';
+
+    let attempts = 0;
+    while (attempts < POLL_MAX_ATTEMPTS) {
+      await new Promise(r => setTimeout(r, POLL_INTERVAL_MS));
+      attempts++;
+      const pct = 40 + Math.min(55, (attempts / POLL_MAX_ATTEMPTS) * 55);
+      progressFill.style.width = pct + '%';
+      progressText.textContent = `Esperando conversión... (${attempts * (POLL_INTERVAL_MS / 1000)} s)`;
+
+      const statusRes = await fetch(`${CONVERT_API}/status?key=${encodeURIComponent(key)}`);
+      const statusData = await statusRes.json();
+      if (!statusRes.ok) throw new Error(statusData.error || 'Error al consultar estado');
+
+      if (statusData.status === 'ready' && statusData.downloadUrl) {
+        progressFill.style.width = '100%';
+        progressText.textContent = '¡Listo!';
+        downloadLink.href = statusData.downloadUrl;
+        downloadLink.download = (file.name.replace(/\.[^.]+$/, '') || 'video') + '.mp4';
+        downloadLink.textContent = 'Descargar MP4';
+        resultWrap.classList.remove('hidden');
+        downloadLink.classList.remove('hidden');
+        errEl.classList.add('hidden');
+        progressWrap.classList.add('hidden');
+        btn.disabled = false;
+        return;
+      }
+    }
+
+    throw new Error('Tiempo de espera agotado. Intenta de nuevo más tarde.');
+  } catch (err) {
+    errEl.textContent = err.message || 'Error desconocido';
+    errEl.classList.remove('hidden');
+    resultWrap.classList.remove('hidden');
+    downloadLink.classList.add('hidden');
+  } finally {
+    progressWrap.classList.add('hidden');
+    btn.disabled = false;
+  }
 }
 
 loadParrilla();

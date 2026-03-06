@@ -112,6 +112,24 @@
           <span class="progress-text" id="video-progress-text">Preparando slides...</span>
         </div>
       </div>
+      <div class="convert-video-section">
+        <h4 class="export-video-title">🔄 Convertir video a MP4</h4>
+        <p class="convert-hint">Sube un video (WebM, MP4, etc.) y conviértelo a MP4 optimizado para redes.</p>
+        <label class="upload-btn convert-upload">
+          <input type="file" id="convert-video-input" accept="video/*" hidden>
+          <span id="convert-video-label">+ Elegir video</span>
+        </label>
+        <p class="convert-filename hidden" id="convert-filename"></p>
+        <button type="button" class="btn-convert-video" id="btn-convert-video" disabled>Convertir a MP4</button>
+        <div class="convert-progress hidden" id="convert-progress">
+          <div class="progress-bar"><div class="progress-fill" id="convert-progress-fill"></div></div>
+          <span class="progress-text" id="convert-progress-text">Subiendo...</span>
+        </div>
+        <div class="convert-result hidden" id="convert-result">
+          <a id="convert-download-link" class="btn-download-mp4" href="#" target="_blank" rel="noopener">Descargar MP4</a>
+          <span class="convert-error hidden" id="convert-error"></span>
+        </div>
+      </div>
     </main>
 
     <aside class="editor">

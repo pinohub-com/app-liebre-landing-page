@@ -9,8 +9,22 @@ provider:
   region: ${opt:region, 'us-east-1'}
   memorySize: 1024
   timeout: 29
+  httpApi:
+    cors:
+      allowedOrigins:
+        - '*'
+      allowedMethods:
+        - GET
+        - OPTIONS
+        - POST
+        - PUT
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      allowCredentials: false
   environment:
     BUCKET_NAME: !Ref VideoBucket
+    QUEUE_URL: !Ref VideoConvertQueue
   iam:
     role:
       statements:
@@ -19,11 +33,22 @@ provider:
             - s3:GetObject
             - s3:PutObject
             - s3:DeleteObject
+            - s3:HeadObject
           Resource: !Sub 'arn:aws:s3:::${VideoBucket}/*'
         - Effect: Allow
           Action:
             - s3:ListBucket
           Resource: !Sub 'arn:aws:s3:::${VideoBucket}'
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+          Resource: !GetAtt VideoConvertQueue.Arn
+        - Effect: Allow
+          Action:
+            - sqs:ReceiveMessage
+            - sqs:DeleteMessage
+            - sqs:GetQueueAttributes
+          Resource: !GetAtt VideoConvertQueue.Arn
 
 package:
   patterns:
@@ -34,21 +59,37 @@ package:
 functions:
   getUploadUrl:
     handler: handler.get_upload_url
-    description: Retorna una URL firmada para subir el video WebM a S3
+    description: Retorna URL firmada para subir el WebM a S3
     events:
       - httpApi:
           path: /upload-url
           method: post
 
-  convertToMp4:
-    handler: handler.convert_to_mp4
-    description: Convierte WebM a MP4 y retorna URL firmada de descarga
-    memorySize: 2048
-    timeout: 29
+  enqueueConvert:
+    handler: handler.enqueue_convert
+    description: Encola la conversión en SQS
     events:
       - httpApi:
           path: /convert
           method: post
+
+  getStatus:
+    handler: handler.get_status
+    description: Indica si el MP4 está listo y retorna downloadUrl
+    events:
+      - httpApi:
+          path: /status
+          method: get
+
+  videoConverter:
+    handler: handler.convert_video_worker
+    description: "Procesa mensajes SQS: descarga WebM, convierte a MP4, sube a S3"
+    memorySize: 2048
+    timeout: 900
+    events:
+      - sqs:
+          arn: !GetAtt VideoConvertQueue.Arn
+          batchSize: 1
 
 layers:
   ffmpeg:
@@ -58,11 +99,19 @@ layers:
 
 resources:
   extensions:
-    ConvertToMp4LambdaFunction:
+    VideoConverterLambdaFunction:
       Properties:
         Layers:
           - Ref: FfmpegLambdaLayer
   Resources:
+    VideoConvertQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:service}-${self:provider.stage}-convert
+        VisibilityTimeout: 960
+        MessageRetentionPeriod: 86400
+        ReceiveMessageWaitTimeSeconds: 0
+
     VideoBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -86,7 +135,7 @@ resources:
 
   Outputs:
     ApiEndpoint:
-      Description: URL base de la API (añade /upload-url o /convert)
+      Description: URL base de la API
       Value: !Sub 'https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com'
       Export:
         Name: ${self:service}-${self:provider.stage}-api-url

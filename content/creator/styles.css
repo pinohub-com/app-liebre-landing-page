@@ -553,6 +553,104 @@ header .subtitle {
   display: none;
 }
 
+/* Convert video to MP4 */
+.convert-video-section {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.convert-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.convert-upload {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+
+.convert-filename {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.convert-filename.hidden {
+  display: none;
+}
+
+.btn-convert-video {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-convert-video:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.btn-convert-video:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.convert-progress {
+  margin-top: 1rem;
+}
+
+.convert-progress.hidden {
+  display: none;
+}
+
+.convert-result {
+  margin-top: 1rem;
+}
+
+.convert-result.hidden {
+  display: none;
+}
+
+.btn-download-mp4 {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  background: var(--success);
+  color: var(--bg);
+  font-weight: 600;
+  text-decoration: none;
+  transition: filter 0.15s;
+}
+
+.btn-download-mp4:hover {
+  filter: brightness(1.1);
+}
+
+.btn-download-mp4.hidden {
+  display: none;
+}
+
+.convert-error {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--danger);
+}
+
+.convert-error.hidden {
+  display: none;
+}
+
 .progress-bar {
   height: 6px;
   background: var(--border);
