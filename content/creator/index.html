@@ -75,8 +75,8 @@
         <button type="button" class="btn-export-jpg" id="btn-export-one">Descargar slide actual (JPG)</button>
         <button type="button" class="btn-export-all" id="btn-export-all">Descargar los 8 slides (JPG)</button>
       </div>
-      <div class="export-video-section">
-        <h4 class="export-video-title">🎬 Crear Reel (Instagram / TikTok)</h4>
+      <div class="convert-video-section">
+        <h4 class="export-video-title">🎬 Crear Reel (MP4)</h4>
         <div class="video-presets">
           <button type="button" class="preset-btn" data-preset="15">Rápido 15s</button>
           <button type="button" class="preset-btn active" data-preset="30">Estándar 30s</button>
@@ -105,20 +105,12 @@
             <input type="number" id="video-transition-duration" min="0" max="2" value="0.5" step="0.1">
           </div>
         </div>
-        <p class="video-duration-hint" id="video-duration-hint">~28 s total · WebM 1080×1350</p>
-        <button type="button" class="btn-export-video" id="btn-export-video">Generar reel</button>
-        <div class="video-progress hidden" id="video-progress">
-          <div class="progress-bar"><div class="progress-fill" id="video-progress-fill"></div></div>
-          <span class="progress-text" id="video-progress-text">Preparando slides...</span>
+        <p class="video-duration-hint" id="video-duration-hint">~28 s total · MP4 1080×1350</p>
+        <div class="convert-buttons-row">
+          <button type="button" class="btn-convert-video" id="btn-convert-video">Convertir a MP4</button>
+          <button type="button" class="btn-convert-local" id="btn-convert-local">Convertir localmente</button>
         </div>
-      </div>
-      <div class="convert-video-section">
-        <h4 class="export-video-title">🔄 Convertir a MP4</h4>
-        <p class="convert-hint">Genera el reel desde los 8 slides actuales en full resolución (1080p).</p>
-        <button type="button" class="btn-convert-video" id="btn-convert-video">Convertir a MP4</button>
-        <p class="convert-divider">— o —</p>
-        <button type="button" class="btn-convert-local" id="btn-convert-local">Convertir localmente</button>
-        <p class="convert-local-hint">Genera MP4 en tu navegador (sin subir a la nube). Resolución 720p.</p>
+        <p class="convert-local-hint">MP4 en nube (1080p) o en navegador (720p, sin subir).</p>
         <div class="convert-progress hidden" id="convert-progress">
           <div class="progress-bar"><div class="progress-fill" id="convert-progress-fill"></div></div>
           <span class="progress-text" id="convert-progress-text">Subiendo...</span>

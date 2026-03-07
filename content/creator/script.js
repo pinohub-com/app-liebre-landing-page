@@ -388,8 +388,6 @@ function bindEvents() {
   ['video-slide-duration', 'video-transition-duration'].forEach(id => {
     document.getElementById(id).addEventListener('input', updateVideoDurationHint);
   });
-  document.getElementById('btn-export-video').addEventListener('click', exportReel);
-
   document.getElementById('btn-convert-video').addEventListener('click', convertVideoToMp4);
   document.getElementById('btn-convert-local').addEventListener('click', exportReelMp4Local);
 }
@@ -449,8 +447,6 @@ function slugify(s) {
 }
 
 /* ----- Video Reel Export ----- */
-const FPS = 30;
-
 function getVideoDimensions() {
   const format = getFormat();
   const cfg = FORMATS[format] || FORMATS['4:5'];
@@ -463,205 +459,8 @@ function updateVideoDurationHint() {
   const total = 8 * slideDur + 7 * transDur;
   const { w, h } = getVideoDimensions();
   const hint = document.getElementById('video-duration-hint');
-  if (hint) hint.textContent = `~${Math.round(total)} s total · WebM ${w}×${h}`;
+  if (hint) hint.textContent = `~${Math.round(total)} s total · MP4 ${w}×${h}`;
 }
-
-function drawReelFrame(ctx, slides, t, slideDuration, transDuration, transition, videoW, videoH) {
-  const segmentDuration = slideDuration + transDuration;
-  const totalDuration = 8 * slideDuration + 7 * transDuration;
-  if (t >= totalDuration || t < 0) return;
-  const w = videoW;
-  const h = videoH;
-
-  const getSegment = (time) => {
-    let acc = 0;
-    for (let i = 0; i < 8; i++) {
-      const slideEnd = acc + slideDuration;
-      const transEnd = i < 7 ? slideEnd + transDuration : slideEnd;
-      if (time < slideEnd) {
-        return { slideIndex: i, nextIndex: i + 1, transProgress: 0, inTransition: false };
-      }
-      if (i < 7 && time < transEnd) {
-        const transProgress = (time - slideEnd) / transDuration;
-        return { slideIndex: i, nextIndex: i + 1, transProgress, inTransition: true };
-      }
-      acc = transEnd;
-    }
-    return { slideIndex: 7, nextIndex: 7, transProgress: 0, inTransition: false };
-  };
-
-  const { slideIndex, nextIndex, transProgress, inTransition } = getSegment(t);
-  const slideA = slides[slideIndex];
-  const slideB = inTransition && slides[nextIndex] ? slides[nextIndex] : null;
-
-  if (!slideA) return;
-
-  const drawSlide = (img, x = 0, y = 0, scale = 1, alpha = 1) => {
-    ctx.save();
-    ctx.globalAlpha = alpha;
-    ctx.translate(w / 2, h / 2);
-    ctx.scale(scale, scale);
-    ctx.translate(-w / 2 + x, -h / 2 + y);
-    ctx.drawImage(img, 0, 0, w, h);
-    ctx.restore();
-  };
-
-  if (!inTransition || transition === 'none' || transProgress <= 0) {
-    drawSlide(slideA);
-    return;
-  }
-
-  const p = Math.min(1, Math.max(0, transProgress));
-  switch (transition) {
-    case 'fade':
-      drawSlide(slideA);
-      drawSlide(slideB, 0, 0, 1, p);
-      break;
-    case 'slide-left':
-      drawSlide(slideA, w * p, 0);
-      drawSlide(slideB, -w * (1 - p), 0);
-      break;
-    case 'slide-right':
-      drawSlide(slideA, -w * p, 0);
-      drawSlide(slideB, w * (1 - p), 0);
-      break;
-    case 'slide-up':
-      drawSlide(slideA, 0, h * p);
-      drawSlide(slideB, 0, -h * (1 - p));
-      break;
-    case 'slide-down':
-      drawSlide(slideA, 0, -h * p);
-      drawSlide(slideB, 0, h * (1 - p));
-      break;
-    case 'zoom-in':
-      drawSlide(slideA, 0, 0, 1);
-      drawSlide(slideB, 0, 0, 0.7 + 0.3 * p, p);
-      break;
-    case 'zoom-out':
-      drawSlide(slideA, 0, 0, 1 - 0.3 * p);
-      drawSlide(slideB, 0, 0, 0.7 + 0.3 * p, p);
-      break;
-    case 'none':
-      drawSlide(p < 0.5 ? slideA : slideB);
-      break;
-    default:
-      drawSlide(slideA);
-      if (slideB) drawSlide(slideB, 0, 0, 1, p);
-  }
-}
-
-async function exportReel() {
-  const btn = document.getElementById('btn-export-video');
-  const progressWrap = document.getElementById('video-progress');
-  const progressFill = document.getElementById('video-progress-fill');
-  const progressText = document.getElementById('video-progress-text');
-
-  if (btn.disabled) return;
-  btn.disabled = true;
-  progressWrap.classList.remove('hidden');
-  progressFill.style.width = '0%';
-
-  const slideDuration = parseFloat(document.getElementById('video-slide-duration').value) || 3;
-  const transDuration = parseFloat(document.getElementById('video-transition-duration').value) || 0.5;
-  const transition = document.getElementById('video-transition').value;
-  const totalDuration = 8 * slideDuration + 7 * transDuration;
-  const { w: videoW, h: videoH } = getVideoDimensions();
-  const dayId = currentDayId;
-  const origIdx = currentSlideIndex;
-  const slideEl = document.getElementById('export-slide');
-  const scale = videoW / slideEl.offsetWidth;
-
-  progressText.textContent = 'Capturando slides...';
-
-  const slideCanvases = [];
-  for (let i = 0; i < 8; i++) {
-    currentSlideIndex = i;
-    renderSlide();
-    await new Promise(r => setTimeout(r, 50));
-    const rawCanvas = await html2canvas(slideEl, {
-      scale,
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#FBF7F4'
-    });
-    const normalized = document.createElement('canvas');
-    normalized.width = videoW;
-    normalized.height = videoH;
-    normalized.getContext('2d').drawImage(rawCanvas, 0, 0, videoW, videoH);
-    slideCanvases.push(normalized);
-  }
-  currentSlideIndex = origIdx;
-  renderSlide();
-  updateEditor();
-  renderSlideNav();
-
-  progressText.textContent = `Generando video (~${Math.round(totalDuration)} s)...`;
-
-  const videoCanvas = document.createElement('canvas');
-  videoCanvas.width = videoW;
-  videoCanvas.height = videoH;
-  videoCanvas.setAttribute('width', String(videoW));
-  videoCanvas.setAttribute('height', String(videoH));
-  videoCanvas.style.cssText = `position:fixed;left:-99999px;width:${videoW}px;height:${videoH}px;`;
-  document.body.appendChild(videoCanvas);
-  const vctx = videoCanvas.getContext('2d');
-
-  const stream = videoCanvas.captureStream(FPS);
-  const chunks = [];
-  const mimeType = MediaRecorder.isTypeSupported('video/webm; codecs=vp9')
-    ? 'video/webm; codecs=vp9'
-    : 'video/webm';
-  const recorder = new MediaRecorder(stream, {
-    mimeType,
-    videoBitsPerSecond: 10000000
-  });
-
-  recorder.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
-  recorder.onstop = () => {
-    videoCanvas.remove();
-    const blob = new Blob(chunks, { type: mimeType });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `reel-dia${dayId}-${slugify(parrilla.days.find(d => d.id === dayId)?.title || 'dia')}.webm`;
-    a.click();
-    URL.revokeObjectURL(url);
-    progressWrap.classList.add('hidden');
-    btn.disabled = false;
-  };
-
-  recorder.start(100);
-
-  const totalFrames = Math.ceil(totalDuration * FPS);
-  const frameInterval = 1000 / FPS;
-  let frameIndex = 0;
-
-  const tick = () => {
-    if (frameIndex >= totalFrames) {
-      recorder.stop();
-      return;
-    }
-    const logicalTime = frameIndex / FPS;
-    const pct = Math.round((frameIndex / totalFrames) * 100);
-    progressFill.style.width = pct + '%';
-    drawReelFrame(vctx, slideCanvases, logicalTime, slideDuration, transDuration, transition, videoW, videoH);
-    frameIndex++;
-    setTimeout(tick, frameInterval);
-  };
-
-  tick();
-}
-
-const XFADE_MAP = {
-  'fade': 'fade',
-  'slide-left': 'slideleft',
-  'slide-right': 'slideright',
-  'slide-up': 'slideup',
-  'slide-down': 'slidedown',
-  'zoom-in': 'fade',
-  'zoom-out': 'fade',
-  'none': 'fade'
-};
 
 async function exportReelMp4Local() {
   const btn = document.getElementById('btn-convert-local');
@@ -830,6 +629,7 @@ async function convertVideoToMp4() {
 
   const slideDuration = parseFloat(document.getElementById('video-slide-duration').value) || 3;
   const transDuration = parseFloat(document.getElementById('video-transition-duration').value) || 0.5;
+  const transition = document.getElementById('video-transition').value;
   const { w: videoW, h: videoH } = getVideoDimensions();
   const dayId = currentDayId;
   const origIdx = currentSlideIndex;
@@ -873,6 +673,7 @@ async function convertVideoToMp4() {
         images,
         slideDuration,
         transDuration,
+        transition,
         width: videoW,
         height: videoH
       })

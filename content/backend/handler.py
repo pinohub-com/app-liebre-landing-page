@@ -32,11 +32,24 @@ def _error(message: str, status: int = 400) -> dict:
     return _json_response({"error": message}, status)
 
 
+# Mapeo transición frontend -> FFmpeg xfade (zoom-in/out/none -> fade)
+XFADE_MAP = {
+    "fade": "fade",
+    "slide-left": "slideleft",
+    "slide-right": "slideright",
+    "slide-up": "slideup",
+    "slide-down": "slidedown",
+    "zoom-in": "fade",
+    "zoom-out": "fade",
+    "none": "fade",
+}
+
+
 def create_reel_from_slides(event: dict, context) -> dict:
     """
     Recibe 8 imágenes base64 (JPEG), crea MP4 en full res con FFmpeg,
     sube a S3 y retorna downloadUrl.
-    Body: { images: [base64, ...], slideDuration, transDuration, width, height }
+    Body: { images, slideDuration, transDuration, transition, width, height }
     """
     try:
         body = json.loads(event.get("body") or "{}")
@@ -48,8 +61,13 @@ def create_reel_from_slides(event: dict, context) -> dict:
         return _error("Se requieren exactamente 8 imágenes en 'images'")
 
     slide_duration = float(body.get("slideDuration", 3))
+    trans_duration = float(body.get("transDuration", 0.5))
+    transition = body.get("transition", "fade")
     width = int(body.get("width", 1080))
     height = int(body.get("height", 1350))
+
+    xfade_trans = XFADE_MAP.get(transition, "fade")
+    use_xfade = trans_duration > 0 and transition != "none"
 
     job_id = uuid.uuid4().hex
     input_paths = []
@@ -66,15 +84,31 @@ def create_reel_from_slides(event: dict, context) -> dict:
                 f.write(raw)
             input_paths.append(path)
 
-        filter_parts = [
-            *[f"[{i}:v]scale=trunc(iw/2)*2:trunc(ih/2)*2,format=yuv420p[v{i}]" for i in range(8)],
-            "[v0][v1][v2][v3][v4][v5][v6][v7]concat=n=8:v=1:a=0[out]"
-        ]
-        filter_str = ";".join(filter_parts)
+        segment_dur = slide_duration + trans_duration if use_xfade else slide_duration
+
+        if use_xfade:
+            scale_parts = [f"[{i}:v]scale=trunc(iw/2)*2:trunc(ih/2)*2,format=yuv420p[v{i}]" for i in range(8)]
+            xfade_parts = []
+            prev = "[v0]"
+            for i in range(1, 8):
+                offset = i * slide_duration
+                curr_label = f"v{i}"
+                out_label = "out" if i == 7 else f"x{i}"
+                xfade_parts.append(
+                    f"{prev}[{curr_label}]xfade=transition={xfade_trans}:duration={trans_duration}:offset={offset}[{out_label}]"
+                )
+                prev = f"[{out_label}]"
+            filter_str = ";".join(scale_parts) + ";" + ";".join(xfade_parts)
+        else:
+            filter_parts = [
+                *[f"[{i}:v]scale=trunc(iw/2)*2:trunc(ih/2)*2,format=yuv420p[v{i}]" for i in range(8)],
+                "[v0][v1][v2][v3][v4][v5][v6][v7]concat=n=8:v=1:a=0[out]",
+            ]
+            filter_str = ";".join(filter_parts)
 
         args = ["-y"]
         for i in range(8):
-            args.extend(["-loop", "1", "-t", str(slide_duration), "-i", input_paths[i]])
+            args.extend(["-loop", "1", "-t", str(segment_dur), "-i", input_paths[i]])
         args.extend([
             "-filter_complex", filter_str,
             "-map", "[out]",
