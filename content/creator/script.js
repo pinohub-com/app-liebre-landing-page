@@ -22,7 +22,7 @@ let slideTextVerticalPos = {}; // { "dayId-slideIndex": 50 } 0-100%
 let slideBodyFontSize = {}; // { "dayId-slideIndex": 0.9 }
 let slideBodyVerticalPos = {}; // { "dayId-slideIndex": 50 } 0-100%
 let slideTitleColor = {}; // { "dayId-slideIndex": "#232323" }
-let slideBodyColor = {}; // { "dayId-slideIndex": "#685D54" }
+let slideBodyColor = {}; // { "dayId-slideIndex": "#000000" }
 
 const FORMATS = {
   '1:1': { exportW: 1080, exportH: 1080, label: '1080×1080' },
@@ -48,35 +48,75 @@ function applyFormat(format) {
   if (typeof updateVideoDurationHint === 'function') updateVideoDurationHint();
 }
 
-async function loadParrilla() {
+const DEFAULT_PARRILLA_PATH = 'parrilla.json';
+
+async function loadParrillasManifest() {
   try {
-    const res = await fetch('../parrilla.json');
+    const res = await fetch('../parrillas.json');
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+function populateParrillaSelect(manifest) {
+  const sel = document.getElementById('parrilla-select');
+  if (!sel) return;
+  const options = manifest && manifest.length > 0
+    ? manifest
+    : [{ id: 'parrilla', path: DEFAULT_PARRILLA_PATH, label: 'Parrilla principal' }];
+  const defaultPath = options.some(o => o.path === DEFAULT_PARRILLA_PATH) ? DEFAULT_PARRILLA_PATH : options[0].path;
+  sel.innerHTML = options.map(o => `
+    <option value="${escapeHtml(o.path)}" ${o.path === defaultPath ? 'selected' : ''}>${escapeHtml(o.label)}</option>
+  `).join('');
+}
+
+async function loadParrillaByPath(path) {
+  try {
+    const res = await fetch(`../${path}`);
+    if (!res.ok) throw new Error(res.statusText);
     const data = await res.json();
     parrilla = data;
     if (!parrilla.cta) parrilla.cta = CTA_DEFAULT;
     init();
   } catch (e) {
     document.getElementById('day-list').innerHTML =
-      '<p style="padding:1rem;color:var(--danger);">No se pudo cargar parrilla.json. Abre con un servidor local (ej. npx serve content).</p>';
+      `<p style="padding:1rem;color:var(--danger);">No se pudo cargar ${path}. ${e.message || ''}</p>`;
   }
 }
 
+async function loadParrilla() {
+  const manifest = await loadParrillasManifest();
+  populateParrillaSelect(manifest);
+  const sel = document.getElementById('parrilla-select');
+  const path = sel?.value || DEFAULT_PARRILLA_PATH;
+  await loadParrillaByPath(path);
+}
+
+let appInited = false;
+
 function init() {
-  // Textura de fondo: ruta absoluta para que cargue siempre
-  const textureEl = document.getElementById('slide-bg-texture');
-  if (textureEl) {
-    const textureUrl = new URL('width.jpeg', window.location.href).href;
-    textureEl.style.backgroundImage = `url(${JSON.stringify(textureUrl)})`;
+  if (!appInited) {
+    const textureEl = document.getElementById('slide-bg-texture');
+    if (textureEl) {
+      const textureUrl = new URL('width.jpeg', window.location.href).href;
+      textureEl.style.backgroundImage = `url(${JSON.stringify(textureUrl)})`;
+    }
+    populateTypeSelect();
+    renderDayList();
+    selectDay(1);
+    bindEvents();
+    document.querySelectorAll('.format-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyFormat(btn.dataset.format));
+    });
+    applyFormat('4:5');
+    appInited = true;
+  } else {
+    renderDayList();
+    selectDay(1);
   }
-  populateTypeSelect();
-  renderDayList();
-  selectDay(1);
-  bindEvents();
   if (typeof updateVideoDurationHint === 'function') updateVideoDurationHint();
-  document.querySelectorAll('.format-btn').forEach(btn => {
-    btn.addEventListener('click', () => applyFormat(btn.dataset.format));
-  });
-  applyFormat('4:5');
 }
 
 function populateTypeSelect() {
@@ -103,6 +143,7 @@ function selectDay(id) {
   renderSlideNav();
   renderSlide();
   updateEditor();
+  if (typeof updateVideoDurationHint === 'function') updateVideoDurationHint();
 }
 
 function updateDayMeta() {
@@ -150,7 +191,7 @@ function renderSlide() {
   const bodySize = slideBodyFontSize[key] ?? 0.9;
   const bodyVertical = slideBodyVerticalPos[key] ?? 50;
   const titleColor = slideTitleColor[key] ?? '#232323';
-  const bodyColor = slideBodyColor[key] ?? '#685D54';
+  const bodyColor = slideBodyColor[key] ?? '#000000';
   titleEl.style.fontSize = `${titleSize}rem`;
   titleEl.style.color = titleColor;
   bodyEl.style.fontSize = `${bodySize}rem`;
@@ -202,7 +243,7 @@ function updateEditor() {
   document.getElementById('body-size-value').textContent = bodySize;
   document.getElementById('body-vertical-value').textContent = bodyVertical;
   document.getElementById('edit-title-color').value = slideTitleColor[key] ?? '#232323';
-  document.getElementById('edit-body-color').value = slideBodyColor[key] ?? '#685D54';
+  document.getElementById('edit-body-color').value = slideBodyColor[key] ?? '#000000';
 }
 
 function saveFromEditor() {
@@ -216,11 +257,32 @@ function saveFromEditor() {
   slide.body = document.getElementById('edit-body').value;
 
   renderSlide();
+  if (typeof updateVideoDurationHint === 'function') updateVideoDurationHint();
 }
 
 function bindEvents() {
-  document.querySelectorAll('.day-item').forEach(el => {
-    el.addEventListener('click', () => selectDay(parseInt(el.dataset.id)));
+  document.getElementById('day-list')?.addEventListener('click', (e) => {
+    const item = e.target.closest('.day-item');
+    if (item) selectDay(parseInt(item.dataset.id));
+  });
+
+  document.getElementById('parrilla-select')?.addEventListener('change', async (e) => {
+    const path = e.target.value;
+    if (path) await loadParrillaByPath(path);
+  });
+
+  document.getElementById('parrilla-file-input')?.addEventListener('change', async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    try {
+      const text = await file.text();
+      parrilla = JSON.parse(text);
+      if (!parrilla.cta) parrilla.cta = CTA_DEFAULT;
+      init();
+    } catch (err) {
+      alert('No se pudo cargar el archivo: ' + (err.message || 'Formato inválido'));
+    }
   });
 
   document.getElementById('btn-prev').addEventListener('click', () => {
@@ -388,6 +450,19 @@ function bindEvents() {
   ['video-slide-duration', 'video-transition-duration'].forEach(id => {
     document.getElementById(id).addEventListener('input', updateVideoDurationHint);
   });
+  document.getElementById('video-duration-by-words').addEventListener('change', () => {
+    const wrap = document.getElementById('video-slide-duration-wrap');
+    const input = document.getElementById('video-slide-duration');
+    const wordsInput = document.getElementById('video-words-per-second');
+    const byWords = document.getElementById('video-duration-by-words').checked;
+    if (wrap) wrap.classList.toggle('disabled', byWords);
+    if (input) input.disabled = byWords;
+    if (wordsInput) wordsInput.disabled = !byWords;
+    updateVideoDurationHint();
+  });
+  document.getElementById('video-words-per-second').addEventListener('input', updateVideoDurationHint);
+  document.getElementById('video-duration-by-words').dispatchEvent(new Event('change'));
+
   document.getElementById('btn-convert-video').addEventListener('click', convertVideoToMp4);
   document.getElementById('btn-convert-local').addEventListener('click', exportReelMp4Local);
 }
@@ -447,16 +522,54 @@ function slugify(s) {
 }
 
 /* ----- Video Reel Export ----- */
+/** duración = palabras / palabrasPorSegundo */
+const DEFAULT_WORDS_PER_SECOND = 2;
+const MIN_SLIDE_DURATION = 1.5;
+
+function getWordsPerSecond() {
+  const el = document.getElementById('video-words-per-second');
+  const v = el ? parseFloat(el.value) : DEFAULT_WORDS_PER_SECOND;
+  return Math.max(0.5, Math.min(10, v)) || DEFAULT_WORDS_PER_SECOND;
+}
+
 function getVideoDimensions() {
   const format = getFormat();
   const cfg = FORMATS[format] || FORMATS['4:5'];
   return { w: cfg.exportW, h: cfg.exportH };
 }
 
+/** Cuenta palabras del título + cuerpo (en CTA usa parrilla.cta si no hay body) */
+function getSlideWordCount(slide) {
+  const title = slide.title || '';
+  const body = slide.type === 'CTA' ? (slide.body || parrilla.cta || '') : (slide.body || '');
+  const text = `${title} ${body}`.trim();
+  return text ? text.split(/\s+/).length : 0;
+}
+
+function getSlideDurationsFromWords() {
+  const day = parrilla.days.find(d => d.id === currentDayId);
+  if (!day?.slides) return null;
+  return day.slides.map((slide, i) => {
+    const words = getSlideWordCount(slide);
+    const dur = words / getWordsPerSecond();
+    return Math.max(MIN_SLIDE_DURATION, Math.round(dur * 10) / 10);
+  });
+}
+
+function getEffectiveSlideDurations() {
+  const byWords = document.getElementById('video-duration-by-words')?.checked;
+  if (byWords) {
+    const durations = getSlideDurationsFromWords();
+    if (durations) return durations;
+  }
+  const single = parseFloat(document.getElementById('video-slide-duration').value) || 3;
+  return Array(8).fill(single);
+}
+
 function updateVideoDurationHint() {
-  const slideDur = parseFloat(document.getElementById('video-slide-duration').value) || 3;
+  const slideDurations = getEffectiveSlideDurations();
   const transDur = parseFloat(document.getElementById('video-transition-duration').value) || 0.5;
-  const total = 8 * slideDur + 7 * transDur;
+  const total = slideDurations.reduce((a, b) => a + b, 0) + 7 * transDur;
   const { w, h } = getVideoDimensions();
   const hint = document.getElementById('video-duration-hint');
   if (hint) hint.textContent = `~${Math.round(total)} s total · MP4 ${w}×${h}`;
@@ -478,7 +591,7 @@ async function exportReelMp4Local() {
   progressWrap.classList.remove('hidden');
   progressFill.style.width = '0%';
 
-    const slideDuration = parseFloat(document.getElementById('video-slide-duration').value) || 3;
+    const slideDurations = getEffectiveSlideDurations();
     const transDuration = parseFloat(document.getElementById('video-transition-duration').value) || 0.5;
     const transition = document.getElementById('video-transition').value;
     const { w: videoW, h: videoH } = getVideoDimensions();
@@ -563,9 +676,9 @@ async function exportReelMp4Local() {
 
     const args = ['-y'];
     for (let i = 0; i < 8; i++) {
-      args.push('-loop', '1', '-t', String(slideDuration), '-i', `img${i}.jpg`);
+      args.push('-loop', '1', '-t', String(slideDurations[i]), '-i', `img${i}.jpg`);
     }
-    args.push('-filter_complex', filterStr, '-map', '[out]', '-c:v', 'libx264', '-r', '30', '-movflags', '+faststart', 'output.mp4');
+    args.push('-filter_complex', filterStr, '-map', '[out]', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '26', '-r', '30', '-movflags', '+faststart', 'output.mp4');
 
     await ffmpeg.run(...args);
 
@@ -627,7 +740,8 @@ async function convertVideoToMp4() {
   progressWrap.classList.remove('hidden');
   progressFill.style.width = '0%';
 
-  const slideDuration = parseFloat(document.getElementById('video-slide-duration').value) || 3;
+  const slideDurations = getEffectiveSlideDurations();
+  const byWords = document.getElementById('video-duration-by-words')?.checked;
   const transDuration = parseFloat(document.getElementById('video-transition-duration').value) || 0.5;
   const transition = document.getElementById('video-transition').value;
   const { w: videoW, h: videoH } = getVideoDimensions();
@@ -666,17 +780,22 @@ async function convertVideoToMp4() {
     progressText.textContent = 'Enviando al servidor y generando MP4...';
     progressFill.style.width = '30%';
 
+    const body = {
+      images,
+      transDuration,
+      transition,
+      width: videoW,
+      height: videoH
+    };
+    if (byWords) {
+      body.slideDurations = slideDurations;
+    } else {
+      body.slideDuration = slideDurations[0];
+    }
     const res = await fetch(`${CONVERT_API}/create-reel`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        images,
-        slideDuration,
-        transDuration,
-        transition,
-        width: videoW,
-        height: videoH
-      })
+      body: JSON.stringify(body)
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Error al crear el reel');

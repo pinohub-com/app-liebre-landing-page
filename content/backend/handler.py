@@ -49,7 +49,7 @@ def create_reel_from_slides(event: dict, context) -> dict:
     """
     Recibe 8 imágenes base64 (JPEG), crea MP4 en full res con FFmpeg,
     sube a S3 y retorna downloadUrl.
-    Body: { images, slideDuration, transDuration, transition, width, height }
+    Body: { images, slideDuration | slideDurations, transDuration, transition, width, height }
     """
     try:
         body = json.loads(event.get("body") or "{}")
@@ -60,7 +60,16 @@ def create_reel_from_slides(event: dict, context) -> dict:
     if not images or not isinstance(images, list) or len(images) != 8:
         return _error("Se requieren exactamente 8 imágenes en 'images'")
 
-    slide_duration = float(body.get("slideDuration", 3))
+    # slideDurations (8 floats) o slideDuration (único)
+    if "slideDurations" in body:
+        raw_dur = body["slideDurations"]
+        if not isinstance(raw_dur, list) or len(raw_dur) != 8:
+            return _error("slideDurations debe ser un array de 8 números")
+        slide_durations = [float(x) for x in raw_dur]
+    else:
+        single = float(body.get("slideDuration", 3))
+        slide_durations = [single] * 8
+
     trans_duration = float(body.get("transDuration", 0.5))
     transition = body.get("transition", "fade")
     width = int(body.get("width", 1080))
@@ -84,14 +93,12 @@ def create_reel_from_slides(event: dict, context) -> dict:
                 f.write(raw)
             input_paths.append(path)
 
-        segment_dur = slide_duration + trans_duration if use_xfade else slide_duration
-
         if use_xfade:
             scale_parts = [f"[{i}:v]scale=trunc(iw/2)*2:trunc(ih/2)*2,format=yuv420p[v{i}]" for i in range(8)]
             xfade_parts = []
             prev = "[v0]"
             for i in range(1, 8):
-                offset = i * slide_duration
+                offset = sum(slide_durations[:i]) - i * trans_duration
                 curr_label = f"v{i}"
                 out_label = "out" if i == 7 else f"x{i}"
                 xfade_parts.append(
@@ -108,11 +115,13 @@ def create_reel_from_slides(event: dict, context) -> dict:
 
         args = ["-y"]
         for i in range(8):
-            args.extend(["-loop", "1", "-t", str(segment_dur), "-i", input_paths[i]])
+            args.extend(["-loop", "1", "-t", str(slide_durations[i]), "-i", input_paths[i]])
         args.extend([
             "-filter_complex", filter_str,
             "-map", "[out]",
             "-c:v", "libx264",
+            "-preset", "veryfast",
+            "-crf", "26",
             "-r", "30",
             "-movflags", "+faststart",
             output_path

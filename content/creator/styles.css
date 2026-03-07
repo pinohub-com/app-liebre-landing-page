@@ -105,12 +105,47 @@ header .subtitle {
   margin-top: 1rem;
 }
 
+.sidebar-section-first {
+  border-top: none;
+  margin-top: 0;
+}
+
 .sidebar-section h4 {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
   margin-bottom: 0.75rem;
+}
+
+.parrilla-select {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.parrilla-file-btn {
+  display: block;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  border: 1px dashed var(--border);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.parrilla-file-btn:hover {
+  border-color: var(--accent-dim);
+  color: var(--accent);
 }
 
 .upload-btn {
@@ -459,6 +494,45 @@ header .subtitle {
   font-weight: 600;
   color: var(--text);
   margin-bottom: 1rem;
+}
+
+.video-word-duration-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.video-word-duration-opt input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.video-word-duration-opt input[type="number"] {
+  width: 3.5rem;
+  padding: 0.25rem 0.35rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.video-word-duration-opt input[type="number"]:focus,
+.video-word-duration-opt input[type="number"]:active {
+  color: var(--text);
+}
+
+.video-words-per-sec-suffix {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+#video-slide-duration-wrap.disabled {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .video-presets {

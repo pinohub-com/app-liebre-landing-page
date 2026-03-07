@@ -20,6 +20,16 @@
     </header>
 
     <aside class="sidebar">
+      <div class="sidebar-section sidebar-section-first">
+        <h4>Parrilla</h4>
+        <select id="parrilla-select" class="parrilla-select">
+          <option value="parrilla.json">Parrilla principal</option>
+        </select>
+        <label class="parrilla-file-btn">
+          <input type="file" id="parrilla-file-input" accept=".json,application/json" hidden>
+          <span>Cargar desde archivo</span>
+        </label>
+      </div>
       <div id="day-list"></div>
       <div class="sidebar-section">
         <h4>Fondo global</h4>
@@ -82,8 +92,14 @@
           <button type="button" class="preset-btn active" data-preset="30">Estándar 30s</button>
           <button type="button" class="preset-btn" data-preset="45">Completo 45s</button>
         </div>
+        <label class="video-word-duration-opt">
+          <input type="checkbox" id="video-duration-by-words">
+          <span>Duración según palabras</span>
+          <input type="number" id="video-words-per-second" min="1" max="10" value="2" step="0.1" title="Palabras por segundo">
+          <span class="video-words-per-sec-suffix">palabras/seg</span>
+        </label>
         <div class="video-controls">
-          <div class="editor-group compact">
+          <div class="editor-group compact" id="video-slide-duration-wrap">
             <label for="video-slide-duration">Seg por slide</label>
             <input type="number" id="video-slide-duration" min="1.5" max="10" value="3" step="0.5">
           </div>
@@ -163,7 +179,7 @@
       <div class="editor-group">
         <label>Cuerpo / Descripción</label>
         <div class="input-with-color">
-          <input type="color" id="edit-body-color" value="#685D54" class="color-btn" title="Color del cuerpo">
+          <input type="color" id="edit-body-color" value="#000000" class="color-btn" title="Color del cuerpo">
           <textarea id="edit-body" placeholder="Subtítulo o descripción"></textarea>
         </div>
         <div class="body-style-wrap">
