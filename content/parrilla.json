@@ -451,6 +451,21 @@
         { "type": "Cierre", "title": "", "body": "Un buen tattoo depende de un buen cuidado." },
         { "type": "CTA", "title": "", "body": "Si deseas más contenido educativo sobre TATTOOs sigue esta cuenta." }
       ]
+    },
+    {
+      "id": 31,
+      "title": "Tatuar debería sentirse más libre",
+      "objetivo": "Tatuar debería sentirse más libre",
+      "slides": [
+        { "type": "Verdad", "title": "Tatuar debería sentirse más libre", "body": "" },
+        { "type": "Verdad", "title": "Tatuar debería sentirse más libre", "body": "" },
+        { "type": "Verdad", "title": "Tatuar debería sentirse más libre", "body": "" },
+        { "type": "Verdad", "title": "Tatuar debería sentirse más libre", "body": "" },
+        { "type": "Verdad", "title": "Tatuar debería sentirse más libre", "body": "" },
+        { "type": "Verdad", "title": "Tatuar debería sentirse más libre", "body": "" },
+        { "type": "Verdad", "title": "Tatuar debería sentirse más libre", "body": "" },
+        { "type": "Verdad", "title": "Tatuar debería sentirse más libre", "body": "" }
+      ]
     }
   ]
 }

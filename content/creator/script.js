@@ -364,6 +364,26 @@ function bindEvents() {
     e.target.value = '';
   });
 
+  // 8 imágenes para los 8 slides
+  document.getElementById('slide-imgs-8-input').addEventListener('change', (e) => {
+    const files = Array.from(e.target.files || []).slice(0, 8);
+    e.target.value = '';
+    if (files.length === 0) return;
+    let loaded = 0;
+    files.forEach((file, i) => {
+      const r = new FileReader();
+      r.onload = () => {
+        slideImages[`${currentDayId}-${i}`] = r.result;
+        if (++loaded === files.length) {
+          renderSlide();
+          updateEditor();
+          renderSlideNav();
+        }
+      };
+      r.readAsDataURL(file);
+    });
+  });
+
   // Opacidad imagen del slide
   document.getElementById('slide-img-opacity').addEventListener('input', (e) => {
     const val = parseInt(e.target.value, 10) / 100;
@@ -404,6 +424,26 @@ function bindEvents() {
   document.getElementById('edit-body-color').addEventListener('input', (e) => {
     slideBodyColor[`${currentDayId}-${currentSlideIndex}`] = e.target.value;
     renderSlide();
+  });
+
+  document.getElementById('btn-replicate-style').addEventListener('click', () => {
+    const titleColor = document.getElementById('edit-title-color').value;
+    const titleSize = parseFloat(document.getElementById('edit-title-size').value);
+    const titleVertical = parseInt(document.getElementById('edit-text-vertical').value, 10);
+    const bodyColor = document.getElementById('edit-body-color').value;
+    const bodySize = parseFloat(document.getElementById('edit-body-size').value);
+    const bodyVertical = parseInt(document.getElementById('edit-body-vertical').value, 10);
+    for (let i = 0; i < 8; i++) {
+      const key = `${currentDayId}-${i}`;
+      slideTitleColor[key] = titleColor;
+      slideTitleFontSize[key] = titleSize;
+      slideTextVerticalPos[key] = titleVertical;
+      slideBodyColor[key] = bodyColor;
+      slideBodyFontSize[key] = bodySize;
+      slideBodyVerticalPos[key] = bodyVertical;
+    }
+    renderSlide();
+    renderSlideNav();
   });
 
   document.getElementById('btn-copy-slide').addEventListener('click', () => {

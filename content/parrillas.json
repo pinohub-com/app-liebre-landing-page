@@ -1,3 +1,4 @@
 [
-  { "id": "parrilla", "path": "parrilla.json", "label": "Parrilla principal" }
+  { "id": "parrilla", "path": "parrilla.json", "label": "Parrilla principal" },
+  { "id": "campana", "path": "parrilla-campana.json", "label": "Campaña" }
 ]
