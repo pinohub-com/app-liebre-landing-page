@@ -1,0 +1,314 @@
+{
+  "title": "Parrilla de contenido — 22 días",
+  "subtitle": "Flow | Gestión para tatuadores",
+  "days": [
+    {
+      "id": 1,
+      "title": "Estás perdiendo clientes en WhatsApp (y no lo sabes)",
+      "objetivo": "Generar conciencia sobre la pérdida de clientes por mala gestión de mensajes.",
+      "slides": [
+        { "type": "Hook", "title": "Estás perdiendo clientes en WhatsApp", "body": "(y ni siquiera te das cuenta)" },
+        { "type": "Problema", "title": "Te escriben…", "body": "respondes tarde… y el cliente ya se fue con otro tatuador" },
+        { "type": "Dolor", "title": "No es que falten clientes", "body": "es que no estás respondiendo bien" },
+        { "type": "Errores", "title": "Errores comunes:", "body": "Responder horas después. Pedir info en mil mensajes. No cerrar la cita. Dejar conversaciones abiertas." },
+        { "type": "Insight", "title": "Cada mensaje sin cerrar", "body": "= dinero perdido" },
+        { "type": "Solución", "title": "Los tatuadores que más facturan:", "body": "responden rápido, claro y con proceso" },
+        { "type": "CTA", "title": "No necesitas más clientes", "body": "necesitas organizar los que ya tienes. Flow te ayuda a no perder ninguno." }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Cómo subir tus precios sin perder clientes",
+      "objetivo": "Romper el miedo a subir precios y dar pautas para hacerlo bien.",
+      "slides": [
+        { "type": "Hook", "title": "Subir tus precios", "body": "no hace que pierdas clientes. Hacerlo mal sí." },
+        { "type": "Problema", "title": "Muchos tatuadores tienen miedo de cobrar más", "body": "porque creen que dejarán de tener citas" },
+        { "type": "Verdad incómoda", "title": "Si todo el mundo te dice que sí rápido…", "body": "probablemente estás cobrando barato" },
+        { "type": "Errores", "title": "Errores:", "body": "Subir precios sin mejorar percepción. No justificar el valor. Tener portafolio débil. No filtrar clientes." },
+        { "type": "Insight", "title": "No todos los clientes son para ti", "body": "y eso está bien" },
+        { "type": "Solución", "title": "Para subir precios necesitas:", "body": "Mejor portafolio. Mejor experiencia. Mejor proceso de venta." },
+        { "type": "CTA", "title": "El problema no es el precio", "body": "es cómo lo estás comunicando" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Tipos de clientes que te hacen perder dinero",
+      "objetivo": "Identificar perfiles problemáticos y promover filtros.",
+      "slides": [
+        { "type": "Hook", "title": "Estos clientes", "body": "te están haciendo perder plata" },
+        { "type": "Tipo", "title": "El indeciso:", "body": "cambia el diseño 10 veces y nunca agenda" },
+        { "type": "Tipo", "title": "El regateador:", "body": "quiere calidad pero al precio más bajo" },
+        { "type": "Tipo", "title": "El fantasma:", "body": "pregunta todo… y desaparece" },
+        { "type": "Tipo", "title": "El impuntual:", "body": "llega tarde o no llega y te daña el día" },
+        { "type": "Insight", "title": "No es mala suerte", "body": "es falta de filtros" },
+        { "type": "CTA", "title": "Los tatuadores pro", "body": "no trabajan con cualquiera. Tienen procesos, filtros y orden." }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Por qué el abono previo no es opcional",
+      "objetivo": "Educar sobre el depósito para reducir no-shows.",
+      "slides": [
+        { "type": "Portada", "title": "Por qué el abono previo no es opcional", "body": "Proteger tu tiempo y tu dinero." },
+        { "type": "Problema", "title": "Sin abono, las citas se caen", "body": "El cliente no tiene compromiso real. Si surge algo, te deja plantado." },
+        { "type": "Dato", "title": "Hasta 15% de no-shows en algunos estudios", "body": "Eso es dinero perdido cada mes." },
+        { "type": "Razón", "title": "El abono filtra", "body": "Quien paga, llega. Quien no quiere pagar, probablemente no venía." },
+        { "type": "Cómo", "title": "Cuánto pedir", "body": "Un porcentaje del total o monto fijo. Lo suficiente para que duela no ir." },
+        { "type": "Política", "title": "Define bien las condiciones", "body": "Reembolso, reprogramación. Escríbelo y comunícalo." },
+        { "type": "CTA", "title": "El abono no es grosero", "body": "es profesional. Tus clientes serios lo entienden." }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Cómo manejar tu agenda sin morir en el intento",
+      "objetivo": "Tips de organización y calendario.",
+      "slides": [
+        { "type": "Portada", "title": "Cómo manejar tu agenda sin morir en el intento", "body": "Organiza tu tiempo, no solo tus citas." },
+        { "type": "Problema", "title": "Agenda desordenada = estrés", "body": "Sobrecarga, huecos desperdiciados, fatiga." },
+        { "type": "Regla", "title": "Bloquea tiempo para diseño", "body": "No todo es tatuar. Los diseños también comen horas." },
+        { "type": "Regla", "title": "Deja margen entre citas", "body": "Limpieza, descanso, imprevistos. 15–30 min hace diferencia." },
+        { "type": "Regla", "title": "Un solo canal de reserva", "body": "WhatsApp, calendario, app. No disperses la info." },
+        { "type": "Regla", "title": "Revisa la agenda al inicio de semana", "body": "Confirmaciones, recordatorios, ajustes." },
+        { "type": "CTA", "title": "Una agenda clara", "body": "te permite facturar más y cansarte menos." }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Términos y condiciones: protege tu trabajo y tu tiempo",
+      "objetivo": "Contratos, políticas de cancelación, rediseños.",
+      "slides": [
+        { "type": "Portada", "title": "Términos y condiciones", "body": "Protege tu trabajo y tu tiempo." },
+        { "type": "Por qué", "title": "Sin condiciones claras", "body": "cada malentendido es tu problema." },
+        { "type": "Qué incluir", "title": "Política de cancelación", "body": "Plazo, reembolso del abono, reprogramaciones." },
+        { "type": "Qué incluir", "title": "Límite de rediseños", "body": "Cuántas revisiones incluye. Más = extra." },
+        { "type": "Qué incluir", "title": "Salud y contraindicaciones", "body": "Embargo, alergias. Tú decides si tatuas o no." },
+        { "type": "Cómo", "title": "Escríbelo y compártelo", "body": "Antes de agendar. Por mensaje o enlace. Que quede registro." },
+        { "type": "CTA", "title": "Los términos no alejan clientes", "body": "alejan problemas." }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Por qué responder en 24h (o menos) cambia tu negocio",
+      "objetivo": "Velocidad de respuesta = conversión.",
+      "slides": [
+        { "type": "Portada", "title": "Por qué responder en 24h (o menos) cambia tu negocio", "body": "La velocidad vende." },
+        { "type": "Realidad", "title": "Un cliente interesado hoy", "body": "puede estar hablando con 3 tatuadores mañana." },
+        { "type": "Dato", "title": "Responder tarde", "body": "= dar ventaja a la competencia." },
+        { "type": "Objetivo", "title": "Objetivo: primeras 2–4 horas", "body": "Si no puedes, al menos el mismo día." },
+        { "type": "Tip", "title": "Templates listos", "body": "Respuesta inicial, preguntas frecuentes. Ahorra tiempo y mantén consistencia." },
+        { "type": "Tip", "title": "Cierra el ciclo", "body": "No dejes conversaciones abiertas. Agenda o descarta." },
+        { "type": "CTA", "title": "Rapidez + claridad", "body": "= más citas cerradas." }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Los errores que matan tu conversión en redes",
+      "objetivo": "Marketing que no vende vs el que sí.",
+      "slides": [
+        { "type": "Portada", "title": "Los errores que matan tu conversión en redes", "body": "Publicas mucho, vendes poco?" },
+        { "type": "Error", "title": "Solo mostrar tatuajes terminados", "body": "Falta el proceso, la persona, la historia." },
+        { "type": "Error", "title": "No tener claro el CTA", "body": "¿Dónde te contactan? ¿WhatsApp? ¿Link? Que esté visible." },
+        { "type": "Error", "title": "Contenido genérico", "body": "Lo que distingue es tu voz, tu estilo, tu proceso." },
+        { "type": "Error", "title": "Responder tarde en DM", "body": "El interés se enfría rápido." },
+        { "type": "Solución", "title": "Contenido + proceso + respuesta rápida", "body": "Es la combinación." },
+        { "type": "CTA", "title": "Las redes generan interés", "body": "el proceso lo convierte en cita." }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "No necesitas más seguidores, necesitas más citas cerradas",
+      "objetivo": "Enfoque en funnel, no solo alcance.",
+      "slides": [
+        { "type": "Portada", "title": "No necesitas más seguidores", "body": "necesitas más citas cerradas" },
+        { "type": "Mito", "title": "Más seguidores = más clientes", "body": "No siempre. Cuántos de esos seguidores te escriben?" },
+        { "type": "Realidad", "title": "100 seguidores que agendan", "body": "valen más que 10.000 que solo miran." },
+        { "type": "Funnel", "title": "Revisa tu embudo", "body": "De ver tu perfil a escribirte, a agendar, a pagar abono. ¿Dónde se pierden?" },
+        { "type": "Prioridad", "title": "Optimiza cada paso", "body": "Bio clara, link directo, respuesta rápida, proceso simple." },
+        { "type": "Métrica", "title": "Mide citas, no likes", "body": "Likes no pagan. Las citas sí." },
+        { "type": "CTA", "title": "Enfócate en conversión", "body": "no en vanidad." }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "El cliente fantasma: cómo reducirlo a casi cero",
+      "objetivo": "Procesos para evitar no-shows.",
+      "slides": [
+        { "type": "Portada", "title": "El cliente fantasma", "body": "cómo reducirlo a casi cero" },
+        { "type": "Problema", "title": "Escriben, preguntan, dicen que van…", "body": "y nunca aparecen." },
+        { "type": "Causa", "title": "Falta de compromiso real", "body": "No hay abono, no hay confirmación, no hay consecuencias." },
+        { "type": "Solución", "title": "Abono obligatorio", "body": "Quien no paga, no agenda. Punto." },
+        { "type": "Solución", "title": "Recordatorio 24–48h antes", "body": "Un mensaje simple. ¿Sigues confirmando?" },
+        { "type": "Solución", "title": "Política de cancelación clara", "body": "Si cancela sin aviso, pierde abono. Que lo sepan." },
+        { "type": "CTA", "title": "Los fantasmas desaparecen", "body": "cuando pones procesos serios." }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Cómo justificar tu precio (sin sentir que pides demasiado)",
+      "objetivo": "Comunicar valor, no solo precio.",
+      "slides": [
+        { "type": "Portada", "title": "Cómo justificar tu precio", "body": "(sin sentir que pides demasiado)" },
+        { "type": "Mentalidad", "title": "Tu trabajo tiene valor", "body": "Años de práctica, materiales, tiempo, experiencia." },
+        { "type": "Error", "title": "Solo decir el número", "body": "El cliente no sabe qué incluye ni por qué vale eso." },
+        { "type": "Cómo", "title": "Explica qué incluye", "body": "Diseño, sesión, cuidado posterior, retoques si aplica." },
+        { "type": "Cómo", "title": "Muestra el proceso", "body": "Detalle, higiene, atención. Eso justifica más." },
+        { "type": "Cómo", "title": "Habla de resultados", "body": "Un tatuaje que dura, que cicatriza bien, que te representa." },
+        { "type": "CTA", "title": "El precio bien explicado", "body": "se vende solo." }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Por qué tus clientes repetidos son tu mejor marketing",
+      "objetivo": "Word of mouth y retención.",
+      "slides": [
+        { "type": "Portada", "title": "Por qué tus clientes repetidos son tu mejor marketing", "body": "Más del 50% vienen por referidos." },
+        { "type": "Dato", "title": "Un cliente que repite", "body": "ya confía en ti. Lo recomienda con seguridad." },
+        { "type": "Realidad", "title": "Menos del 25% de repetición", "body": "es señal de que algo falla. Experiencia, comunicación o valor." },
+        { "type": "Cómo", "title": "Cuida la experiencia de punta a punta", "body": "Desde el primer mensaje hasta el cuidado posterior." },
+        { "type": "Cómo", "title": "Mantén contacto después", "body": "Foto del resultado, recordatorio de cuidado. Genera conexión." },
+        { "type": "Cómo", "title": "Pide referidos cuando tenga sentido", "body": "Cliente feliz = dispuesto a recomendar." },
+        { "type": "CTA", "title": "Un cliente bien atendido", "body": "trae más clientes." }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Cuando el cliente regatea: cómo responder sin perder la venta",
+      "objetivo": "Manejo de objeciones de precio.",
+      "slides": [
+        { "type": "Portada", "title": "Cuando el cliente regatea", "body": "cómo responder sin perder la venta" },
+        { "type": "Realidad", "title": "Regatear es normal", "body": "No lo tomes personal. Es una objeción, no un ataque." },
+        { "type": "Error", "title": "Bajar el precio sin más", "body": "Desvalorizas tu trabajo y abres la puerta a más regateo." },
+        { "type": "Estrategia", "title": "Pregunta qué necesita", "body": "¿Presupuesto ajustado? ¿Más tiempo? Entiende antes de ofrecer." },
+        { "type": "Estrategia", "title": "Ofrece alternativas", "body": "Diseño más simple, dividir en sesiones, tamaño distinto." },
+        { "type": "Límite", "title": "Hay clientes que no son para ti", "body": "Si solo buscan lo más barato, mejor que vayan a otro." },
+        { "type": "CTA", "title": "Firma en tu precio", "body": "o negocia valor, no solo número." }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Tu portafolio te está dejando dinero en la mesa",
+      "objetivo": "Mostrar el trabajo que quieres vender.",
+      "slides": [
+        { "type": "Portada", "title": "Tu portafolio te está dejando dinero en la mesa", "body": "Publica lo que quieres que te pidan." },
+        { "type": "Problema", "title": "Portafolio mezclado", "body": "Todo junto. El cliente no sabe qué esperar." },
+        { "type": "Regla", "title": "Destaca tu mejor trabajo", "body": "Lo que más te gusta hacer y lo que mejor te sale." },
+        { "type": "Regla", "title": "Fotos de calidad", "body": "Buen encuadre, luz, resultado final. El tatuaje merece verse bien." },
+        { "type": "Regla", "title": "Muestra variedad con coherencia", "body": "Estilo reconocible, pero ejemplos claros." },
+        { "type": "Estrategia", "title": "Si quieres más blackwork", "body": "publica más blackwork. Así atraes a quien busca eso." },
+        { "type": "CTA", "title": "Tu portafolio filtra", "body": "trae al cliente que quieres." }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Gestión de expectativas: menos sorpresas, menos problemas",
+      "objetivo": "Definir claramente qué incluye y qué no.",
+      "slides": [
+        { "type": "Portada", "title": "Gestión de expectativas", "body": "menos sorpresas, menos problemas" },
+        { "type": "Problema", "title": "Malentendidos", "body": "Cliente esperaba X, tú entendías Y. Frustración para ambos." },
+        { "type": "Qué definir", "title": "Qué incluye el precio", "body": "Diseño, sesión, sesiones extra, retoques." },
+        { "type": "Qué definir", "title": "Tiempos realistas", "body": "Cuánto dura, cuántas sesiones, cuándo estará listo." },
+        { "type": "Qué definir", "title": "Cuidado posterior", "body": "Qué debe hacer el cliente. Responsabilidad compartida." },
+        { "type": "Cómo", "title": "Escríbelo y repítelo", "body": "Por mensaje y antes de tatuar. Que quede claro." },
+        { "type": "CTA", "title": "Expectativas claras", "body": "= clientes más felices." }
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Cómo organizar la info del cliente sin perder mensajes",
+      "objetivo": "Proceso claro (Flow como solución).",
+      "slides": [
+        { "type": "Portada", "title": "Cómo organizar la info del cliente sin perder mensajes", "body": "Deja de buscar entre chats." },
+        { "type": "Problema", "title": "Info dispersa", "body": "Diseño aquí, zona ahí, precio en otro mensaje. Caos." },
+        { "type": "Consecuencia", "title": "Errores y olvidos", "body": "Te confundes de cliente, de fecha, de diseño." },
+        { "type": "Solución", "title": "Un lugar por cliente", "body": "Toda la conversación, diseño, acuerdos y recordatorios en un solo sitio." },
+        { "type": "Solución", "title": "Templates y campos", "body": "Mismo formato para todos. Más rápido y sin detalles perdidos." },
+        { "type": "Solución", "title": "Recordatorios automáticos", "body": "Confirmaciones, cuidados. Menos trabajo manual." },
+        { "type": "CTA", "title": "Organización", "body": "= menos estrés y más clientes bien atendidos." }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "Por qué algunos tatuadores facturan más con menos estrés",
+      "objetivo": "Procesos vs improvisar.",
+      "slides": [
+        { "type": "Portada", "title": "Por qué algunos tatuadores facturan más con menos estrés", "body": "No es suerte. Es proceso." },
+        { "type": "Contraste", "title": "Improvisar cada vez", "body": "Cada cliente es un caos. Respuestas distintas, pasos olvidados." },
+        { "type": "Ventaja", "title": "Proceso claro", "body": "Mismo flujo para todos. Sabes qué sigue. El cliente también." },
+        { "type": "Qué tener", "title": "Flujo de contacto a cita", "body": "Qué preguntas, qué info, en qué orden." },
+        { "type": "Qué tener", "title": "Flujo pre y post sesión", "body": "Confirmación, recordatorios, cuidados." },
+        { "type": "Resultado", "title": "Menos decisiones = menos cansancio", "body": "Más energía para tatuar bien." },
+        { "type": "CTA", "title": "Sistematiza", "body": "y libéra espacio mental." }
+      ]
+    },
+    {
+      "id": 18,
+      "title": "Marketing para tatuadores que odian vender",
+      "objetivo": "Enfoque educativo y de valor.",
+      "slides": [
+        { "type": "Portada", "title": "Marketing para tatuadores que odian vender", "body": "No es vender. Es ayudar." },
+        { "type": "Mentalidad", "title": "Vender no es engañar", "body": "Es mostrar valor y facilitar que quien lo quiere, te encuentre." },
+        { "type": "Enfoque", "title": "Educa en lugar de presionar", "body": "Proceso, cuidados, qué esperar. Eso genera confianza." },
+        { "type": "Enfoque", "title": "Comparte tu proceso", "body": "Diseño, sesión, resultado. La gente quiere ver cómo trabajas." },
+        { "type": "Enfoque", "title": "Respeta decisiones", "body": "No todos te van a elegir. Está bien. Enfócate en quien sí." },
+        { "type": "Clave", "title": "El mejor marketing", "body": "es ser bueno y visible. Lo demás fluye." },
+        { "type": "CTA", "title": "Marketing con valor", "body": "no con ruido." }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Rediseños infinitos: cómo poner límites sanos",
+      "objetivo": "Evitar que un cliente consuma horas gratis.",
+      "slides": [
+        { "type": "Portada", "title": "Rediseños infinitos", "body": "cómo poner límites sanos" },
+        { "type": "Problema", "title": "El cliente quiere cambio 1, 2, 3…", "body": "Y cada cambio come tu tiempo. Sin cobrar." },
+        { "type": "Realidad", "title": "El diseño tiene valor", "body": "Tu tiempo también. No es gratis ilimitado." },
+        { "type": "Solución", "title": "Define cuántas revisiones incluye", "body": "Ej: 2 cambios de concepto. Más = costo extra." },
+        { "type": "Solución", "title": "Comunícalo desde el inicio", "body": "Antes de agendar. Que sea parte del trato." },
+        { "type": "Solución", "title": "Sé firme pero amable", "body": "Los límites protegen ambos. Explica por qué." },
+        { "type": "CTA", "title": "Límites claros", "body": "= respeto mutuo." }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "Ingresos impredecibles: cómo crear un flujo más estable",
+      "objetivo": "Abonos, listas de espera, retención.",
+      "slides": [
+        { "type": "Portada", "title": "Ingresos impredecibles", "body": "cómo crear un flujo más estable" },
+        { "type": "Dato", "title": "67% de tatuadores reporta ingresos erráticos", "body": "43% ha tenido sequías de booking de un mes." },
+        { "type": "Estrategia", "title": "Lista de espera", "body": "Cuando estés lleno, que la gente espere. Luego los avisas cuando haya hueco." },
+        { "type": "Estrategia", "title": "Abonos por adelantado", "body": "Dinero seguro. Menos cancelaciones de último momento." },
+        { "type": "Estrategia", "title": "Retención", "body": "Clientes repetidos = ingresos más predecibles. Cuídalos." },
+        { "type": "Estrategia", "title": "Packs o proyectos largos", "body": "Varias sesiones aseguradas. Flujo a futuro." },
+        { "type": "CTA", "title": "Menos estrés financiero", "body": "más enfoque en el arte." }
+      ]
+    },
+    {
+      "id": 21,
+      "title": "Salud y negocio: cuidar tu cuerpo para tatuar más años",
+      "objetivo": "Postura, descanso, límites de sesiones.",
+      "slides": [
+        { "type": "Portada", "title": "Salud y negocio", "body": "cuidar tu cuerpo para tatuar más años" },
+        { "type": "Realidad", "title": "Tatuar es físico", "body": "Espalda, cuello, manos. El desgaste es real." },
+        { "type": "Riesgo", "title": "Sesiones largas sin descanso", "body": "Acelera lesiones. La técnica sufre cuando estás cansado." },
+        { "type": "Consejo", "title": "Postura y ergonomía", "body": "Mesa a altura correcta, silla adecuada. Invierte en tu cuerpo." },
+        { "type": "Consejo", "title": "Pausas entre sesiones", "body": "Estirar, hidratarte, no encadenar 3 sesiones de 6 horas." },
+        { "type": "Consejo", "title": "Límites de horario", "body": "Más horas no siempre = más dinero. Agotarte sale caro." },
+        { "type": "CTA", "title": "Cuídate para seguir tatuando", "body": "por muchos años más." }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "Filtros de cliente: trabajar con quien valora tu trabajo",
+      "objetivo": "No todos los clientes son para ti.",
+      "slides": [
+        { "type": "Portada", "title": "Filtros de cliente", "body": "trabajar con quien valora tu trabajo" },
+        { "type": "Verdad", "title": "No todos los clientes son para ti", "body": "Y eso está bien." },
+        { "type": "Beneficio", "title": "Filtrar bien", "body": "= menos estrés, más satisfacción, mejores resultados." },
+        { "type": "Cómo", "title": "Portafolio claro", "body": "Muestras lo que haces. Quien no encaja, se va solo." },
+        { "type": "Cómo", "title": "Proceso estructurado", "body": "Abono, términos, preguntas. El que no sigue, se filtra." },
+        { "type": "Cómo", "title": "Precio acorde a tu valor", "body": "Quien no puede pagar lo que vales, no es tu cliente ideal." },
+        { "type": "CTA", "title": "Trabaja con quien te respeta", "body": "y respeta tu trabajo." }
+      ]
+    }
+  ]
+}
